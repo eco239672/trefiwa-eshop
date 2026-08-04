@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String?  // Ak by si neskôr robil vlastné prihlasovanie
+  orders    Order[]
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  products Product[]
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  price       Decimal  @db.Decimal(10, 2)
+  stock       Int      @default(0)
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Order {
+  id         String   @id @default(uuid())
+  userId     String?  // Voliteľné, aby si umožnil nákup aj "guest" užívateľom
+  user       User?    @relation(fields: [userId], references: [id])
+  totalPrice Decimal  @db.Decimal(10, 2)
+  status     String   @default("PENDING") // PENDING, PAID, SHIPPED, COMPLETED
+  createdAt  DateTime @default(now())
+}
+
+model DiscountCode {
+  id            String   @id @default(uuid())
+  code          String   @unique
+  discountValue Decimal  @db.Decimal(10, 2)
+  isActive      Boolean  @default(true)
+}
