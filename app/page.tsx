@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 
 // Zadefinovanie toho, ako vyzerá náš produkt
@@ -64,16 +65,16 @@ export default function Home() {
         {/* Mriežka produktov */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {products.map((product) => (
-            <div key={product.id} className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer">
+            <Link href={`/produkt/${product.id}`} key={product.id} className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group">
               {/* Zástupný obrázok (placeholder) */}
-              <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697]">
+              <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] group-hover:bg-[#E8E6DF] transition-colors">
                 Obrázok produktu
               </div>
               
               <div className="text-xs font-semibold text-[#8A9A5B] mb-1 uppercase tracking-wide">
                 {product.category}
               </div>
-              <h4 className="font-medium text-lg text-[#3D4035] mb-3">
+              <h4 className="font-medium text-lg text-[#3D4035] mb-3 group-hover:text-[#5C6B46] transition-colors">
                 {product.name}
               </h4>
               
@@ -82,13 +83,16 @@ export default function Home() {
                 
                 {/* Tlačidlo na pridanie do košíka */}
                 <button 
-                  onClick={() => addToCart(product)}
+                  onClick={(e) => {
+                    e.preventDefault(); // Zastaví preklik na detail stránku, ak zákazník klikne iba na tlačidlo
+                    addToCart(product);
+                  }}
                   className="bg-[#F9F8F6] border border-[#D5D3C9] px-3 py-1.5 rounded text-sm hover:bg-[#5C6B46] hover:text-white hover:border-[#5C6B46] transition-all active:scale-95"
                 >
                   Do košíka
                 </button>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
