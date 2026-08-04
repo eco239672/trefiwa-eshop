@@ -99,7 +99,7 @@ export default function Home() {
         {/* 3. ÚROVEŇ: Kategórie produktov (Tmavozelený pás) */}
         <div className="bg-[#5C6B46] text-white">
            <nav className="max-w-7xl mx-auto px-6 py-3.5 flex flex-wrap gap-x-8 gap-y-3 text-sm font-semibold uppercase tracking-widest">
-              <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Káva</Link>
+              {/* <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Káva</Link> */}
               <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Čaje</Link>
               <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Zdravé potraviny</Link>
               <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Sušené ovocie</Link>
