@@ -94,7 +94,7 @@ export default function Home() {
               <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Čaje</Link>
               <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Zdravé potraviny</Link>
               <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Sušené ovocie</Link>
-              <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Doplnkový sortiment</Link>
+              <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Ekologické obaly</Link>
               <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Zvýhodnené balíčky</Link>
            </nav>
         </div>
