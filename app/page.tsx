@@ -1,6 +1,25 @@
+"use client";
+import { useState } from "react";
+
+// Zadefinovanie toho, ako vyzerá náš produkt
+type Product = {
+  id: number;
+  name: string;
+  price: string;
+  category: string;
+};
+
 export default function Home() {
-  // Testovacie dáta - neskôr ich nahradíme naozajstnou databázou
-  const products = [
+  // Vytvorenie stavu pre košík (na začiatku je prázdny)
+  const [cart, setCart] = useState<Product[]>([]);
+
+  // Funkcia, ktorá sa spustí po kliknutí na "Do košíka"
+  const addToCart = (product: Product) => {
+    setCart([...cart, product]);
+  };
+
+  // Naše testovacie produkty
+  const products: Product[] = [
     { id: 1, name: "Zelený sypaný čaj Sencha", price: "8.50 €", category: "Čaje" },
     { id: 2, name: "Sušené mango bez cukru", price: "5.20 €", category: "Sušené ovocie" },
     { id: 3, name: "BIO Mandle natur", price: "12.90 €", category: "Zdravé potraviny" },
@@ -18,7 +37,11 @@ export default function Home() {
           <a href="#" className="hover:text-[#8A9A5B] transition-colors">Čaje</a>
           <a href="#" className="hover:text-[#8A9A5B] transition-colors">Zdravé potraviny</a>
           <a href="#" className="hover:text-[#8A9A5B] transition-colors">Sušené ovocie</a>
-          <a href="#" className="hover:text-[#8A9A5B] transition-colors font-bold text-[#5C6B46]">Košík (0)</a>
+          
+          {/* Tu zobrazujeme reálny počet položiek v košíku */}
+          <a href="#" className="hover:text-[#8A9A5B] transition-colors font-bold text-[#5C6B46]">
+            Košík ({cart.length})
+          </a>
         </nav>
       </header>
       
@@ -41,9 +64,9 @@ export default function Home() {
         {/* Mriežka produktov */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {products.map((product) => (
-            <div key={product.id} className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] group cursor-pointer">
+            <div key={product.id} className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer">
               {/* Zástupný obrázok (placeholder) */}
-              <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] group-hover:bg-[#E8E6DF] transition-colors">
+              <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697]">
                 Obrázok produktu
               </div>
               
@@ -53,9 +76,15 @@ export default function Home() {
               <h4 className="font-medium text-lg text-[#3D4035] mb-3">
                 {product.name}
               </h4>
-              <div className="flex justify-between items-center mt-auto">
+              
+              <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#F9F8F6]">
                 <span className="font-bold text-xl text-[#2C2E26]">{product.price}</span>
-                <button className="bg-[#F9F8F6] border border-[#D5D3C9] px-3 py-1.5 rounded text-sm hover:bg-[#5C6B46] hover:text-white hover:border-[#5C6B46] transition-all">
+                
+                {/* Tlačidlo na pridanie do košíka */}
+                <button 
+                  onClick={() => addToCart(product)}
+                  className="bg-[#F9F8F6] border border-[#D5D3C9] px-3 py-1.5 rounded text-sm hover:bg-[#5C6B46] hover:text-white hover:border-[#5C6B46] transition-all active:scale-95"
+                >
                   Do košíka
                 </button>
               </div>
