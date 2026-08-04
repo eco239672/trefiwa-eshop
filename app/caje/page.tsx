@@ -16,7 +16,6 @@ export default function TeasCategory() {
     setCart([...cart, product]);
   };
 
-  // Iba čajové produkty pre túto kategóriu
   const products: Product[] = [
     { id: 1, name: "Zelený sypaný čaj Sencha", price: "8.50 €", category: "Čaje" },
     { id: 2, name: "Čierny čaj Earl Grey Imperial", price: "7.90 €", category: "Čaje" },
@@ -82,19 +81,37 @@ export default function TeasCategory() {
         </div>
 
         <div className="bg-[#5C6B46] text-white">
-           <nav className="max-w-7xl mx-auto px-6 py-3.5 flex flex-wrap gap-x-8 gap-y-3 text-sm font-semibold uppercase tracking-widest">
-              <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Káva</Link>
-              <Link href="/caje" className="text-[#D5D3C9] border-b-2 border-white pb-1">Čaje</Link>
-              <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Zdravé potraviny</Link>
-              <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Sušené ovocie</Link>
-              <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Doplnkový sortiment</Link>
-              <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Zvýhodnené balíčky</Link>
+           <nav className="max-w-7xl mx-auto px-6 flex flex-wrap gap-x-8 text-sm font-semibold uppercase tracking-widest items-center">
+              
+              {/* DROPDOWN MENU PRE ČAJE */}
+              <div className="relative group py-4">
+                <Link href="/caje" className="text-[#D5D3C9] flex items-center gap-1 border-b-2 border-[#D5D3C9] pb-[14px]">
+                  Čaje
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </Link>
+                
+                <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
+                    <Link href="/caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Všetky čaje</Link>
+                    <Link href="/caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Zelené čaje</Link>
+                    <Link href="/caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Čierne čaje</Link>
+                    <Link href="/caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Ovocné čaje</Link>
+                    <Link href="/caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">Bylinné zmesi</Link>
+                  </div>
+                </div>
+              </div>
+
+              <Link href="/" className="py-4 hover:text-[#D5D3C9] transition-colors">Zdravé potraviny</Link>
+              <Link href="/" className="py-4 hover:text-[#D5D3C9] transition-colors">Sušené ovocie</Link>
+              <Link href="/" className="py-4 hover:text-[#D5D3C9] transition-colors">Doplnkový sortiment</Link>
+              <Link href="/" className="py-4 hover:text-[#D5D3C9] transition-colors">Zvýhodnené balíčky</Link>
            </nav>
         </div>
       </header>
       
       <div className="flex-grow">
-        {/* Titulka kategórie */}
         <section className="px-6 py-16 text-center max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
             Prémiové sypané čaje
@@ -104,7 +121,6 @@ export default function TeasCategory() {
           </p>
         </section>
 
-        {/* Produkty - Kategória Čaje */}
         <section className="px-6 pb-20 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {products.map((product) => (
@@ -137,7 +153,6 @@ export default function TeasCategory() {
           </div>
         </section>
 
-        {/* 5 ODSEKOV O ČAJOCH (Iba na tejto podstránke) */}
         <section className="bg-white py-20 border-t border-b border-[#E8E6DF]">
           <div className="max-w-5xl mx-auto px-6">
             <div className="text-center mb-16">
@@ -190,12 +205,11 @@ export default function TeasCategory() {
         </section>
       </div>
 
-      {/* PÄTA STRÁNKY */}
       <footer className="bg-[#2C2E26] text-[#D5D3C9] pt-16 pb-8">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <Link href="/" className="text-3xl font-bold tracking-widest text-[#8A9A5B] hover:text-[#A3A697] transition-colors block mb-6">TREFIWA</Link>
-            <p className="text-sm leading-relaxed text-[#A3A697]">Vaša denná dávka prírody. Ponúkame výber tých najkvalitnejších sypaných čajov, výberovej kávy a zdravých potravín pre váš vyvážený životný štýl.</p>
+            <p className="text-sm leading-relaxed text-[#A3A697]">Vaša denná dávka prírody. Ponúkame výber tých najkvalitnejších sypaných čajov a zdravých potravín pre váš vyvážený životný štýl.</p>
           </div>
           <div>
             <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Informácie</h4>
@@ -209,10 +223,10 @@ export default function TeasCategory() {
           <div>
             <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Kategórie</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/" className="hover:text-white transition-colors">Výberová káva</Link></li>
               <li><Link href="/caje" className="hover:text-white transition-colors">Sypané čaje</Link></li>
               <li><Link href="/" className="hover:text-white transition-colors">Zdravé potraviny</Link></li>
               <li><Link href="/" className="hover:text-white transition-colors">Sušené ovocie</Link></li>
+              <li><Link href="/" className="hover:text-white transition-colors">Doplnkový sortiment</Link></li>
             </ul>
           </div>
           <div>
@@ -233,5 +247,5 @@ export default function TeasCategory() {
         </div>
       </footer>
     </main>
-  )
+  );
 }
