@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { useState } from "react";
 
-// Zadefinovanie toho, ako vyzerá náš produkt
 type Product = {
   id: number;
   name: string;
@@ -11,15 +10,12 @@ type Product = {
 };
 
 export default function Home() {
-  // Vytvorenie stavu pre košík (na začiatku je prázdny)
   const [cart, setCart] = useState<Product[]>([]);
 
-  // Funkcia, ktorá sa spustí po kliknutí na "Do košíka"
   const addToCart = (product: Product) => {
     setCart([...cart, product]);
   };
 
-  // Naše testovacie produkty
   const products: Product[] = [
     { id: 1, name: "Zelený sypaný čaj Sencha", price: "8.50 €", category: "Čaje" },
     { id: 2, name: "Sušené mango bez cukru", price: "5.20 €", category: "Sušené ovocie" },
@@ -32,8 +28,6 @@ export default function Home() {
       
       {/* 3-ÚROVŇOVÁ HLAVIČKA */}
       <header className="w-full bg-white flex flex-col sticky top-0 z-20 shadow-md">
-        
-        {/* 1. ÚROVEŇ: Pomocné linky a základný kontakt */}
         <div className="bg-[#F9F8F6] border-b border-[#E8E6DF] px-6 py-2 flex justify-between items-center text-[11px] md:text-xs text-[#6B6E56] uppercase tracking-wider font-medium">
           <div className="flex space-x-4 md:space-x-6">
             <Link href="/" className="hover:text-[#5C6B46] transition-colors">O nás</Link>
@@ -48,7 +42,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 2. ÚROVEŇ: Hlavné Logo, Ikonky a Akcie */}
         <div className="px-6 py-5 flex justify-between items-center max-w-7xl mx-auto w-full">
            <Link href="/" className="text-4xl md:text-5xl font-bold tracking-widest text-[#5C6B46] hover:opacity-90 transition-opacity">
              TREFIWA
@@ -87,22 +80,20 @@ export default function Home() {
            </div>
         </div>
 
-        {/* 3. ÚROVEŇ: Kategórie produktov */}
         <div className="bg-[#5C6B46] text-white">
            <nav className="max-w-7xl mx-auto px-6 py-3.5 flex flex-wrap gap-x-8 gap-y-3 text-sm font-semibold uppercase tracking-widest">
-              {/* <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Káva</Link> */}
-              <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Čaje</Link>
+              <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Káva</Link>
+              {/* Odkaz teraz mieri priamo na našu novú zložku /caje */}
+              <Link href="/caje" className="hover:text-[#D5D3C9] transition-colors">Čaje</Link>
               <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Zdravé potraviny</Link>
               <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Sušené ovocie</Link>
-              <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Ekologické obaly</Link>
+              <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Doplnkový sortiment</Link>
               <Link href="/" className="hover:text-[#D5D3C9] transition-colors">Zvýhodnené balíčky</Link>
            </nav>
         </div>
       </header>
       
-      {/* Hlavný obsah (Zaberie zvyšný priestor, aby footer ostal na spodku) */}
       <div className="flex-grow">
-        {/* Uvítacia sekcia */}
         <section className="px-6 py-20 text-center max-w-4xl mx-auto mt-4">
           <h2 className="text-4xl md:text-5xl font-semibold mb-6 text-[#2C2E26]">
             Príroda priamo k vám domov
@@ -112,7 +103,6 @@ export default function Home() {
           </p>
         </section>
 
-        {/* Sekcia produktov */}
         <section className="px-6 pb-24 max-w-7xl mx-auto">
           <h3 className="text-2xl font-semibold mb-8 text-[#2C2E26] border-b border-[#E8E6DF] pb-4">
             Naše novinky
@@ -151,21 +141,12 @@ export default function Home() {
         </section>
       </div>
 
-      {/* PÄTA STRÁNKY (FOOTER) */}
       <footer className="bg-[#2C2E26] text-[#D5D3C9] pt-16 pb-8">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          
-          {/* 1. Stĺpec: Značka a popis */}
           <div>
-            <Link href="/" className="text-3xl font-bold tracking-widest text-[#8A9A5B] hover:text-[#A3A697] transition-colors block mb-6">
-              TREFIWA
-            </Link>
-            <p className="text-sm leading-relaxed text-[#A3A697]">
-              Vaša denná dávka prírody. Ponúkame výber tých najkvalitnejších sypaných čajov, výberovej kávy a zdravých potravín pre váš vyvážený životný štýl.
-            </p>
+            <Link href="/" className="text-3xl font-bold tracking-widest text-[#8A9A5B] hover:text-[#A3A697] transition-colors block mb-6">TREFIWA</Link>
+            <p className="text-sm leading-relaxed text-[#A3A697]">Vaša denná dávka prírody. Ponúkame výber tých najkvalitnejších sypaných čajov, výberovej kávy a zdravých potravín pre váš vyvážený životný štýl.</p>
           </div>
-
-          {/* 2. Stĺpec: Užitočné odkazy */}
           <div>
             <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Informácie</h4>
             <ul className="space-y-3 text-sm">
@@ -175,38 +156,24 @@ export default function Home() {
               <li><Link href="/" className="hover:text-white transition-colors">Ochrana osobných údajov</Link></li>
             </ul>
           </div>
-
-          {/* 3. Stĺpec: Kategórie */}
           <div>
             <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Kategórie</h4>
             <ul className="space-y-3 text-sm">
               <li><Link href="/" className="hover:text-white transition-colors">Výberová káva</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Sypané čaje</Link></li>
+              <li><Link href="/caje" className="hover:text-white transition-colors">Sypané čaje</Link></li>
               <li><Link href="/" className="hover:text-white transition-colors">Zdravé potraviny</Link></li>
               <li><Link href="/" className="hover:text-white transition-colors">Sušené ovocie</Link></li>
             </ul>
           </div>
-
-          {/* 4. Stĺpec: Newsletter */}
           <div>
             <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Zostaňme v kontakte</h4>
-            <p className="text-sm mb-4 text-[#A3A697]">
-              Prihláste sa na odber noviniek a získajte zľavu 10% na prvý nákup.
-            </p>
+            <p className="text-sm mb-4 text-[#A3A697]">Prihláste sa na odber noviniek a získajte zľavu 10% na prvý nákup.</p>
             <form className="flex flex-col space-y-3" onSubmit={(e) => e.preventDefault()}>
-              <input 
-                type="email" 
-                placeholder="Váš e-mail" 
-                className="bg-[#3D4035] border border-[#5C6B46] text-white px-4 py-3 rounded-md focus:outline-none focus:border-[#8A9A5B] text-sm placeholder-[#8A9A5B]" 
-              />
-              <button className="bg-[#5C6B46] text-white px-4 py-3 rounded-md hover:bg-[#4A5738] transition-colors font-medium text-sm">
-                Odoberať novinky
-              </button>
+              <input type="email" placeholder="Váš e-mail" className="bg-[#3D4035] border border-[#5C6B46] text-white px-4 py-3 rounded-md focus:outline-none focus:border-[#8A9A5B] text-sm placeholder-[#8A9A5B]" />
+              <button className="bg-[#5C6B46] text-white px-4 py-3 rounded-md hover:bg-[#4A5738] transition-colors font-medium text-sm">Odoberať novinky</button>
             </form>
           </div>
         </div>
-
-        {/* Spodný Copyright pásik */}
         <div className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-[#3D4035] flex flex-col md:flex-row justify-between items-center text-xs text-[#A3A697]">
           <p>&copy; 2026 TREFIWA. Všetky práva vyhradené.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
