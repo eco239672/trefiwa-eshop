@@ -55,9 +55,13 @@ useEffect(() => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {products.map((product) => (
               <Link href={`/produkt/${product.id}`} key={product.id} className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group">
-                <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] group-hover:bg-[#E8E6DF] transition-colors">
-                  Obrázok produktu
-                </div>
+<div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden group-hover:opacity-90 transition-opacity">
+  {(product as any).imageUrl ? (
+    <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${(product as any).imageUrl})` }}></div>
+  ) : (
+    <span className="text-xs">Bez obrázka</span>
+  )}
+</div>
                 <div className="text-xs font-semibold text-[#8A9A5B] mb-1 uppercase tracking-wide">
                   {product.category}
                 </div>

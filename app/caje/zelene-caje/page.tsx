@@ -54,9 +54,13 @@ export default function ZeleneCajePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {products.map((product) => (
               <Link href={`/produkt/${product.id}`} key={product.id} className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group">
-                <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] group-hover:bg-[#E8E6DF] transition-colors">
-                  Obrázok produktu
-                </div>
+<div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden group-hover:opacity-90 transition-opacity">
+  {(product as any).imageUrl ? (
+    <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${(product as any).imageUrl})` }}></div>
+  ) : (
+    <span className="text-xs">Bez obrázka</span>
+  )}
+</div>
                 <div className="text-xs font-semibold text-[#8A9A5B] mb-1 uppercase tracking-wide">{product.category}</div>
                 <h4 className="font-medium text-lg text-[#3D4035] mb-3 group-hover:text-[#5C6B46] transition-colors">{product.name}</h4>
                 <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#F9F8F6]">
