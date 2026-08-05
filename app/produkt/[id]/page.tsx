@@ -1,33 +1,29 @@
 import Link from "next/link";
+import { PrismaClient } from "@prisma/client";
+import { notFound } from "next/navigation";
 
-// Zadefinovanie nášho produktu s novým parametrom "description"
-type Product = {
-  id: number;
-  name: string;
-  price: string;
-  category: string;
-  description: string;
-};
+const prisma = new PrismaClient();
 
-// Testovacie dáta (rovnaké ako na hlavnej stránke, plus popis)
-const products: Product[] = [
-  { id: 1, name: "Zelený sypaný čaj Sencha", price: "8.50 €", category: "Čaje", description: "Jemný a osviežujúci japonský zelený čaj plný antioxidantov. Ideálny na ranné povzbudenie a detoxikáciu organizmu." },
-  { id: 2, name: "Sušené mango bez cukru", price: "5.20 €", category: "Sušené ovocie", description: "Prirodzene sladké plátky prémiového manga, nesírené a bez akéhokoľvek pridaného cukru. Skvelý zdravý snack na cesty." },
-  { id: 3, name: "BIO Mandle natur", price: "12.90 €", category: "Zdravé potraviny", description: "Nelúpané chrumkavé mandle z certifikovaného ekologického poľnohospodárstva. Sú bohaté na zdravé tuky a kvalitné rastlinné bielkoviny." },
-  { id: 4, name: "Harmančekový čaj", price: "4.80 €", category: "Čaje", description: "Upokojujúci bylinný čaj z celých kvetov rumančeka. Výborný na uvoľnenie po náročnom dni a pre pokojný spánok." },
-];
+export default async function ProductDetail({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
 
-export default function ProductDetail({ params }: { params: { id: string } }) {
-  // Nájdeme produkt podľa ID z URL adresy
-  const product = products.find((p) => p.id.toString() === params.id);
+  // Ťaháme produkt priamo pomocou ID (ktoré je v DB string)
+  const product = await prisma.product.findUnique({
+    where: { id: id },
+  });
 
-  // Ak niekto zadá neexistujúce ID, ukážeme túto chybovú hlášku
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F9F8F6] text-[#3D4035]">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Produkt nebol nájdený</h1>
-          <Link href="/" className="text-[#5C6B46] underline hover:text-[#4A5738]">Späť na ponuku</Link>
+          <Link href="/" className="text-[#5C6B46] underline hover:text-[#4A5738]">
+            Späť na ponuku
+          </Link>
         </div>
       </div>
     );
@@ -57,13 +53,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
           {/* Pravá strana: Informácie a nákup */}
           <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
             <div className="text-sm font-semibold text-[#8A9A5B] mb-2 uppercase tracking-wide">
-              {product.category}
+              Zdravá výživa
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-[#2C2E26] mb-4">
               {product.name}
             </h1>
             <p className="text-3xl font-semibold text-[#5C6B46] mb-6">
-              {product.price}
+              {product.price.toString()} €
             </p>
             <p className="text-[#6B6E56] leading-relaxed mb-10">
               {product.description}
