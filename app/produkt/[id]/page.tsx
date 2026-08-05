@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { PrismaClient } from "@prisma/client";
-import BackButton from "./BackButton"; // Prípadne si tlačidlo môžeš dať priamo sem
 
 const prisma = new PrismaClient();
 
@@ -11,7 +10,7 @@ export default async function ProductDetail({
 }) {
   const { id } = await params;
 
-  // Ťaháme produkt priamo pomocou ID (ktoré je v DB string)
+  // Ťaháme produkt priamo pomocou ID
   const product = await prisma.product.findUnique({
     where: { id: id },
   });
@@ -40,8 +39,8 @@ export default async function ProductDetail({
 
       {/* Detail produktu */}
       <section className="max-w-5xl mx-auto px-6 py-12">
-        {/* Tlačidlo Späť, ktoré pamätá históriu prehliadača */}
-        <ClientBackButton />
+        {/* Samostatná klientska komponenta pre tlačidlo Späť */}
+        <BackButton />
 
         <div className="bg-white rounded-xl shadow-sm border border-[#E8E6DF] overflow-hidden flex flex-col md:flex-row">
           {/* Ľavá strana: Obrázok */}
@@ -76,10 +75,11 @@ export default async function ProductDetail({
   );
 }
 
-// Pomocná klientska komponenta pre tlačidlo Späť
-function ClientBackButton() {
-  "use client";
-  
+// ---------------------------------------------------------
+// SAMOSTATNÁ KLIENTSKA KOMPONENTA (Musí byť "use client")
+// ---------------------------------------------------------
+"use client";
+function BackButton() {
   return (
     <button 
       onClick={() => window.history.back()} 
