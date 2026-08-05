@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { PrismaClient } from "@prisma/client";
+import { notFound } from "next/navigation";
+
 
 const prisma = new PrismaClient();
 
@@ -10,7 +12,7 @@ export default async function ProductDetail({
 }) {
   const { id } = await params;
 
-  // Ťaháme produkt priamo pomocou ID
+  // Ťaháme produkt priamo pomocou ID (ktoré je v DB string)
   const product = await prisma.product.findUnique({
     where: { id: id },
   });
@@ -20,8 +22,8 @@ export default async function ProductDetail({
       <div className="min-h-screen flex items-center justify-center bg-[#F9F8F6] text-[#3D4035]">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Produkt nebol nájdený</h1>
-          <Link href="/" className="inline-flex items-center text-sm font-medium text-[#8A9A5B] hover:text-[#5C6B46] mb-6 transition-colors">
-            &larr; Späť na ponuku
+          <Link href="/" className="text-[#5C6B46] underline hover:text-[#4A5738]">
+            Späť na ponuku
           </Link>
         </div>
       </div>
@@ -39,8 +41,9 @@ export default async function ProductDetail({
 
       {/* Detail produktu */}
       <section className="max-w-5xl mx-auto px-6 py-12">
-        {/* Samostatná klientska komponenta pre tlačidlo Späť */}
-        <BackButton />
+        <Link href="/" className="inline-flex items-center text-sm font-medium text-[#8A9A5B] hover:text-[#5C6B46] mb-8 transition-colors">
+          &larr; Späť na celú ponuku
+        </Link>
 
         <div className="bg-white rounded-xl shadow-sm border border-[#E8E6DF] overflow-hidden flex flex-col md:flex-row">
           {/* Ľavá strana: Obrázok */}
@@ -72,20 +75,5 @@ export default async function ProductDetail({
         </div>
       </section>
     </main>
-  );
-}
-
-// ---------------------------------------------------------
-// SAMOSTATNÁ KLIENTSKA KOMPONENTA (Musí byť "use client")
-// ---------------------------------------------------------
-"use client";
-function BackButton() {
-  return (
-    <button 
-      onClick={() => window.history.back()} 
-      className="inline-flex items-center text-sm font-medium text-[#8A9A5B] hover:text-[#5C6B46] mb-8 transition-colors cursor-pointer"
-    >
-      &larr; Späť na predchádzajúcu stránku
-    </button>
   );
 }
