@@ -1,9 +1,12 @@
+"use client"
+
 import Link from "next/link";
 import { PrismaClient } from "@prisma/client";
 import { notFound } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const prisma = new PrismaClient();
-
+const router = useRouter();
 export default async function ProductDetail({
   params,
 }: {
@@ -21,9 +24,12 @@ export default async function ProductDetail({
       <div className="min-h-screen flex items-center justify-center bg-[#F9F8F6] text-[#3D4035]">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Produkt nebol nájdený</h1>
-          <Link href="/" className="text-[#5C6B46] underline hover:text-[#4A5738]">
-            Späť na ponuku
-          </Link>
+<button 
+  onClick={() => router.back()} 
+  className="inline-flex items-center text-sm font-medium text-[#8A9A5B] hover:text-[#5C6B46] mb-6 transition-colors"
+>
+  &larr; Späť na ponuku
+</button>
         </div>
       </div>
     );
