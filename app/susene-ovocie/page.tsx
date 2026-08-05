@@ -10,20 +10,20 @@ type Product = {
   category: string;
 };
 
-export default function TeasCategory() {
+export default function DriedFruitCategory() {
   const [cart, setCart] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Ťaháme IBA produkty z kategórie "Čaje"
-    getProductsByCategory("Čaje")
+    // Ťaháme IBA produkty z kategórie "Sušené ovocie"
+    getProductsByCategory("Sušené ovocie")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error("Chyba pri načítaní čajov:", err);
+        console.error("Chyba pri načítaní sušeného ovocia:", err);
         setIsLoading(false);
       });
   }, []);
@@ -90,7 +90,7 @@ export default function TeasCategory() {
            <nav className="max-w-7xl mx-auto px-6 flex flex-wrap gap-x-8 text-sm font-semibold uppercase tracking-widest items-center">
               
               <div className="relative group py-4">
-                <Link href="/caje" className="text-[#D5D3C9] flex items-center gap-1 border-b-2 border-[#D5D3C9] pb-[14px]">
+                <Link href="/caje" className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1">
                   Čaje
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -116,17 +116,17 @@ export default function TeasCategory() {
                 </Link>
                 <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                   <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
-                    <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
-                    <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
-                    <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
-                    <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">4</Link>
-                    <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">5</Link>
+                    <Link href="/zdrave-potraviny#sekcia-1" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
+                    <Link href="/zdrave-potraviny#sekcia-2" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
+                    <Link href="/zdrave-potraviny#sekcia-3" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
+                    <Link href="/zdrave-potraviny#sekcia-4" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">4</Link>
+                    <Link href="/zdrave-potraviny#sekcia-5" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">5</Link>
                   </div>
                 </div>
               </div>
 
               <div className="relative group py-4">
-                <Link href="/susene-ovocie" className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1">
+                <Link href="/susene-ovocie" className="text-[#D5D3C9] flex items-center gap-1 border-b-2 border-[#D5D3C9] pb-[14px]">
                   Sušené ovocie
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -134,11 +134,11 @@ export default function TeasCategory() {
                 </Link>
                 <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                   <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
-                    <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
-                    <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
-                    <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
-                    <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">4</Link>
-                    <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">5</Link>
+                    <Link href="/susene-ovocie#sekcia-1" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
+                    <Link href="/susene-ovocie#sekcia-2" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
+                    <Link href="/susene-ovocie#sekcia-3" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
+                    <Link href="/susene-ovocie#sekcia-4" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">4</Link>
+                    <Link href="/susene-ovocie#sekcia-5" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">5</Link>
                   </div>
                 </div>
               </div>
@@ -166,18 +166,18 @@ export default function TeasCategory() {
       <div className="flex-grow">
         <section className="px-6 py-16 text-center max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Prémiové sypané čaje
+            Sušené ovocie
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Vyberte si z našej ponuky starostlivo vybraných čajov z celého sveta.
+            Plná chuť slnka v každom jednom kúsku.
           </p>
         </section>
 
         <section className="px-6 pb-20 max-w-7xl mx-auto">
           {isLoading ? (
-            <p className="text-center text-[#A3A697] py-10">Načítavam čaje z databázy...</p>
+            <p className="text-center text-[#A3A697] py-10">Načítavam ovocie z databázy...</p>
           ) : products.length === 0 ? (
-             <p className="text-center text-[#A3A697] py-10">V kategórii Čaje zatiaľ nie sú žiadne produkty.</p>
+             <p className="text-center text-[#A3A697] py-10">V kategórii Sušené ovocie zatiaľ nie sú žiadne produkty.</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {products.map((product) => (
@@ -209,55 +209,54 @@ export default function TeasCategory() {
           )}
         </section>
 
-        {/* 5 ODSEKOV O ČAJOCH */}
+        {/* 5 PODSEKCIÍ SUŠENÉHO OVOCIA */}
         <section className="bg-white py-20 border-t border-b border-[#E8E6DF]">
           <div className="max-w-5xl mx-auto px-6">
             <div className="text-center mb-16">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#8A9A5B] block mb-2">Tradícia a kvalita</span>
-              <h3 className="text-3xl md:text-4xl font-bold text-[#2C2E26]">Svet čajov TREFIWA</h3>
+              <span className="text-xs font-bold uppercase tracking-widest text-[#8A9A5B] block mb-2">Energia na cesty</span>
+              <h3 className="text-3xl md:text-4xl font-bold text-[#2C2E26]">Viac o našom sušenom ovocí</h3>
             </div>
             <div className="space-y-12 text-[#6B6E56] leading-relaxed text-base md:text-lg">
-              <div className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF]">
+              <div id="sekcia-1" className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32">
                 <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
                   <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">1</span>
-                  Pôvod a starostlivý výber z najlepších záhrad
+                  Podsekcia 1
                 </h4>
-                <p>Všetky naše čaje pochádzajú zo starostlivo vybraných rodinných plantáží v Ázii a Európe...</p>
+                <p>Miesto pre váš text k prvej podsekcii sušeného ovocia...</p>
               </div>
-              <div className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF]">
+              <div id="sekcia-2" className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32">
                 <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
                   <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">2</span>
-                  Tradičné spracovanie bez umelých prísad
+                  Podsekcia 2
                 </h4>
-                <p>Spracovanie čajových lístkov prebieha tradičnými metódami, ktoré rešpektujú prirodzené vlastnosti rastliny...</p>
+                <p>Miesto pre váš text k druhej podsekcii...</p>
               </div>
-              <div className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF]">
+              <div id="sekcia-3" className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32">
                 <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
                   <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">3</span>
-                  Bohatstvo antioxidantov a zdravotné benefity
+                  Podsekcia 3
                 </h4>
-                <p>Kvalitný sypaný čaj je prirodzeným zdrojom polyfenolov, katechínov a dôležitých minerálov...</p>
+                <p>Miesto pre váš text k tretej podsekcii...</p>
               </div>
-              <div className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF]">
+              <div id="sekcia-4" className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32">
                 <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
                   <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">4</span>
-                  Rituál správnej prípravy pre dokonalý zážitok
+                  Podsekcia 4
                 </h4>
-                <p>Priprava sypaného čaju je malým meditačným rituálom v zrýchlenom svete...</p>
+                <p>Miesto pre váš text k štvrtej podsekcii...</p>
               </div>
-              <div className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF]">
+              <div id="sekcia-5" className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32">
                 <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
                   <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">5</span>
-                  Udržateľné balenie a ochrana čerstvosti
+                  Podsekcia 5
                 </h4>
-                <p>Aby si naše čaje zachovali svoju pôvodnú arómu a chuťový profil po dlhú dobu...</p>
+                <p>Miesto pre váš text k piatej podsekcii...</p>
               </div>
             </div>
           </div>
         </section>
       </div>
 
-      {/* PÄTA (FOOTER) */}
       <footer className="bg-[#2C2E26] text-[#D5D3C9] pt-16 pb-8">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
