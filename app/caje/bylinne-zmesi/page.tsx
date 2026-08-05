@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { getProductsByCategory } from "../../actions";
+import { getProductsBySubcategory } from "../../actions";
 
 type Product = {
   id: string;
@@ -16,7 +16,7 @@ export default function BylinneZmesiPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getProductsByCategory("Bylinné zmesi")
+    getProductsBySubcategory("Bylinné zmesi")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);

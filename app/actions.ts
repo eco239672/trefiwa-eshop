@@ -27,15 +27,12 @@ export async function getAllProducts() {
   });
   return formatProducts(products);
 }
-
-// Vytiahne produkty iba z konkrétnej hlavnej kategórie (napr. na stránku /caje)
-export async function getProductsByCategory(categoryName: string) {
+// Vytiahne produkty iba z konkrétnej PODKATEGÓRIE (napr. "Čínske čaje", "Zelené čaje")
+export async function getProductsBySubcategory(subcategoryName: string) {
   const products = await prisma.product.findMany({
     where: {
       subcategory: {
-        category: {
-          name: categoryName,
-        },
+        name: subcategoryName, // Tu už hľadáme v tabuľke SubCategory
       },
     },
     include: {
