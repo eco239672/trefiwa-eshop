@@ -272,5 +272,5 @@ export default function HealthyFoodsCategory() {
         </div>
       </footer>
     </main>
-  );
+  )
 }
