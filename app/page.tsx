@@ -104,11 +104,11 @@ export default function Home() {
   <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
     <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
       {/* Tieto linky ťa hodia do ÚPLNE NOVÉHO OKNA na konkrétny čaj */}
-      <Link href="/cinske-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Čínske čaje</Link>
-      <Link href="/zelene-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Zelené čaje</Link>
-      <Link href="/cierne-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Čierne čaje</Link>
-      <Link href="/ovocne-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Ovocné čaje</Link>
-      <Link href="/bylinne-zmesi" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">Bylinné zmesi</Link>
+      <Link href="/caje/cinske-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Čínske čaje</Link>
+      <Link href="/caje/zelene-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Zelené čaje</Link>
+      <Link href="/caje/cierne-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Čierne čaje</Link>
+      <Link href="/caje/ovocne-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Ovocné čaje</Link>
+      <Link href="/caje/bylinne-zmesi" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">Bylinné zmesi</Link>
     </div>
   </div>
 </div>
