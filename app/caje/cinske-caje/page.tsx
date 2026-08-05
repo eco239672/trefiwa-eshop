@@ -15,14 +15,15 @@ export default function CinskeCajePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+useEffect(() => {
     getProductsBySubcategory("Čínske čaje")
       .then((data) => {
+        console.log("Dáta z databázy pre tento čaj:", data); // TOTO SME PRIDALI
         setProducts(data);
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error("Chyba pri načítaní:", err);
+        console.error("Chyba pri načítaní čínskych čajov:", err);
         setIsLoading(false);
       });
   }, []);
