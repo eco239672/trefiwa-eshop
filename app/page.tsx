@@ -87,13 +87,10 @@ export default function Home() {
               <div className="relative group py-4">
                 <Link href="/caje" className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1">
                   Čaje
-                  {/* Malá šípka dole naznačujúca dropdown */}
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                   </svg>
                 </Link>
-                
-                {/* Obsah dropdownu */}
                 <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                   <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                     <Link href="/caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Čínske čaje</Link>
@@ -105,10 +102,82 @@ export default function Home() {
                 </div>
               </div>
 
-              <Link href="/" className="py-4 hover:text-[#D5D3C9] transition-colors">Zdravé potraviny</Link>
-              <Link href="/" className="py-4 hover:text-[#D5D3C9] transition-colors">Sušené ovocie</Link>
-              <Link href="/" className="py-4 hover:text-[#D5D3C9] transition-colors">Doplnkový sortiment</Link>
-              <Link href="/" className="py-4 hover:text-[#D5D3C9] transition-colors">Zvýhodnené balíčky</Link>
+              {/* DROPDOWN MENU PRE ZDRAVÉ POTRAVINY */}
+              <div className="relative group py-4">
+                <Link href="/zdrave-potraviny" className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1">
+                  Zdravé potraviny
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </Link>
+                <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
+                    <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
+                    <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
+                    <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
+                    <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">4</Link>
+                    <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">5</Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* DROPDOWN MENU PRE SUŠENÉ OVOCIE */}
+              <div className="relative group py-4">
+                <Link href="/susene-ovocie" className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1">
+                  Sušené ovocie
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </Link>
+                <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
+                    <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
+                    <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
+                    <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
+                    <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">4</Link>
+                    <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">5</Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* DROPDOWN MENU PRE DOPLNKOVÝ SORTIMENT */}
+              <div className="relative group py-4">
+                <Link href="/doplnkovy-sortiment" className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1">
+                  Doplnkový sortiment
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </Link>
+                <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
+                    <Link href="/doplnkovy-sortiment" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
+                    <Link href="/doplnkovy-sortiment" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
+                    <Link href="/doplnkovy-sortiment" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
+                    <Link href="/doplnkovy-sortiment" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">4</Link>
+                    <Link href="/doplnkovy-sortiment" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">5</Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* DROPDOWN MENU PRE ZVÝHODNENÉ BALÍČKY */}
+              <div className="relative group py-4">
+                <Link href="/zvyhodnene-balicky" className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1">
+                  Zvýhodnené balíčky
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </Link>
+                <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
+                    <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
+                    <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
+                    <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
+                    <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">4</Link>
+                    <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">5</Link>
+                  </div>
+                </div>
+              </div>
+
            </nav>
         </div>
       </header>
