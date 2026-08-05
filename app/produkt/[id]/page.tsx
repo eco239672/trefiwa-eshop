@@ -1,12 +1,9 @@
-"use client"
-
 import Link from "next/link";
 import { PrismaClient } from "@prisma/client";
-import { notFound } from "next/navigation";
-import { useRouter } from "next/navigation";
+import BackButton from "./BackButton"; // Prípadne si tlačidlo môžeš dať priamo sem
 
 const prisma = new PrismaClient();
-const router = useRouter();
+
 export default async function ProductDetail({
   params,
 }: {
@@ -24,12 +21,9 @@ export default async function ProductDetail({
       <div className="min-h-screen flex items-center justify-center bg-[#F9F8F6] text-[#3D4035]">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Produkt nebol nájdený</h1>
-<button 
-  onClick={() => router.back()} 
-  className="inline-flex items-center text-sm font-medium text-[#8A9A5B] hover:text-[#5C6B46] mb-6 transition-colors"
->
-  &larr; Späť na ponuku
-</button>
+          <Link href="/" className="inline-flex items-center text-sm font-medium text-[#8A9A5B] hover:text-[#5C6B46] mb-6 transition-colors">
+            &larr; Späť na ponuku
+          </Link>
         </div>
       </div>
     );
@@ -46,9 +40,8 @@ export default async function ProductDetail({
 
       {/* Detail produktu */}
       <section className="max-w-5xl mx-auto px-6 py-12">
-        <Link href="/" className="inline-flex items-center text-sm font-medium text-[#8A9A5B] hover:text-[#5C6B46] mb-8 transition-colors">
-          &larr; Späť na celú ponuku
-        </Link>
+        {/* Tlačidlo Späť, ktoré pamätá históriu prehliadača */}
+        <ClientBackButton />
 
         <div className="bg-white rounded-xl shadow-sm border border-[#E8E6DF] overflow-hidden flex flex-col md:flex-row">
           {/* Ľavá strana: Obrázok */}
@@ -80,5 +73,19 @@ export default async function ProductDetail({
         </div>
       </section>
     </main>
+  );
+}
+
+// Pomocná klientska komponenta pre tlačidlo Späť
+function ClientBackButton() {
+  "use client";
+  
+  return (
+    <button 
+      onClick={() => window.history.back()} 
+      className="inline-flex items-center text-sm font-medium text-[#8A9A5B] hover:text-[#5C6B46] mb-8 transition-colors cursor-pointer"
+    >
+      &larr; Späť na predchádzajúcu stránku
+    </button>
   );
 }
