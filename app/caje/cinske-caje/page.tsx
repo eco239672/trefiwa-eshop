@@ -1,24 +1,28 @@
 "use client";
+
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { getProductsBySubcategory } from "../../actions";
-import SearchBar from "../../components/SearchBar";
+import { useCart } from "../../context/CartContext"; // <-- Náš nový globálny košík
+
 type Product = {
   id: string;
   name: string;
   price: string;
   category: string;
+  imageUrl?: string | null; // Pridané, aby neprotestoval TypeScript pri fotkách
 };
 
 export default function CinskeCajePage() {
-  const [cart, setCart] = useState<Product[]>([]);
+  const { addToCart } = useCart(); // <-- Ťaháme funkciu z nášho kontextu
+  
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-useEffect(() => {
+  useEffect(() => {
     getProductsBySubcategory("Čínske čaje")
-      .then((data) => {
-        console.log("Dáta z databázy pre tento čaj:", data); // TOTO SME PRIDALI
+      .then((data: any) => {
+        console.log("Dáta z databázy pre tento čaj:", data);
         setProducts(data);
         setIsLoading(false);
       })
@@ -28,14 +32,8 @@ useEffect(() => {
       });
   }, []);
 
-  const addToCart = (product: Product) => {
-    setCart([...cart, product]);
-  };
-
   return (
     <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col">
-
-      
       {/* HLAVNÝ OBSAH */}
       <div className="flex-grow max-w-7xl mx-auto w-full px-6 py-16">
         <section className="text-center max-w-4xl mx-auto mb-16">
@@ -55,25 +53,29 @@ useEffect(() => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {products.map((product) => (
               <Link href={`/produkt/${product.id}`} key={product.id} className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group">
-<div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden group-hover:opacity-90 transition-opacity">
-  {(product as any).imageUrl ? (
-    <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${(product as any).imageUrl})` }}></div>
-  ) : (
-    <span className="text-xs">Bez obrázka</span>
-  )}
-</div>
+                
+                <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden group-hover:opacity-90 transition-opacity">
+                  {product.imageUrl ? (
+                    <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${product.imageUrl})` }}></div>
+                  ) : (
+                    <span className="text-xs">Bez obrázka</span>
+                  )}
+                </div>
+                
                 <div className="text-xs font-semibold text-[#8A9A5B] mb-1 uppercase tracking-wide">
                   {product.category}
                 </div>
                 <h4 className="font-medium text-lg text-[#3D4035] mb-3 group-hover:text-[#5C6B46] transition-colors">
                   {product.name}
                 </h4>
+                
                 <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#F9F8F6]">
                   <span className="font-bold text-xl text-[#2C2E26]">{product.price}</span>
+                  
                   <button 
                     onClick={(e) => {
                       e.preventDefault(); 
-                      addToCart(product);
+                      addToCart(product); // Odoslanie rovno do vysúvacieho panelu
                     }}
                     className="bg-[#F9F8F6] border border-[#D5D3C9] px-3 py-1.5 rounded text-sm font-medium hover:bg-[#5C6B46] hover:text-white hover:border-[#5C6B46] transition-all active:scale-95"
                   >
@@ -85,49 +87,6 @@ useEffect(() => {
           </div>
         )}
       </div>
-
-      {/* PÄTA (FOOTER) Z FOTKY image_180745.png */}
-      <footer className="bg-[#2C2E26] text-[#D5D3C9] pt-16 pb-8 mt-auto">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          <div>
-            <Link href="/" className="text-3xl font-bold tracking-widest text-[#8A9A5B] hover:text-[#A3A697] transition-colors block mb-6">TREFIWA</Link>
-            <p className="text-sm leading-relaxed text-[#A3A697]">Vaša denná dávka prírody. Ponúkame výber tých najkvalitnejších sypaných čajov a zdravých potravín pre váš vyvážený životný štýl.</p>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Informácie</h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link href="/" className="hover:text-white transition-colors">O nás</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Doprava a platba</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Obchodné podmienky</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Ochrana osobných údajov</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Kategórie</h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link href="/caje/cinske-caje" className="hover:text-white transition-colors">Sypané čaje</Link></li>
-              <li><Link href="/zdrave-potraviny" className="hover:text-white transition-colors">Zdravé potraviny</Link></li>
-              <li><Link href="/susene-ovocie" className="hover:text-white transition-colors">Sušené ovocie</Link></li>
-              <li><Link href="/doplnkovy-sortiment" className="hover:text-white transition-colors">Doplnkový sortiment</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Zostaňme v kontakte</h4>
-            <p className="text-sm mb-4 text-[#A3A697]">Prihláste sa na odber noviniek a získajte zľavu 10% na prvý nákup.</p>
-            <form className="flex flex-col space-y-3" onSubmit={(e) => e.preventDefault()}>
-              <input type="email" placeholder="Váš e-mail" className="bg-[#3D4035] border border-[#5C6B46] text-white px-4 py-3 rounded-md focus:outline-none focus:border-[#8A9A5B] text-sm placeholder-[#8A9A5B]" />
-              <button className="bg-[#5C6B46] text-white px-4 py-3 rounded-md hover:bg-[#4A5738] transition-colors font-medium text-sm">Odoberať novinky</button>
-            </form>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-[#3D4035] flex flex-col md:flex-row justify-between items-center text-xs text-[#A3A697]">
-          <p>&copy; 2026 TREFIWA. Všetky práva vyhradené.</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="hover:text-white transition-colors font-medium">Facebook</a>
-            <a href="#" className="hover:text-white transition-colors font-medium">Instagram</a>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }

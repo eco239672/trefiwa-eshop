@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
-// 1. NAIMPORTUJEME NAŠE NOVÉ KOMPONENTY
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { CartProvider } from "./context/CartContext";
+import CartSidebar from "./components/CartSidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,21 +21,16 @@ export default function RootLayout({
   return (
     <html lang="sk">
       <body className={inter.className}>
-        {/* Celá stránka je Flexbox stĺpec s minimálnou výškou obrazovky */}
-        <div className="flex flex-col min-h-screen">
-          
-          {/* 2. HLAVIČKA BUDE VŠADE HORE */}
-          <Header />
-          
-          {/* Tu sa načítava obsah konkrétnych stránok (page.tsx) */}
-          <div className="flex-grow">
-            {children}
+        <CartProvider>
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <CartSidebar /> {/* Náš nový vysúvací košík */}
+            <div className="flex-grow">
+              {children}
+            </div>
+            <Footer />
           </div>
-
-          {/* 3. PÄTA BUDE VŠADE DOLE */}
-          <Footer />
-
-        </div>
+        </CartProvider>
       </body>
     </html>
   );
