@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { getProductsByCategory } from "../actions";
+import { getProductsByCategory } from "../../actions";
 
 type Product = {
   id: string;
@@ -10,19 +10,19 @@ type Product = {
   category: string;
 };
 
-export default function TeasCategory() {
+export default function CinskeCajePage() {
   const [cart, setCart] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getProductsByCategory("Čaje")
+    getProductsByCategory("Čínske čaje")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error("Chyba pri načítaní čajov:", err);
+        console.error("Chyba pri načítaní:", err);
         setIsLoading(false);
       });
   }, []);
@@ -33,7 +33,8 @@ export default function TeasCategory() {
 
   return (
     <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col">
-      <header className="w-full bg-white flex flex-col sticky top-0 z-20 shadow-md">
+      {/* HLAVIČKA */}
+      <header className="w-full bg-white flex flex-col sticky top-0 z-50 shadow-md">
         <div className="bg-[#F9F8F6] border-b border-[#E8E6DF] px-6 py-2 flex justify-between items-center text-[11px] md:text-xs text-[#6B6E56] uppercase tracking-wider font-medium">
           <div className="flex space-x-4 md:space-x-6">
             <Link href="/" className="hover:text-[#5C6B46] transition-colors">O nás</Link>
@@ -85,37 +86,37 @@ export default function TeasCategory() {
         </div>
 
         <div className="bg-[#5C6B46] text-white">
-          <nav className="max-w-7xl mx-auto px-6 flex flex-wrap gap-x-8 text-sm font-semibold uppercase tracking-widest items-center py-4">
+          <nav className="max-w-7xl mx-auto px-6 flex flex-wrap gap-x-8 text-sm font-semibold uppercase tracking-widest items-center">
                
                {/* 1. ČAJE */}
-               <div className="relative group">
-                 <span className="text-[#D5D3C9] flex items-center gap-1 border-b-2 border-[#D5D3C9] pb-1 cursor-pointer">
+               <div className="relative group py-4">
+                 <span className="text-[#D5D3C9] flex items-center gap-1 border-b-2 border-[#D5D3C9] pb-[14px] cursor-pointer">
                    Čaje
                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                    </svg>
                  </span>
-                 <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pt-2">
-                   <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] font-medium tracking-wide">
-                     <Link href="/caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Čínske čaje</Link>
-                     <Link href="/caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Zelené čaje</Link>
-                     <Link href="/caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Čierne čaje</Link>
-                     <Link href="/caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Ovocné čaje</Link>
-                     <Link href="/caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">Bylinné zmesi</Link>
+                 <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                   <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
+                     <Link href="/caje/cinske-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Čínske čaje</Link>
+                     <Link href="/caje/zelene-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Zelené čaje</Link>
+                     <Link href="/caje/cierne-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Čierne čaje</Link>
+                     <Link href="/caje/ovocne-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Ovocné čaje</Link>
+                     <Link href="/caje/bylinne-zmesi" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">Bylinné zmesi</Link>
                    </div>
                  </div>
                </div>
 
                {/* 2. ZDRAVÉ POTRAVINY */}
-               <div className="relative group">
-                 <span className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1 cursor-pointer py-1">
+               <div className="relative group py-4">
+                 <span className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1 cursor-pointer">
                    Zdravé potraviny
                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                    </svg>
                  </span>
-                 <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pt-2">
-                   <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] font-medium tracking-wide">
+                 <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                   <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                      <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
                      <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
                      <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
@@ -126,15 +127,15 @@ export default function TeasCategory() {
                </div>
 
                {/* 3. SUŠENÉ OVOCIE */}
-               <div className="relative group">
-                 <span className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1 cursor-pointer py-1">
+               <div className="relative group py-4">
+                 <span className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1 cursor-pointer">
                    Sušené ovocie
                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                    </svg>
                  </span>
-                 <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pt-2">
-                   <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] font-medium tracking-wide">
+                 <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                   <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                      <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
                      <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
                      <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
@@ -145,15 +146,15 @@ export default function TeasCategory() {
                </div>
 
                {/* 4. DOPLNKOVÝ SORTIMENT */}
-               <div className="relative group">
-                 <span className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1 cursor-pointer py-1">
+               <div className="relative group py-4">
+                 <span className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1 cursor-pointer">
                    Doplnkový sortiment
                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                    </svg>
                  </span>
-                 <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pt-2">
-                   <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] font-medium tracking-wide">
+                 <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                   <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                      <Link href="/doplnkovy-sortiment" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
                      <Link href="/doplnkovy-sortiment" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
                      <Link href="/doplnkovy-sortiment" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
@@ -164,15 +165,15 @@ export default function TeasCategory() {
                </div>
 
                {/* 5. ZVÝHODNENÉ BALÍČKY */}
-               <div className="relative group">
-                 <span className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1 cursor-pointer py-1">
+               <div className="relative group py-4">
+                 <span className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1 cursor-pointer">
                    Zvýhodnené balíčky
                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3">
                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                    </svg>
                  </span>
-                 <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pt-2">
-                   <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] font-medium tracking-wide">
+                 <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                   <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                      <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
                      <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
                      <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
@@ -186,100 +187,54 @@ export default function TeasCategory() {
         </div>
       </header>
       
-      <div className="flex-grow">
-        <section className="px-6 py-16 text-center max-w-4xl mx-auto">
+      {/* HLAVNÝ OBSAH */}
+      <div className="flex-grow max-w-7xl mx-auto w-full px-6 py-16">
+        <section className="text-center max-w-4xl mx-auto mb-16">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Prémiové sypané čaje
+            Čínske čaje
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Vyberte si z našej ponuky starostlivo vybraných čajov z celého sveta.
+            Objavte tajomstvo a tradíciu pravých čínskych čajov, pestovaných v tých najlepších podmienkach.
           </p>
         </section>
 
-        <section className="px-6 pb-20 max-w-7xl mx-auto">
-          {isLoading ? (
-            <p className="text-center text-[#A3A697] py-10">Načítavam čaje z databázy...</p>
-          ) : products.length === 0 ? (
-             <p className="text-center text-[#A3A697] py-10">V kategórii Čaje zatiaľ nie sú žiadne produkty.</p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-              {products.map((product) => (
-                <Link href={`/produkt/${product.id}`} key={product.id} className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group">
-                  <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] group-hover:bg-[#E8E6DF] transition-colors">
-                    Obrázok produktu
-                  </div>
-                  <div className="text-xs font-semibold text-[#8A9A5B] mb-1 uppercase tracking-wide">
-                    {product.category}
-                  </div>
-                  <h4 className="font-medium text-lg text-[#3D4035] mb-3 group-hover:text-[#5C6B46] transition-colors">
-                    {product.name}
-                  </h4>
-                  <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#F9F8F6]">
-                    <span className="font-bold text-xl text-[#2C2E26]">{product.price}</span>
-                    <button 
-                      onClick={(e) => {
-                        e.preventDefault(); 
-                        addToCart(product);
-                      }}
-                      className="bg-[#F9F8F6] border border-[#D5D3C9] px-3 py-1.5 rounded text-sm font-medium hover:bg-[#5C6B46] hover:text-white hover:border-[#5C6B46] transition-all active:scale-95"
-                    >
-                      Do košíka
-                    </button>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
-        </section>
-
-        <section className="bg-white py-20 border-t border-b border-[#E8E6DF]">
-          <div className="max-w-5xl mx-auto px-6">
-            <div className="text-center mb-16">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#8A9A5B] block mb-2">Tradícia a kvalita</span>
-              <h3 className="text-3xl md:text-4xl font-bold text-[#2C2E26]">Svet čajov TREFIWA</h3>
-            </div>
-            <div className="space-y-12 text-[#6B6E56] leading-relaxed text-base md:text-lg">
-              <div className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF]">
-                <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">1</span>
-                  Pôvod a starostlivý výber z najlepších záhrad
+        {isLoading ? (
+          <p className="text-center text-[#A3A697] py-10">Načítavam produkty...</p>
+        ) : products.length === 0 ? (
+           <p className="text-center text-[#A3A697] py-10">V kategórii Čínske čaje zatiaľ nie sú žiadne produkty.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {products.map((product) => (
+              <Link href={`/produkt/${product.id}`} key={product.id} className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group">
+                <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] group-hover:bg-[#E8E6DF] transition-colors">
+                  Obrázok produktu
+                </div>
+                <div className="text-xs font-semibold text-[#8A9A5B] mb-1 uppercase tracking-wide">
+                  {product.category}
+                </div>
+                <h4 className="font-medium text-lg text-[#3D4035] mb-3 group-hover:text-[#5C6B46] transition-colors">
+                  {product.name}
                 </h4>
-                <p>Všetky naše čaje pochádzajú zo starostlivo vybraných rodinných plantáží v Ázii a Európe...</p>
-              </div>
-              <div className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF]">
-                <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">2</span>
-                  Tradičné spracovanie bez umelých prísad
-                </h4>
-                <p>Spracovanie čajových lístkov prebieha tradičnými metódami, ktoré rešpektujú prirodzené vlastnosti rastliny...</p>
-              </div>
-              <div className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF]">
-                <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">3</span>
-                  Bohatstvo antioxidantov a zdravotné benefity
-                </h4>
-                <p>Kvalitný sypaný čaj je prirodzeným zdrojom polyfenolov, katechínov a dôležitých minerálov...</p>
-              </div>
-              <div className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF]">
-                <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">4</span>
-                  Rituál správnej prípravy pre dokonalý zážitok
-                </h4>
-                <p>Priprava sypaného čaju je malým meditačným rituálom v zrýchlenom svete...</p>
-              </div>
-              <div className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF]">
-                <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">5</span>
-                  Udržateľné balenie a ochrana čerstvosti
-                </h4>
-                <p>Aby si naše čaje zachovali svoju pôvodnú arómu a chuťový profil po dlhú dobu...</p>
-              </div>
-            </div>
+                <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#F9F8F6]">
+                  <span className="font-bold text-xl text-[#2C2E26]">{product.price}</span>
+                  <button 
+                    onClick={(e) => {
+                      e.preventDefault(); 
+                      addToCart(product);
+                    }}
+                    className="bg-[#F9F8F6] border border-[#D5D3C9] px-3 py-1.5 rounded text-sm font-medium hover:bg-[#5C6B46] hover:text-white hover:border-[#5C6B46] transition-all active:scale-95"
+                  >
+                    Do košíka
+                  </button>
+                </div>
+              </Link>
+            ))}
           </div>
-        </section>
+        )}
       </div>
 
-      <footer className="bg-[#2C2E26] text-[#D5D3C9] pt-16 pb-8">
+      {/* PÄTA (FOOTER) Z FOTKY image_180745.png */}
+      <footer className="bg-[#2C2E26] text-[#D5D3C9] pt-16 pb-8 mt-auto">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <Link href="/" className="text-3xl font-bold tracking-widest text-[#8A9A5B] hover:text-[#A3A697] transition-colors block mb-6">TREFIWA</Link>
@@ -297,7 +252,7 @@ export default function TeasCategory() {
           <div>
             <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Kategórie</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/caje" className="hover:text-white transition-colors">Sypané čaje</Link></li>
+              <li><Link href="/caje/cinske-caje" className="hover:text-white transition-colors">Sypané čaje</Link></li>
               <li><Link href="/zdrave-potraviny" className="hover:text-white transition-colors">Zdravé potraviny</Link></li>
               <li><Link href="/susene-ovocie" className="hover:text-white transition-colors">Sušené ovocie</Link></li>
               <li><Link href="/doplnkovy-sortiment" className="hover:text-white transition-colors">Doplnkový sortiment</Link></li>
