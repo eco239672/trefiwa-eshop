@@ -7,10 +7,11 @@ const prisma = new PrismaClient();
 // Funkcia na úpravu dát do formátu pre náš frontend
 function formatProducts(data: any[]) {
   return data.map((product) => ({
-    id: product.id, // Prisma nám teraz generuje ID ako dlhý string (UUID)
+    id: product.id, 
     name: product.name,
-    price: product.price.toString() + " €", // Decimal z databázy meníme na text
-    category: product.subcategory.name, // Zobrazíme názov podkategórie (napr. Zelené čaje)
+    price: product.price ? product.price.toString() + " €" : "0 €", // Ochrana ak by chýbala cena
+    // Otázniky nás zachránia! Ak podkategória chýba, nevypne to server, len to napíše "Nezaradené"
+    category: product.subcategory?.name || "Nezaradené", 
   }));
 }
 
