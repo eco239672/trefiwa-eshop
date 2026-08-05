@@ -46,3 +46,26 @@ export async function getProductsBySubcategory(subcategoryName: string) {
   });
   return formatProducts(products);
 }
+// Vyhľadávanie produktov podľa názvu (Live Search)
+export async function searchProducts(query: string) {
+  if (!query) return []; // Ak je prázdny text, nevráti nič
+  
+  const products = await prisma.product.findMany({
+    where: {
+      name: {
+        contains: query, // Hľadá tento text v názve
+        mode: "insensitive", // Ignoruje veľké/malé písmená (čiže nájde aj "čaj", aj "ČAJ")
+      },
+    },
+    include: {
+      subcategory: {
+        include: {
+          category: true,
+        },
+      },
+    },
+    take: 5, // Vráti maximálne 5 výsledkov, nech to nepreplní vyskakovacie okno
+  });
+  
+  return formatProducts(products);
+}

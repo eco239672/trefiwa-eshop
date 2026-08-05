@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { getProductsBySubcategory } from "../../actions";
-
+import SearchBar from "../../components/SearchBar";
 type Product = {
   id: string;
   name: string;
