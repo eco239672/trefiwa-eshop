@@ -6,6 +6,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
@@ -37,8 +38,9 @@ model Product {
   name          String
   description   String
   price         Decimal     @db.Decimal(10, 2)
-  stock         Int         @default(0)
-  
+  oldPrice      Decimal?    @db.Decimal(10, 2) // Zmenené na camelCase a pridaný ?, lebo nie každý produkt je v zľave
+  stock         Int         @default(10)
+  imageUrl      String?     // Pridaný ?, aby stránka nespadla, ak produkt zatiaľ nemá fotku
   subcategoryId String
   subcategory   SubCategory @relation(fields: [subcategoryId], references: [id])
   
