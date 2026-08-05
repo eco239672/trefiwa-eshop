@@ -247,5 +247,5 @@ export default function TeasCategory() {
         </div>
       </footer>
     </main>
-  );
+  )             
 }
