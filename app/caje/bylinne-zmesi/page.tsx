@@ -115,10 +115,14 @@ export default function BylinneZmesiPage() {
                  <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                    <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                      <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
-                     <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">2</Link>
+                     <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
+                     <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
+                     <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">4</Link>
+                     <Link href="/zdrave-potraviny" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">5</Link>
                    </div>
                  </div>
                </div>
+
                {/* 3. SUŠENÉ OVOCIE */}
                <div className="relative group py-4">
                  <span className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1 cursor-pointer">
@@ -130,10 +134,14 @@ export default function BylinneZmesiPage() {
                  <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                    <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                      <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
-                     <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">2</Link>
+                     <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
+                     <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
+                     <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">4</Link>
+                     <Link href="/susene-ovocie" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">5</Link>
                    </div>
                  </div>
                </div>
+
                {/* 4. DOPLNKOVÝ SORTIMENT */}
                <div className="relative group py-4">
                  <span className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1 cursor-pointer">
@@ -145,9 +153,14 @@ export default function BylinneZmesiPage() {
                  <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                    <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                      <Link href="/doplnkovy-sortiment" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
+                     <Link href="/doplnkovy-sortiment" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
+                     <Link href="/doplnkovy-sortiment" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
+                     <Link href="/doplnkovy-sortiment" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">4</Link>
+                     <Link href="/doplnkovy-sortiment" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">5</Link>
                    </div>
                  </div>
                </div>
+
                {/* 5. ZVÝHODNENÉ BALÍČKY */}
                <div className="relative group py-4">
                  <span className="hover:text-[#D5D3C9] transition-colors flex items-center gap-1 cursor-pointer">
@@ -158,10 +171,15 @@ export default function BylinneZmesiPage() {
                  </span>
                  <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                    <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
-                     <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">1</Link>
+                     <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">1</Link>
+                     <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">2</Link>
+                     <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">3</Link>
+                     <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">4</Link>
+                     <Link href="/zvyhodnene-balicky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">5</Link>
                    </div>
                  </div>
                </div>
+
           </nav>
         </div>
       </header>
