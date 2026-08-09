@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         <div>
           <Link href="/" className="text-3xl font-bold tracking-widest text-[#8A9A5B] hover:text-[#A3A697] transition-colors block mb-6">TREFIWA</Link>
-          <p className="text-sm leading-relaxed text-[#A3A697]">Vaša denná dávka prírody. Ponúkame výber tých najkvalitnejších sypaných čajov a zdravých potravín pre váš vyvážený životný štýl.</p>
+          <p className="text-sm leading-relaxed text-[#A3A697]">Vaša denná dávka z prírody. Ponúkame výber tých kvalitných sypaných čajov a zdravých potravín pre váš vyvážený životný štýl.</p>
         </div>
         <div>
           <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Informácie</h4>

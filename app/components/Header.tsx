@@ -15,10 +15,25 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="px-6 py-5 flex justify-between items-center max-w-7xl mx-auto w-full">
-        <Link href="/" className="text-4xl md:text-5xl font-bold tracking-widest text-[#5C6B46] hover:opacity-90 transition-opacity">
-          TREFIWA
-        </Link>
+      
+<div className="px-6 py-4 flex justify-between items-center max-w-7xl mx-auto w-full relative">
+        
+        {/* === LOGO A NÁPIS VEDLE SEBA === */}
+        <div className="flex items-center gap-4">
+          {/* Logo */}
+          <Link href="/" className="flex items-center hover:opacity-90 transition-opacity">
+            <img 
+              src="/produkty/logo-01.png" 
+              alt="TREFIWA Logo" 
+              className="h-16 md:h-20 w-auto object-contain"
+            />
+          </Link>
+
+          {/* Nápis TREFIWA posunutý doprava (zmeň hodnotu ml-4 alebo ml-6 podla potreby) */}
+          <Link href="/" className="text-4xl md:text-5xl font-bold tracking-widest text-[#5C6B46] hover:opacity-90 transition-opacity ml-4 md:ml-6">
+            TREFIWA
+          </Link>
+        </div>
 
         <div className="flex items-center space-x-6 md:space-x-8 text-[#3D4035]">
           
@@ -64,11 +79,11 @@ export default function Header() {
             </span>
             <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
               <div className="bg-white text-[#3D4035] shadow-lg rounded-b-md overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
-                <Link href="/caje/cinske-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Čínske čaje</Link>
-                <Link href="/caje/zelene-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Zelené čaje</Link>
-                <Link href="/caje/cierne-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Čierne čaje</Link>
-                <Link href="/caje/ovocne-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Ovocné čaje</Link>
-                <Link href="/caje/bylinne-zmesi" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">Bylinné zmesi</Link>
+                <Link href="/caje/čínske-čaje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Čínske čaje</Link>
+                <Link href="/caje/anglické-čaje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Anglické čaje</Link>
+                <Link href="/caje/liečivky" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Liečivky</Link>
+                {/* <Link href="/caje/anglicke-caje" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs border-b border-[#E8E6DF] transition-colors">Anglické čaje</Link> */}
+                {/* <Link href="/caje/bylinne-zmesi" className="px-5 py-3 hover:bg-[#F9F8F6] hover:text-[#5C6B46] text-xs transition-colors">Bylinné zmesi</Link> */}
               </div>
             </div>
           </div>

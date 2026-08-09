@@ -10,13 +10,13 @@ type Product = {
   category: string;
 };
 
-export default function OvocneCajePage() {
+export default function AnglickeCajePage() {
   const [cart, setCart] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getProductsBySubcategory("Ovocné čaje")
+    getProductsBySubcategory("Anglické čaje")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);
@@ -39,7 +39,7 @@ export default function OvocneCajePage() {
       <div className="flex-grow max-w-7xl mx-auto w-full px-6 py-16">
         <section className="text-center max-w-4xl mx-auto mb-16">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Ovocné čaje
+            Anglické čaje
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
             Sladké a svieže zmesi plné skutočného ovocia. Skvelé pre deti a na osvieženie bez kofeínu.
@@ -49,7 +49,7 @@ export default function OvocneCajePage() {
         {isLoading ? (
           <p className="text-center text-[#A3A697] py-10">Načítavam produkty...</p>
         ) : products.length === 0 ? (
-           <p className="text-center text-[#A3A697] py-10">V kategórii Ovocné čaje zatiaľ nie sú žiadne produkty.</p>
+           <p className="text-center text-[#A3A697] py-10">V kategórii Anglické čaje zatiaľ nie sú žiadne produkty.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {products.map((product) => (
