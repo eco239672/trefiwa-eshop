@@ -10,13 +10,13 @@ type Product = {
   category: string;
 };
 
-export default function BylinneZmesiPage() {
+export default function LiecivkyPage() {
   const [cart, setCart] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getProductsBySubcategory("Bylinné zmesi")
+    getProductsBySubcategory("Liečivky")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);
@@ -39,7 +39,7 @@ export default function BylinneZmesiPage() {
       <div className="flex-grow max-w-7xl mx-auto w-full px-6 py-16">
         <section className="text-center max-w-4xl mx-auto mb-16">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Bylinné zmesi
+            Liečivky
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
             Starostlivo namiešané lúčne bylinky pre vaše celkové uvoľnenie, dobrý spánok a pohodu.
@@ -49,7 +49,7 @@ export default function BylinneZmesiPage() {
         {isLoading ? (
           <p className="text-center text-[#A3A697] py-10">Načítavam produkty...</p>
         ) : products.length === 0 ? (
-           <p className="text-center text-[#A3A697] py-10">V kategórii Bylinné zmesi zatiaľ nie sú žiadne produkty.</p>
+           <p className="text-center text-[#A3A697] py-10">V kategórii Liečivky zatiaľ nie sú žiadne produkty.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {products.map((product) => (

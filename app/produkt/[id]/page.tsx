@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { PrismaClient } from "@prisma/client";
 import BackButton from "./BackButton";
-import SearchBar from "../../components/SearchBar";
 import AddToCartButton from "../../components/AddToCartButton";
+
 const prisma = new PrismaClient();
 
 export default async function ProductDetail({
@@ -33,17 +33,26 @@ export default async function ProductDetail({
   // --- LOGIKA PRE CENY A SKLAD ---
   const currentPrice = Number(product.price);
   const oldPrice = (product as any).oldPrice ? Number((product as any).oldPrice) : null; 
-  const stock = (product as any).stock !== undefined ? Number((product as any).stock) : 15;
+  const stock = (product as any).stock !== undefined ? Number((product as any).stock) : 1;
   const imageUrl = (product as any).imageUrl || null;
+  const categoryName = (product as any).category || "Prémiové čaje";
 
   // Výpočet percentuálnej zľavy
   const discountPercent = oldPrice ? Math.round(((oldPrice - currentPrice) / oldPrice) * 100) : 0;
 
+  // --- NOVÉ: Čistý objekt pre Client Component ---
+  // Týmto sa zbavíme Prisma Decimal a Date objektov, ktoré spôsobovali pád
+  const cartProduct = {
+    id: product.id,
+    name: product.name,
+    price: currentPrice,
+    category: categoryName,
+    imageUrl: imageUrl,
+  };
+
   return (
-    <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col">
-
-
-      {/* HLAVNÝ OBSAH (flex-grow zabezpečí, že footer bude vždy dole) */}
+    <main className="bg-[#F9F8F6] text-[#3D4035] flex flex-col">
+      {/* HLAVNÝ OBSAH */}
       <section className="flex-grow max-w-7xl mx-auto px-6 py-10 w-full">
         {/* Naimportované klientske tlačidlo Späť */}
         <BackButton />
@@ -54,7 +63,10 @@ export default async function ProductDetail({
           {/* Ľavá strana: Veľký Obrázok */}
           <div className="lg:w-3/5 bg-[#F2F1EC] min-h-[500px] flex items-center justify-center relative group">
             {imageUrl ? (
-              <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${imageUrl})` }}></div>
+              <div 
+                className="w-[80%] h-[80%] m-auto bg-contain bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105" 
+                style={{ backgroundImage: `url(${imageUrl})` }}
+              ></div>
             ) : (
               <div className="text-center text-[#A3A697]">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-24 h-24 mx-auto mb-4 opacity-50">
@@ -77,7 +89,7 @@ export default async function ProductDetail({
             <div>
               {/* Kategória a Názov */}
               <div className="text-xs font-bold text-[#8A9A5B] mb-3 uppercase tracking-widest">
-                Prémiové čaje
+                {categoryName}
               </div>
               <h1 className="text-4xl font-bold text-[#2C2E26] mb-6 leading-tight">
                 {product.name}
@@ -103,7 +115,7 @@ export default async function ProductDetail({
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                     </span>
-                    <span className="text-sm font-semibold text-green-700">Skladom ({stock} ks) – Pripravené na odoslanie</span>
+                    <span className="text-sm font-semibold text-green-700">Dostupný</span>
                   </>
                 ) : (
                   <>
@@ -116,7 +128,8 @@ export default async function ProductDetail({
 
             {/* Tlačidlo a benefity */}
             <div>
-<AddToCartButton product={product} stock={stock} />
+              {/* ZMENA: Posielame náš nový bezpečný objekt 'cartProduct' namiesto pôvodného 'product' */}
+              <AddToCartButton product={cartProduct} stock={stock} />
 
               {/* Dôveryhodné Ikonky */}
               <div className="grid grid-cols-1 gap-4 border-t border-[#E8E6DF] pt-6">
@@ -154,50 +167,6 @@ export default async function ProductDetail({
           </div>
         </div>
       </section>
-
-      {/* PÄTA (FOOTER) - Presne ako na hlavnej stránke */}
-      <footer className="bg-[#2C2E26] text-[#D5D3C9] pt-16 pb-8 mt-auto w-full">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          <div>
-            <Link href="/" className="text-3xl font-bold tracking-widest text-[#8A9A5B] hover:text-[#A3A697] transition-colors block mb-6">TREFIWA</Link>
-            <p className="text-sm leading-relaxed text-[#A3A697]">Vaša denná dávka prírody. Ponúkame výber tých najkvalitnejších sypaných čajov a zdravých potravín pre váš vyvážený životný štýl.</p>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Informácie</h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link href="/" className="hover:text-white transition-colors">O nás</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Doprava a platba</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Obchodné podmienky</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Ochrana osobných údajov</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Kategórie</h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link href="/caje/cinske-caje" className="hover:text-white transition-colors">Sypané čaje</Link></li>
-              <li><Link href="/zdrave-potraviny" className="hover:text-white transition-colors">Zdravé potraviny</Link></li>
-              <li><Link href="/susene-ovocie" className="hover:text-white transition-colors">Sušené ovocie</Link></li>
-              <li><Link href="/doplnkovy-sortiment" className="hover:text-white transition-colors">Doplnkový sortiment</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Zostaňme v kontakte</h4>
-            <p className="text-sm mb-4 text-[#A3A697]">Prihláste sa na odber noviniek a získajte zľavu 10% na prvý nákup.</p>
-            {/* Keďže sme v Server Componente, onSubmit pre formulár nepoužívame, aby nevyhadzovalo chybu. Môžeš to neskôr upraviť cez Server Actions */}
-            <form className="flex flex-col space-y-3">
-              <input type="email" placeholder="Váš e-mail" className="bg-[#3D4035] border border-[#5C6B46] text-white px-4 py-3 rounded-md focus:outline-none focus:border-[#8A9A5B] text-sm placeholder-[#8A9A5B]" />
-              <button type="button" className="bg-[#5C6B46] text-white px-4 py-3 rounded-md hover:bg-[#4A5738] transition-colors font-medium text-sm">Odoberať novinky</button>
-            </form>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-[#3D4035] flex flex-col md:flex-row justify-between items-center text-xs text-[#A3A697]">
-          <p>&copy; 2026 TREFIWA. Všetky práva vyhradené.</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="hover:text-white transition-colors font-medium">Facebook</a>
-            <a href="#" className="hover:text-white transition-colors font-medium">Instagram</a>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }

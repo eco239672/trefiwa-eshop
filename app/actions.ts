@@ -9,9 +9,12 @@ function formatProducts(data: any[]) {
   return data.map((product) => ({
     id: product.id, 
     name: product.name,
-    price: product.price ? product.price.toString() + " €" : "0 €", // Ochrana ak by chýbala cena
-    // Otázniky nás zachránia! Ak podkategória chýba, nevypne to server, len to napíše "Nezaradené"
+    price: product.price ? product.price.toString() + " €" : "0 €",
     category: product.subcategory?.name || "Nezaradené", 
+    imageUrl: product.imageUrl || null,
+    
+    // TOTO PRIDAJ, aby frontend vedel, či je tovar dostupný:
+    stock: product.stock !== undefined ? Number(product.stock) : 1,
   }));
 }
 
@@ -28,6 +31,7 @@ export async function getAllProducts() {
   });
   return formatProducts(products);
 }
+
 // Vytiahne produkty iba z konkrétnej PODKATEGÓRIE (napr. "Čínske čaje", "Zelené čaje")
 export async function getProductsBySubcategory(subcategoryName: string) {
   const products = await prisma.product.findMany({
@@ -46,6 +50,7 @@ export async function getProductsBySubcategory(subcategoryName: string) {
   });
   return formatProducts(products);
 }
+
 // Vyhľadávanie produktov podľa názvu (Live Search)
 export async function searchProducts(query: string) {
   if (!query) return []; // Ak je prázdny text, nevráti nič

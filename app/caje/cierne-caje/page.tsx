@@ -98,6 +98,7 @@ export default function CierneCajePage() {
               <li><Link href="/zdrave-potraviny" className="hover:text-white transition-colors">Zdravé potraviny</Link></li>
               <li><Link href="/susene-ovocie" className="hover:text-white transition-colors">Sušené ovocie</Link></li>
               <li><Link href="/doplnkovy-sortiment" className="hover:text-white transition-colors">Doplnkový sortiment</Link></li>
+              <li><Link href="/eko-sortiment" className="hover:text-white transition-colors">Eko sortiment</Link></li>
             </ul>
           </div>
           <div>
