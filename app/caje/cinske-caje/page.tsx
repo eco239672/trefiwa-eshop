@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { getProductsBySubcategory } from "../../actions";
+import { getProductsBySubCategory } from "../../actions";
 
 type Product = {
   id: string;
@@ -18,7 +18,7 @@ export default function CinskeCajePage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getProductsBySubcategory("Čínske čaje")
+    getProductsBySubCategory("Čínske čaje")
       .then((data: any) => {
         console.log("Dáta z databázy pre tento čaj:", data);
         setProducts(data);

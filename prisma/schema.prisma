@@ -34,17 +34,27 @@ model SubCategory {
 
 // 3. PRODUKT (patrí do konkrétnej podkategórie)
 model Product {
-  id            String      @id @default(uuid())
-  name          String
-  description   String
-  price         Decimal     @db.Decimal(10, 2)
-  oldPrice      Decimal?    @db.Decimal(10, 2) // Zmenené na camelCase a pridaný ?, lebo nie každý produkt je v zľave
-  stock         Int         @default(10)
-  imageUrl      String?     // Pridaný ?, aby stránka nespadla, ak produkt zatiaľ nemá fotku
-  subcategoryId String
-  subcategory   SubCategory @relation(fields: [subcategoryId], references: [id])
+  id          String           @id @default(uuid())
+  name        String
+  description String?
+  imageUrl    String?
+  // Tvoje existujúce prepojenie na kategórie/podkategórie nechaj tak...
+  subCategoryId String?
+  subCategory   SubCategory?     @relation(fields: [subCategoryId], references: [id])
   
-  createdAt     DateTime    @default(now())
+  // NOVÉ: Prepojenie na varianty
+  variants    ProductVariant[]
+}
+
+model ProductVariant {
+  id        String  @id @default(uuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  weight    String  // napr. "50g", "100g", "500g", "1000g"
+  price     Decimal // Cena pre túto konkrétnu gramáž
+  oldPrice  Decimal? // Stará cena (ak je v zľave)
+  stock     Int     @default(1) // 1 = Dostupný, 0 = Vypredaný
 }
 
 model Order {

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { getProductsBySubcategory } from "../actions";
+import { getProductsBySubCategory } from "../actions";
 
 type Product = {
   id: string;
@@ -17,7 +17,7 @@ export default function HealthyFoodsCategory() {
 
   useEffect(() => {
     // Ťaháme IBA produkty z kategórie "Zdravé potraviny"
-    getProductsBySubcategory("Zdravé potraviny")
+    getProductsBySubCategory("Zdravé potraviny")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);

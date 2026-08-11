@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { getProductsBySubcategory } from "../../actions";
+import { getProductsBySubCategory } from "../../actions";
 import SearchBar from "../../components/SearchBar";
 type Product = {
   id: string;
@@ -16,7 +16,7 @@ export default function ZeleneCajePage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getProductsBySubcategory("Zelené čaje")
+    getProductsBySubCategory("Zelené čaje")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);

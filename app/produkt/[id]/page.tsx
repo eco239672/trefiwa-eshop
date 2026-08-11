@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PrismaClient } from "@prisma/client";
 import BackButton from "./BackButton";
-import AddToCartButton from "../../components/AddToCartButton";
+import VariantSelector from "../../components/VariantSelector"; // <-- Náš nový komponent pre gramáže
 
 const prisma = new PrismaClient();
 
@@ -12,9 +12,15 @@ export default async function ProductDetail({
 }) {
   const { id } = await params;
 
-  // Ťaháme produkt priamo z databázy
+  // 1. Ťaháme produkt AJ S JEHO VARIANTAMI A KATEGÓRIOU
   const product = await prisma.product.findUnique({
     where: { id: id },
+    include: {
+      subCategory: true, // Načítame aj podkategóriu kvôli menu
+      variants: {
+        orderBy: { price: "asc" }, // Zoradí gramáže od najlacnejšej po najdrahšiu
+      },
+    },
   });
 
   if (!product) {
@@ -30,25 +36,33 @@ export default async function ProductDetail({
     );
   }
 
-  // --- LOGIKA PRE CENY A SKLAD ---
-  const currentPrice = Number(product.price);
-  const oldPrice = (product as any).oldPrice ? Number((product as any).oldPrice) : null; 
-  const stock = (product as any).stock !== undefined ? Number((product as any).stock) : 1;
-  const imageUrl = (product as any).imageUrl || null;
-  const categoryName = (product as any).category || "Prémiové čaje";
+  // 2. Pripravíme čistý zoznam variantov (zbavíme sa Prisma Decimal formátu)
+  const cleanVariants = (product.variants || []).map((v: any) => ({
+    id: v.id,
+    weight: v.weight,
+    price: Number(v.price),
+    oldPrice: v.oldPrice ? Number(v.oldPrice) : null,
+    stock: Number(v.stock),
+  }));
 
-  // Výpočet percentuálnej zľavy
-  const discountPercent = oldPrice ? Math.round(((oldPrice - currentPrice) / oldPrice) * 100) : 0;
+  const imageUrl = product.imageUrl || null;
+  const categoryName = (product as any).subCategory?.name || (product as any).category || "Prémiové čaje";
 
-  // --- NOVÉ: Čistý objekt pre Client Component ---
-  // Týmto sa zbavíme Prisma Decimal a Date objektov, ktoré spôsobovali pád
-  const cartProduct = {
+  // 3. Pripravíme objekt pre VariantSelector
+  const productData = {
     id: product.id,
     name: product.name,
-    price: currentPrice,
-    category: categoryName,
     imageUrl: imageUrl,
+    category: categoryName,
+    variants: cleanVariants,
   };
+
+  // Výpočet zľavy pre červený štítok na fotke (podľa prvej/najlacnejšej gramáže)
+  const firstVariant = cleanVariants[0];
+  const discountPercent =
+    firstVariant && firstVariant.oldPrice
+      ? Math.round(((firstVariant.oldPrice - firstVariant.price) / firstVariant.oldPrice) * 100)
+      : 0;
 
   return (
     <main className="bg-[#F9F8F6] text-[#3D4035] flex flex-col">
@@ -95,41 +109,8 @@ export default async function ProductDetail({
                 {product.name}
               </h1>
 
-              {/* Cena (Nová vs Stará) */}
-              <div className="flex items-end gap-4 mb-6">
-                <span className="text-4xl font-extrabold text-[#5C6B46]">
-                  {currentPrice.toFixed(2)} €
-                </span>
-                {oldPrice && (
-                  <span className="text-xl text-[#A3A697] line-through font-medium mb-1">
-                    {oldPrice.toFixed(2)} €
-                  </span>
-                )}
-              </div>
-
-              {/* Skladová dostupnosť */}
-              <div className="flex items-center gap-2 mb-10">
-                {stock > 0 ? (
-                  <>
-                    <span className="relative flex h-3 w-3">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                    </span>
-                    <span className="text-sm font-semibold text-green-700">Dostupný</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="h-3 w-3 rounded-full bg-red-500"></span>
-                    <span className="text-sm font-semibold text-red-600">Vypredané</span>
-                  </>
-                )}
-              </div>
-            </div>
-
-            {/* Tlačidlo a benefity */}
-            <div>
-              {/* ZMENA: Posielame náš nový bezpečný objekt 'cartProduct' namiesto pôvodného 'product' */}
-              <AddToCartButton product={cartProduct} stock={stock} />
+              {/* === INTERAKTÍVNY VÝBER GRAMÁŽE, CENY A KOŠÍKA === */}
+              <VariantSelector product={productData} />
 
               {/* Dôveryhodné Ikonky */}
               <div className="grid grid-cols-1 gap-4 border-t border-[#E8E6DF] pt-6">
