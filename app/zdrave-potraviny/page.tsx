@@ -42,7 +42,7 @@ export default function HealthyFoodsCategory() {
             Zdravé potraviny
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Vyživte svoje telo tým najlepším, čo príroda ponúka.
+            Využite pre svoje to to najlepšie, z toho čo príroda ponúka.
           </p>
         </section>
 
