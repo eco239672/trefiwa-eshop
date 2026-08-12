@@ -29,10 +29,11 @@ export default function Header() {
   }, []);
 
   // Funkcia na odhlásenie
+// Funkcia na odhlásenie
   const handleLogout = async () => {
     await logoutUser();
     setUser(null);
-    window.location.reload(); // Obnovíme stránku pre istotu
+    window.location.href = "/"; // <-- TOTO JE ZMENA: Okamžite presmeruje na domov
   };
 
   return (

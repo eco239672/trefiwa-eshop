@@ -8,12 +8,39 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  password  String?  // Ak by si neskôr robil vlastné prihlasovanie
-  orders    Order[]
-  createdAt DateTime @default(now())
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String?
+  
+  // Fakturačné údaje
+  company       String?
+  phone         String?
+  street        String?
+  city          String?
+  zip           String?
+
+  // Prepojenie na doručovacie adresy (jeden používateľ môže mať viac adries)
+  addresses     Address[]
+
+  orders Order[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// Nová tabuľka pre doručovacie adresy
+model Address {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  name      String  // Názov adresy (napr. "Domov" alebo "Jozef Mak")
+  street    String
+  city      String
+  zip       String
+  phone     String?
+  isDefault Boolean @default(false)
 }
 
 // 1. HLAVNÁ KATEGÓRIA (napr. Čaje, Zdravé potraviny)
