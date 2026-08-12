@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { registerUser } from "../authActions";
+import { registerUser, loginUser } from "../authActions";
 
 type AuthModalProps = {
   isOpen: boolean;
@@ -27,7 +27,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
     onClose();
   };
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
     setSuccess("");
@@ -36,10 +36,19 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
     const formData = new FormData(e.currentTarget);
 
     if (view === "login") {
-      // TU NAPOJÍME PRIHLASOVANIE NESKÔR
-      console.log("Pokus o prihlásenie...");
-      setError("Prihlasovanie zatiaľ nie je plne napojené.");
-      setIsLoading(false);
+      // PRIHLÁSENIE
+      const result = await loginUser(formData);
+      
+      if (result.error) {
+        setError(result.error);
+        setIsLoading(false);
+      } else if (result.success) {
+        setSuccess("Prihlásenie úspešné!");
+        // Po úspešnom prihlásení obnovíme stránku (aby sa hlavička zmenila z Prihlásiť na Profil)
+        setTimeout(() => {
+          window.location.reload(); 
+        }, 1000);
+      }
     } else if (view === "register") {
       // REGISTRÁCIA
       const result = await registerUser(formData);
