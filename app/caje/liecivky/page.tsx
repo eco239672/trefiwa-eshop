@@ -1,43 +1,63 @@
 "use client";
+
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { getProductsBySubCategory } from "../../actions";
-import SearchBar from "../../components/SearchBar";
+
 type Product = {
   id: string;
   name: string;
   price: string;
   category: string;
+  imageUrl?: string | null;
+  stock?: number;
+  variants?: { id: string; weight: string; price: number; oldPrice?: number | null }[]; 
 };
 
 export default function LiecivkyPage() {
-  const [cart, setCart] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [sortOption, setSortOption] = useState("najpredavanejsie");
 
   useEffect(() => {
     getProductsBySubCategory("Liečivky")
-      .then((data) => {
+      .then((data: any) => {
         setProducts(data);
         setIsLoading(false);
       })
-      .catch((err) => {
-        console.error("Chyba pri načítaní:", err);
+      .catch((err: any) => {
+        console.error("Chyba pri načítaní liečiviek:", err);
         setIsLoading(false);
       });
   }, []);
 
-  const addToCart = (product: Product) => {
-    setCart([...cart, product]);
+  // Pomocná funkcia na získanie čísla z textu (napr. "od 3.50 €" -> 3.50)
+  const getPriceValue = (priceStr: string) => {
+    const match = priceStr.match(/[\d.]+/);
+    return match ? parseFloat(match[0]) : 0;
   };
+
+  // Zoradenie produktov podľa vybranej možnosti
+  const sortedProducts = [...products].sort((a, b) => {
+    switch (sortOption) {
+      case "najlacnejsie":
+        return getPriceValue(a.price) - getPriceValue(b.price);
+      case "najdrahsie":
+        return getPriceValue(b.price) - getPriceValue(a.price);
+      case "abecedne":
+        return a.name.localeCompare(b.name);
+      case "najnovsie":
+        return b.id.localeCompare(a.id);
+      default:
+        return 0; // "najpredavanejsie"
+    }
+  });
 
   return (
     <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col">
-
-      
       {/* HLAVNÝ OBSAH */}
       <div className="flex-grow max-w-7xl mx-auto w-full px-6 py-16">
-        <section className="text-center max-w-4xl mx-auto mb-16">
+        <section className="text-center max-w-4xl mx-auto mb-12">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
             Liečivky
           </h2>
@@ -51,72 +71,112 @@ export default function LiecivkyPage() {
         ) : products.length === 0 ? (
            <p className="text-center text-[#A3A697] py-10">V kategórii Liečivky zatiaľ nie sú žiadne produkty.</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {products.map((product) => (
-              <Link href={`/produkt/${product.id}`} key={product.id} className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group">
-<div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden group-hover:opacity-90 transition-opacity">
-  {(product as any).imageUrl ? (
-    <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${(product as any).imageUrl})` }}></div>
-  ) : (
-    <span className="text-xs">Bez obrázka</span>
-  )}
-</div>
-                <div className="text-xs font-semibold text-[#8A9A5B] mb-1 uppercase tracking-wide">{product.category}</div>
-                <h4 className="font-medium text-lg text-[#3D4035] mb-3 group-hover:text-[#5C6B46] transition-colors">{product.name}</h4>
-                <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#F9F8F6]">
-                  <span className="font-bold text-xl text-[#2C2E26]">{product.price}</span>
-                  <button onClick={(e) => { e.preventDefault(); addToCart(product); }} className="bg-[#F9F8F6] border border-[#D5D3C9] px-3 py-1.5 rounded text-sm font-medium hover:bg-[#5C6B46] hover:text-white hover:border-[#5C6B46] transition-all active:scale-95">
-                    Do košíka
-                  </button>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <>
+            {/* Zoraďovací panel */}
+            <div className="flex justify-between items-center mb-8 border-b border-[#E8E6DF] pb-4">
+              <span className="text-[#A3A697] text-sm hidden sm:block">
+                Zobrazených {products.length} produktov
+              </span>
+              
+              <div className="flex items-center gap-2 text-sm text-[#6B6E56] ml-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-[#8A9A5B]">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25" />
+                </svg>
+                <span>Radiť podľa:</span>
+                <select
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value)}
+                  className="bg-transparent text-[#8A9A5B] font-bold cursor-pointer focus:outline-none appearance-none hover:text-[#5C6B46] transition-colors"
+                >
+                  <option value="najpredavanejsie">Najpredávanejšie</option>
+                  <option value="najnovsie">Najnovšie</option>
+                  <option value="najlacnejsie">Najlacnejšie</option>
+                  <option value="najdrahsie">Najdrahšie</option>
+                  <option value="abecedne">Abecedne (A-Z)</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Mriežka produktov */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              {sortedProducts.map((product) => {
+                const isAvailable = (product.stock !== undefined ? product.stock : 1) > 0;
+
+                let maxDiscount = 0;
+                if (product.variants) {
+                  product.variants.forEach(v => {
+                    if (v.oldPrice && v.oldPrice > v.price) {
+                      const discount = Math.round(((v.oldPrice - v.price) / v.oldPrice) * 100);
+                      if (discount > maxDiscount) maxDiscount = discount;
+                    }
+                  });
+                }
+
+                return (
+                  <Link href={`/produkt/${product.id}`} key={product.id} className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group relative">
+                    
+                    {/* Zľavový štítok na obrázku (ak je nejaký variant v zľave) */}
+                    {maxDiscount > 0 && (
+                      <div className="absolute top-8 left-8 bg-[#D84949] text-white px-2 py-1 rounded text-xs font-bold tracking-wider shadow-md z-10">
+                        -{maxDiscount} %
+                      </div>
+                    )}
+
+                    <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden group-hover:opacity-90 transition-opacity">
+                      {product.imageUrl ? (
+                        <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${product.imageUrl})` }}></div>
+                      ) : (
+                        <span className="text-xs">Bez obrázka</span>
+                      )}
+                    </div>
+                    
+                    <div className="text-xs font-semibold text-[#8A9A5B] mb-1 uppercase tracking-wide">
+                      {product.category}
+                    </div>
+                    <h4 className="font-medium text-lg text-[#3D4035] mb-2 group-hover:text-[#5C6B46] transition-colors">
+                      {product.name}
+                    </h4>
+
+                    {/* Zobrazenie dostupných gramáží */}
+                    {product.variants && product.variants.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mb-3">
+                        {product.variants.map((v) => (
+                          <span key={v.id} className="text-[10px] bg-[#F2F1EC] text-[#6B6E56] px-2 py-0.5 rounded-full font-medium border border-[#E8E6DF]">
+                            {v.weight}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Indikátor dostupnosti na sklade */}
+                    <div className="flex items-center gap-1.5 mb-3 mt-auto">
+                      {isAvailable ? (
+                        <>
+                          <span className="h-2 w-2 rounded-full bg-green-500"></span>
+                          <span className="text-[11px] font-semibold text-green-700 uppercase tracking-wider">Dostupný</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="h-2 w-2 rounded-full bg-red-500"></span>
+                          <span className="text-[11px] font-semibold text-red-600 uppercase tracking-wider">Vypredané</span>
+                        </>
+                      )}
+                    </div>
+                    
+                    <div className="flex justify-between items-center pt-4 border-t border-[#F9F8F6]">
+                      <span className="font-bold text-xl text-[#2C2E26]">{product.price}</span>
+                      
+                      <span className="bg-[#F9F8F6] border border-[#D5D3C9] px-4 py-1.5 rounded text-sm font-medium group-hover:bg-[#5C6B46] group-hover:text-white group-hover:border-[#5C6B46] transition-all">
+                        Vybrať
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </>
         )}
       </div>
-
-      {/* PÄTA (FOOTER) */}
-      <footer className="bg-[#2C2E26] text-[#D5D3C9] pt-16 pb-8 mt-auto">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          <div>
-            <Link href="/" className="text-3xl font-bold tracking-widest text-[#8A9A5B] hover:text-[#A3A697] transition-colors block mb-6">TREFIWA</Link>
-            <p className="text-sm leading-relaxed text-[#A3A697]">Vaša denná dávka prírody. Ponúkame výber tých najkvalitnejších sypaných čajov a zdravých potravín pre váš vyvážený životný štýl.</p>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Informácie</h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link href="/" className="hover:text-white transition-colors">O nás</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Doprava a platba</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Obchodné podmienky</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Ochrana osobných údajov</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Kategórie</h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link href="/caje/cinske-caje" className="hover:text-white transition-colors">Sypané čaje</Link></li>
-              <li><Link href="/zdrave-potraviny" className="hover:text-white transition-colors">Zdravé potraviny</Link></li>
-              <li><Link href="/susene-ovocie" className="hover:text-white transition-colors">Sušené ovocie</Link></li>
-              <li><Link href="/doplnkovy-sortiment" className="hover:text-white transition-colors">Doplnkový sortiment</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Zostaňme v kontakte</h4>
-            <p className="text-sm mb-4 text-[#A3A697]">Prihláste sa na odber noviniek a získajte zľavu 10% na prvý nákup.</p>
-            <form className="flex flex-col space-y-3" onSubmit={(e) => e.preventDefault()}>
-              <input type="email" placeholder="Váš e-mail" className="bg-[#3D4035] border border-[#5C6B46] text-white px-4 py-3 rounded-md focus:outline-none focus:border-[#8A9A5B] text-sm placeholder-[#8A9A5B]" />
-              <button className="bg-[#5C6B46] text-white px-4 py-3 rounded-md hover:bg-[#4A5738] transition-colors font-medium text-sm">Odoberať novinky</button>
-            </form>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-[#3D4035] flex flex-col md:flex-row justify-between items-center text-xs text-[#A3A697]">
-          <p>&copy; 2026 TREFIWA. Všetky práva vyhradené.</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="hover:text-white transition-colors font-medium">Facebook</a>
-            <a href="#" className="hover:text-white transition-colors font-medium">Instagram</a>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }
