@@ -41,7 +41,7 @@ export default function Header() {
       {/* --- HORNÝ PRUH --- */}
       <div className="bg-[#F9F8F6] border-b border-[#E8E6DF] px-6 py-2 flex justify-between items-center text-[11px] md:text-xs text-[#6B6E56] uppercase tracking-wider font-medium">
         <div className="hidden lg:flex space-x-4 items-center">
-          <span>Zákaznícka podpora: <strong className="text-[#3D4035]">+421 900 000 000</strong> (8:00 - 16:00)</span>
+          <span>Zákaznícka podpora: <strong className="text-[#3D4035]">+421 905 572 393</strong> (8:00 - 16:00)</span>
           <span>|</span>
           <a href="mailto:info@trefiwa.sk" className="hover:text-[#5C6B46] transition-colors duration-300">info@trefiwa.sk</a>
         </div>
@@ -60,7 +60,7 @@ export default function Header() {
             />
           </Link>
           <Link href="/" className="text-4xl md:text-5xl font-bold tracking-widest text-[#5C6B46] hover:opacity-80 transition-opacity duration-300 ml-4 md:ml-6">
-            TREFIWA.....skúšobná prevádzka, ale kľudne sa nám ozvite....
+            TREFIWA
           </Link>
         </div>
 

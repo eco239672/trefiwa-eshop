@@ -12,7 +12,7 @@ model User {
   name          String
   email         String    @unique
   password      String?
-
+// Vernosty program
   points        Int       @default(0) // Predvolene má nový zákazník 0 bodov
   
   // Fakturačné údaje
