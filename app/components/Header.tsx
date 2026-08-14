@@ -60,7 +60,7 @@ export default function Header() {
             />
           </Link>
           <Link href="/" className="text-4xl md:text-5xl font-bold tracking-widest text-[#5C6B46] hover:opacity-80 transition-opacity duration-300 ml-4 md:ml-6">
-            TREFIWA
+            TREFIWA.....skúšobná prevádzka, ale kľudne sa nám ozvite....
           </Link>
         </div>
 
