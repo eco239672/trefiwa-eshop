@@ -48,10 +48,10 @@ export default function Header() {
       </div>
 
       {/* --- HLAVNÁ ČASŤ (Logo, Vyhľadávanie, Ikonky) --- */}
-      <div className="px-6 py-4 flex justify-between items-center max-w-7xl mx-auto w-full relative">
+      <div className="pl-4 md:pl-2 py-4 flex justify-between items-center max-w-7xl mx-auto w-full relative">
         
         {/* Logo a Nápis */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 ">
           <Link href="/" className="flex items-center hover:opacity-80 transition-opacity duration-300">
             <img 
               src="/produkty/logo-01.png" 
