@@ -48,7 +48,7 @@ export default function Header() {
       </div>
 
       {/* --- HLAVNÁ ČASŤ (Logo, Vyhľadávanie, Ikonky) --- */}
-      <div className="pl-4 md:pl-2 py-4 flex justify-between items-center max-w-7xl mx-auto w-full relative">
+      <div className="pl-4 md:pl-8 py-4 flex justify-between items-center max-w-7xl mx-auto w-full relative">
         
         {/* Logo a Nápis */}
         <div className="flex items-center gap-4 ">
