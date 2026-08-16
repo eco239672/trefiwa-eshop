@@ -17,7 +17,7 @@ export default function HealthyFoodsCategory() {
 
   useEffect(() => {
     // Ťaháme IBA produkty z kategórie "Zdravé potraviny"
-    getProductsBySubCategory("Zdravé potraviny")
+    getProductsBySubCategory("Eko sortiment")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);
@@ -39,7 +39,7 @@ export default function HealthyFoodsCategory() {
       <div className="flex-grow">
         <section className="px-6 py-16 text-center max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Zdravé potraviny
+            Eko sortiment...
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
             Využite pre svoje to to najlepšie, z toho čo príroda ponúka.
@@ -152,7 +152,6 @@ export default function HealthyFoodsCategory() {
               <li><Link href="/zdrave-potraviny" className="hover:text-white transition-colors">Zdravé potraviny</Link></li>
               <li><Link href="/susene-ovocie" className="hover:text-white transition-colors">Sušené ovocie</Link></li>
               <li><Link href="/doplnkovy-sortiment" className="hover:text-white transition-colors">Doplnkový sortiment</Link></li>
-              <li><Link href="/eko-sortiment" className="hover:text-white transition-colors">Eko sortiment</Link></li>
             </ul>
           </div>
           <div>

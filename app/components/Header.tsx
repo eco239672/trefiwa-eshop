@@ -183,6 +183,12 @@ export default function Header() {
             </Link>
           </div>
 
+          <div className="relative group py-4">
+            <Link href="/eko-sortiment" className="hover:text-[#D5D3C9] transition-colors duration-300 flex items-center gap-1">
+              Eko sortiment
+            </Link>
+          </div>
+
         </nav>
       </div>
 
