@@ -24,7 +24,7 @@ export default function ONasPage() {
           
           <div className="pt-8 mt-8 border-t border-[#E8E6DF]">
             <Link href="/caje/cinske-caje" className="text-[#8A9A5B] font-bold hover:text-[#5C6B46] transition-colors">
-              &rarr; Prejsť do obchodu a objaviť naše čaje
+              &rarr; Prejsť do obchodu a objaviť naše produkty...
             </Link>
           </div>
         </div>
