@@ -10,20 +10,20 @@ type Product = {
   category: string;
 };
 
-export default function HealthyFoodsCategory() {
+export default function DriedFruitCategory() {
   const [cart, setCart] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Ťaháme IBA produkty z kategórie "Zdravé potraviny"
+    // Ťaháme IBA produkty z kategórie "Doplnkovy sortiment"
     getProductsBySubCategory("Doplnkovy sortiment")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error("Chyba pri načítaní zdravých potravín:", err);
+        console.error("Chyba pri načítaní doplnkovy sortiment:", err);
         setIsLoading(false);
       });
   }, []);
@@ -35,22 +35,22 @@ export default function HealthyFoodsCategory() {
   return (
     <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col">
 
-
+      
       <div className="flex-grow">
         <section className="px-6 py-16 text-center max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Doplnkovy sortiment
+            Sušené ovocie
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Využite pre svoje to to najlepšie, z toho čo príroda ponúka.
+            Plná chuť slnka v každom jednom kúsku.
           </p>
         </section>
 
         <section className="px-6 pb-20 max-w-7xl mx-auto">
           {isLoading ? (
-            <p className="text-center text-[#A3A697] py-10">Načítavam potraviny z databázy...</p>
+            <p className="text-center text-[#A3A697] py-10">Načítavam ovocie z databázy...</p>
           ) : products.length === 0 ? (
-             <p className="text-center text-[#A3A697] py-10">V kategórii Zdravé potraviny zatiaľ nie sú žiadne produkty.</p>
+             <p className="text-center text-[#A3A697] py-10">V kategórii Sušené ovocie zatiaľ nie sú žiadne produkty.</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {products.map((product) => (
@@ -82,12 +82,12 @@ export default function HealthyFoodsCategory() {
           )}
         </section>
 
-        {/* 5 PODSEKCIÍ ZDRAVÝCH POTRAVÍN */}
+        {/* 5 PODSEKCIÍ SUŠENÉHO OVOCIA */}
         <section className="bg-white py-20 border-t border-b border-[#E8E6DF]">
           <div className="max-w-5xl mx-auto px-6">
             <div className="text-center mb-16">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#8A9A5B] block mb-2">Pre vaše zdravie</span>
-              <h3 className="text-3xl md:text-4xl font-bold text-[#2C2E26]">Zistite viac o našich potravinách</h3>
+              <span className="text-xs font-bold uppercase tracking-widest text-[#8A9A5B] block mb-2">Energia na cesty</span>
+              <h3 className="text-3xl md:text-4xl font-bold text-[#2C2E26]">Viac o našom sušenom ovocí</h3>
             </div>
             <div className="space-y-12 text-[#6B6E56] leading-relaxed text-base md:text-lg">
               <div id="sekcia-1" className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32">
@@ -95,7 +95,7 @@ export default function HealthyFoodsCategory() {
                   <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">1</span>
                   Podsekcia 1
                 </h4>
-                <p>Miesto pre váš text k prvej podsekcii zdravých potravín...</p>
+                <p>Miesto pre váš text k prvej podsekcii sušeného ovocia...</p>
               </div>
               <div id="sekcia-2" className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32">
                 <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
