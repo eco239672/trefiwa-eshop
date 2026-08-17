@@ -341,34 +341,136 @@ export default function Header() {
             </div>
           </div>
 
-          {/* DOPLNKOVÝ SORTIMENT */}
+          {/* DOPLNKOVÝ SORTIMENT (Roletove menu) */}
           <div className="relative group py-4">
-            <Link
-              href="/doplnkovy-sortiment"
-              className="hover:text-[#D5D3C9] transition-colors duration-300 flex items-center gap-1"
-            >
-              Doplnkový sortiment
-            </Link>
+            <span className="hover:text-[#D5D3C9] transition-colors duration-300 flex items-center gap-1.5 cursor-pointer">
+              Doplnkový sorrtiment
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2.5}
+                stroke="currentColor"
+                className="w-3 h-3 transform transition-transform duration-300 group-hover:-rotate-180"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </span>
+
+            <div className="absolute left-0 top-full w-56 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 ease-out z-50">
+              <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
+                <Link
+                  href="/doplnkovy-sortiment/banan-a-jablko"
+                  className="px-5 py-3.5 hover:bg-[#F2F1EC] hover:text-[#5C6B46] hover:pl-6 text-xs border-b border-[#E8E6DF] transition-all duration-300"
+                >
+                  Banan a jablko
+                </Link>
+                <Link
+                  href="/doplnkovy-sortiment/citron"
+                  className="px-5 py-3.5 hover:bg-[#F2F1EC] hover:text-[#5C6B46] hover:pl-6 text-xs border-b border-[#E8E6DF] transition-all duration-300"
+                >
+                  Citron
+                </Link>
+                <Link
+                  href="/doplnkovy-sortiment /ceresna"
+                  className="px-5 py-3.5 hover:bg-[#F2F1EC] hover:text-[#5C6B46] hover:pl-6 text-xs transition-all duration-300"
+                >
+                  Čerešňa
+                </Link>
+              </div>
+            </div>
           </div>
 
-          {/* ZVÝHODNENÉ BALÍČKY */}
+          {/* ZVÝHODNENÉ BALÍČKY (Roletove menu)*/}
           <div className="relative group py-4">
-            <Link
-              href="/zvyhodnene-balicky"
-              className="hover:text-[#D5D3C9] transition-colors duration-300 flex items-center gap-1"
-            >
-              Zvýhodnené balíčky
-            </Link>
+            <span className="hover:text-[#D5D3C9] transition-colors duration-300 flex items-center gap-1.5 cursor-pointer">
+              Zvýhodnené balíčky...
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2.5}
+                stroke="currentColor"
+                className="w-3 h-3 transform transition-transform duration-300 group-hover:-rotate-180"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </span>
+
+            <div className="absolute left-0 top-full w-56 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 ease-out z-50">
+              <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
+                <Link
+                  href="/doplnkovy-sortiment/banan-a-jablko"
+                  className="px-5 py-3.5 hover:bg-[#F2F1EC] hover:text-[#5C6B46] hover:pl-6 text-xs border-b border-[#E8E6DF] transition-all duration-300"
+                >
+                  Banan a jablko
+                </Link>
+                <Link
+                  href="/doplnkovy-sortiment/citron"
+                  className="px-5 py-3.5 hover:bg-[#F2F1EC] hover:text-[#5C6B46] hover:pl-6 text-xs border-b border-[#E8E6DF] transition-all duration-300"
+                >
+                  Citron
+                </Link>
+                <Link
+                  href="/doplnkovy-sortiment /ceresna"
+                  className="px-5 py-3.5 hover:bg-[#F2F1EC] hover:text-[#5C6B46] hover:pl-6 text-xs transition-all duration-300"
+                >
+                  Čerešňa
+                </Link>
+              </div>
+            </div>
           </div>
 
-          {/* EKO SORTIMENT */}
+          {/* EKO SORTIMENT (Roletově menu)*/}
           <div className="relative group py-4">
-            <Link
-              href="/eko-sortiment"
-              className="hover:text-[#D5D3C9] transition-colors duration-300 flex items-center gap-1"
-            >
-              Eko sortiment
-            </Link>
+            <span className="hover:text-[#D5D3C9] transition-colors duration-300 flex items-center gap-1.5 cursor-pointer">
+              Eko sortiment...
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2.5}
+                stroke="currentColor"
+                className="w-3 h-3 transform transition-transform duration-300 group-hover:-rotate-180"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </span>
+
+            <div className="absolute left-0 top-full w-56 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 ease-out z-50">
+              <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg overflow-hidden flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
+                <Link
+                  href="/doplnkovy-sortiment/banan-a-jablko"
+                  className="px-5 py-3.5 hover:bg-[#F2F1EC] hover:text-[#5C6B46] hover:pl-6 text-xs border-b border-[#E8E6DF] transition-all duration-300"
+                >
+                  Banan a jablko
+                </Link>
+                <Link
+                  href="/doplnkovy-sortiment/citron"
+                  className="px-5 py-3.5 hover:bg-[#F2F1EC] hover:text-[#5C6B46] hover:pl-6 text-xs border-b border-[#E8E6DF] transition-all duration-300"
+                >
+                  Citron
+                </Link>
+                <Link
+                  href="/doplnkovy-sortiment /ceresna"
+                  className="px-5 py-3.5 hover:bg-[#F2F1EC] hover:text-[#5C6B46] hover:pl-6 text-xs transition-all duration-300"
+                >
+                  Čerešňa
+                </Link>
+              </div>
+            </div>
           </div>
         </nav>
       </div>
