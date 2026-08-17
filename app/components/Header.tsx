@@ -293,6 +293,18 @@ export default function Header() {
                 >
                   Raňajkové kaše
                 </Link>
+                <Link
+                  href="/zdrave-potraviny/kase"
+                  className="px-5 py-3.5 hover:bg-[#F2F1EC] hover:text-[#5C6B46] hover:pl-6 text-xs transition-all duration-300"
+                >
+                  Raňajkové kaše
+                </Link>
+                <Link
+                  href="/zdrave-potraviny/kase"
+                  className="px-5 py-3.5 hover:bg-[#F2F1EC] hover:text-[#5C6B46] hover:pl-6 text-xs transition-all duration-300"
+                >
+                  Raňajkové kaše
+                </Link>
               </div>
             </div>
           </div>
