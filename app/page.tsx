@@ -71,7 +71,7 @@ export default function Home() {
                   className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group"
                 >
                   {/* FOTKA PRODUKTU */}
-                  <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden group-hover:opacity-90 transition-opacity">
+                  <div className="w-full h-40 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden group-hover:opacity-90 transition-opacity">
                     {product.imageUrl ? (
                       <div
                         className="w-full h-full bg-cover bg-center"

@@ -508,6 +508,12 @@ export default function Header() {
                   >
                     Eko tašky
                   </Link>
+                  <Link
+                    href="/eko-sortiment/tasky"
+                    className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
+                  >
+                    Eko misky
+                  </Link>
                 </div>
               </div>
             </div>
