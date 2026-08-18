@@ -11,18 +11,14 @@ type Product = {
   name: string;
   price: string;
   category: string;
-  imageUrl?: string | null; // Pridané, aby TypeScript neprotestoval pri fotkách
+  imageUrl?: string | null;
 };
 
 export default function Home() {
-  // 1. Ťaháme funkciu na pridanie do globálneho košíka
   const { addToCart } = useCart();
-
-  // 2. Tieto dva stavy tu musia ostať, lebo sa starajú o načítanie produktov z DB
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Toto sa spustí hneď po načítaní stránky
   useEffect(() => {
     getAllProducts()
       .then((data: any) => {
@@ -44,7 +40,7 @@ export default function Home() {
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
             Objavte našu ponuku prémiových sypaných čajov, zdravých potravín a
-            sladeného ovocia.
+            sušeného ovocia.
           </p>
         </section>
 
@@ -53,7 +49,6 @@ export default function Home() {
             Naše novinky
           </h3>
 
-          {/* Ak sa dáta načítavajú, ukážeme text. Inak zobrazíme mriežku produktov. */}
           {isLoading ? (
             <p className="text-center text-[#A3A697] py-10">
               Načítavam produkty z databázy...
@@ -64,7 +59,8 @@ export default function Home() {
             </p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-              {products.map((product) => (
+              {/* TUTO JE ZMENA: Pridané .slice(0, 4) na obmedzenie počtu na 4 kusy */}
+              {products.slice(0, 4).map((product) => (
                 <Link
                   href={`/produkt/${product.id}`}
                   key={product.id}
@@ -94,11 +90,17 @@ export default function Home() {
                       {product.price}
                     </span>
 
-                    {/* TLAČIDLO KOŠÍKA */}
+                    {/* TLAČIDLO KOŠÍKA - Použijeme e.preventDefault(), aby kliknutie na tlačidlo neotvorilo stránku produktu */}
                     <button
                       onClick={(e) => {
-                        e.preventDefault();
-                        addToCart(product); // Tu sa produkt pošle rovno do vysúvacieho panelu
+                        e.preventDefault(); // Zabráni Linku prejsť na detail produktu priamo po kliknutí na "Do košíka"
+                        addToCart({
+                          id: product.id,
+                          name: product.name,
+                          price: product.price,
+                          imageUrl: product.imageUrl || undefined,
+                          quantity: 1,
+                        });
                       }}
                       className="bg-[#F9F8F6] border border-[#D5D3C9] px-3 py-1.5 rounded text-sm font-medium hover:bg-[#5C6B46] hover:text-white hover:border-[#5C6B46] transition-all active:scale-95"
                     >

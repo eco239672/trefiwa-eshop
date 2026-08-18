@@ -1,23 +1,32 @@
 "use client";
-import { createContext, useContext, useState, ReactNode } from "react";
 
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+
+// Definícia toho, čo obsahuje jeden produkt v košíku
 type CartItem = {
   id: string;
   name: string;
-  price: number;
-  imageUrl?: string | null;
+  price: number | string;
   quantity: number;
+  imageUrl?: string;
 };
 
+// Definícia funkcií pre kontext
 type CartContextType = {
   cart: CartItem[];
   isCartOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
-  addToCart: (product: any) => void;
+  addToCart: (item: CartItem) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, delta: number) => void;
-  setQuantity: (id: string, amount: number) => void; // <--- Nová funkcia pre manuálne vpísanie
+  setQuantity: (id: string, quantity: number) => void;
   cartTotal: number;
 };
 
@@ -26,67 +35,116 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // 1. Pri načítaní stiahneme košík z Local Storage
+  useEffect(() => {
+    const savedCart = localStorage.getItem("trefiwa_cart");
+    if (savedCart) {
+      try {
+        setCart(JSON.parse(savedCart));
+      } catch (e) {
+        console.error("Nepodarilo sa načítať košík", e);
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // 2. Pri akejkoľvek zmene uložíme košík
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem("trefiwa_cart", JSON.stringify(cart));
+    }
+  }, [cart, isLoaded]);
 
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
 
-  const addToCart = (product: any) => {
+  const addToCart = (item: CartItem) => {
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+      const existing = prev.find((i) => i.id === item.id);
       if (existing) {
-        return prev.map((item) => 
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        return prev.map((i) =>
+          i.id === item.id
+            ? // Striktný prevod na číslo, aby sme zabránili lepeniu textov (1+1=11)
+              {
+                ...i,
+                quantity:
+                  (Number(i.quantity) || 1) + (Number(item.quantity) || 1),
+              }
+            : i,
         );
       }
-      
-      const parsedPrice = typeof product.price === 'string' 
-        ? parseFloat(product.price.replace(',', '.').replace(/[^0-9.]/g, '')) 
-        : Number(product.price);
-
-      return [...prev, { 
-        id: product.id, 
-        name: product.name, 
-        price: parsedPrice || 0,
-        imageUrl: product.imageUrl, // <--- Prenášame obrázok
-        quantity: 1 
-      }];
+      return [...prev, { ...item, quantity: Number(item.quantity) || 1 }];
     });
-    openCart(); 
+    openCart();
   };
 
   const removeFromCart = (id: string) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+    setCart((prev) => prev.filter((i) => i.id !== id));
   };
 
   const updateQuantity = (id: string, delta: number) => {
-    setCart((prev) => prev.map((item) => {
-      if (item.id === id) {
-        const newQuantity = item.quantity + delta;
-        return newQuantity > 0 ? { ...item, quantity: newQuantity } : item;
-      }
-      return item;
-    }));
+    setCart((prev) =>
+      prev.map((item) => {
+        if (item.id === id) {
+          // Striktne určíme, že to je číslo, a pripočítame/odpočítame
+          const currentQty = Number(item.quantity) || 1;
+          const newQuantity = Math.max(1, currentQty + delta);
+          return { ...item, quantity: newQuantity };
+        }
+        return item;
+      }),
+    );
   };
 
-  // NOVÉ: Funkcia pre manuálne vpísanie čísla do inputu
-  const setQuantity = (id: string, amount: number) => {
-    if (amount < 1) return; // Nemôžeš mať v košíku 0 a menej (na to slúži odstránenie)
-    setCart((prev) => prev.map((item) =>
-      item.id === id ? { ...item, quantity: amount } : item
-    ));
+  const setQuantity = (id: string, quantity: number) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, quantity: Math.max(1, Number(quantity) || 1) }
+          : item,
+      ),
+    );
   };
 
-  const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  // Vylepšený výpočet celkovej sumy (odolný voči textom a čiarkam)
+  const cartTotal = cart.reduce((total, item) => {
+    let price = 0;
+    if (typeof item.price === "number") {
+      price = item.price;
+    } else if (typeof item.price === "string") {
+      const cleanString = item.price.replace(",", ".").replace(/[^0-9.]/g, "");
+      price = parseFloat(cleanString) || 0;
+    }
+
+    const qty = Number(item.quantity) || 1;
+    return total + price * qty;
+  }, 0);
 
   return (
-    <CartContext.Provider value={{ cart, isCartOpen, openCart, closeCart, addToCart, removeFromCart, updateQuantity, setQuantity, cartTotal }}>
-      {children}
+    <CartContext.Provider
+      value={{
+        cart,
+        isCartOpen,
+        openCart,
+        closeCart,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        setQuantity,
+        cartTotal,
+      }}
+    >
+      {isLoaded ? children : <div className="hidden">{children}</div>}
     </CartContext.Provider>
   );
 }
 
 export function useCart() {
   const context = useContext(CartContext);
-  if (!context) throw new Error("useCart musí byť použitý vo vnútri CartProvider");
+  if (!context) {
+    throw new Error("useCart musí byť použitý vo vnútri CartProvider");
+  }
   return context;
 }

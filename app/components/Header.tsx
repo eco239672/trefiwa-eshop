@@ -18,7 +18,7 @@ export default function Header() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [user, setUser] = useState<User>(null);
 
-  // Stavy pre mobilné menu a jeho podkategórie
+  // Stavy pre mobilné menu
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openMobileCategories, setOpenMobileCategories] = useState<{
     [key: string]: boolean;
@@ -96,11 +96,12 @@ export default function Header() {
       >
         {/* --- 1. HORNÝ PRUH --- */}
         <div
-          className={`w-full border-b border-[#E8E6DF] px-6 py-2 flex justify-between items-center text-[11px] md:text-xs text-[#6B6E56] uppercase tracking-wider font-medium transition-all duration-300 ${
+          className={`w-full border-b border-[#E8E6DF] px-4 md:px-8 lg:px-12 py-2 flex justify-between items-center text-[11px] md:text-xs text-[#6B6E56] uppercase tracking-wider font-medium transition-all duration-300 ${
             isScrolled ? "bg-white/80 backdrop-blur-md" : "bg-[#F9F8F6]"
           }`}
         >
-          <div className="hidden lg:flex space-x-4 items-center w-full justify-end max-w-7xl mx-auto">
+          {/* ZMENA: Odstránené obmedzenie šírky */}
+          <div className="hidden lg:flex space-x-4 items-center w-full justify-end">
             <div className="flex items-center">
               <span>
                 Zákaznícka podpora:{" "}
@@ -124,7 +125,8 @@ export default function Header() {
             isScrolled ? "bg-white/80 backdrop-blur-md" : "bg-white"
           }`}
         >
-          <div className="px-4 md:px-8 py-4 grid grid-cols-3 items-center max-w-7xl mx-auto relative">
+          {/* ZMENA: Odstránené obmedzenie šírky, pridaný w-full a väčší padding px-12 */}
+          <div className="px-4 md:px-8 lg:px-12 py-4 grid grid-cols-3 items-center w-full relative">
             {/* ĽAVÁ STRANA (Hamburger ikona + LOGO) */}
             <div className="flex items-center justify-start gap-4">
               <button
@@ -174,12 +176,12 @@ export default function Header() {
             </div>
 
             {/* PRAVÁ STRANA (Vyhľadávanie, Užívateľ, Košík, Sociálne siete) */}
-            <div className="flex items-center justify-end space-x-2 md:space-x-4 lg:space-x-6 text-[#3D4035]">
+            <div className="flex items-center justify-end space-x-2 md:space-x-4 lg:space-x-5 text-[#3D4035]">
               <SearchBar />
 
               {user ? (
-                <div className="relative group p-2 md:px-3 rounded-xl hover:bg-[#F2F1EC]/50 transition-all duration-300 cursor-pointer hidden md:block">
-                  <div className="flex items-center space-x-3">
+                <div className="relative group p-2 md:px-2 rounded-xl hover:bg-[#F2F1EC]/50 transition-all duration-300 cursor-pointer hidden md:block">
+                  <div className="flex items-center space-x-2">
                     <div className="bg-[#8A9A5B] text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm shadow-sm group-hover:bg-[#5C6B46] transition-colors">
                       {user.name.charAt(0).toUpperCase()}
                     </div>
@@ -239,7 +241,7 @@ export default function Header() {
               ) : (
                 <div
                   onClick={() => setIsAuthOpen(true)}
-                  className="items-center space-x-3 cursor-pointer p-2 md:px-3 rounded-xl hover:bg-[#F2F1EC]/50 transition-all hidden md:flex"
+                  className="items-center space-x-2 cursor-pointer p-2 md:px-2 rounded-xl hover:bg-[#F2F1EC]/50 transition-all hidden md:flex"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -259,9 +261,6 @@ export default function Header() {
                     <span className="font-bold text-sm text-[#3D4035]">
                       Prihlásenie
                     </span>
-                    <span className="text-xs text-[#8A9A5B] font-medium">
-                      Registrácia
-                    </span>
                   </div>
                 </div>
               )}
@@ -269,7 +268,7 @@ export default function Header() {
               {/* KOŠÍK */}
               <div
                 onClick={openCart}
-                className="flex items-center space-x-3 cursor-pointer p-2 md:px-3 rounded-xl hover:bg-[#F2F1EC]/50 transition-all group"
+                className="flex items-center space-x-2 cursor-pointer p-2 md:px-2 rounded-xl hover:bg-[#F2F1EC]/50 transition-all group"
               >
                 <div className="relative">
                   <svg
@@ -288,7 +287,11 @@ export default function Header() {
                   </svg>
                   {cart.length > 0 && (
                     <span className="absolute -top-1.5 -right-2 bg-[#D84949] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-sm">
-                      {cart.reduce((total, item) => total + item.quantity, 0)}
+                      {/* OPRAVA: Number(item.quantity) || 1, aby to nevyhadzovalo NaN chyby */}
+                      {cart.reduce(
+                        (total, item) => total + (Number(item.quantity) || 1),
+                        0,
+                      )}
                     </span>
                   )}
                 </div>
@@ -297,8 +300,8 @@ export default function Header() {
                 </span>
               </div>
 
-              {/* SOCIÁLNE SIETE (FB, IG) - Zobrazené vedľa košíka */}
-              <div className="hidden sm:flex items-center space-x-3 border-l border-[#E8E6DF] pl-3 md:pl-5">
+              {/* SOCIÁLNE SIETE (FB, IG) - Úplne vpravo */}
+              <div className="hidden sm:flex items-center space-x-2 border-l border-[#E8E6DF] pl-3 md:pl-4">
                 <a
                   href="https://www.facebook.com"
                   target="_blank"
@@ -361,7 +364,8 @@ export default function Header() {
             isScrolled ? "bg-[#5C6B46]/85 backdrop-blur-md" : "bg-[#5C6B46]"
           }`}
         >
-          <nav className="max-w-7xl mx-auto px-6 flex flex-wrap gap-x-8 text-sm font-semibold uppercase tracking-widest items-center justify-center">
+          {/* Menu zostáva vycentrované na stred s určitou šírkou, ak by si ho chcel roztiahnuť tiež, zmeň max-w-[1500px] na w-full */}
+          <nav className="max-w-[1500px] mx-auto px-4 md:px-8 lg:px-12 flex flex-wrap gap-x-8 text-sm font-semibold uppercase tracking-widest items-center justify-center">
             <div className="relative group py-4">
               <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
                 Čaje
@@ -508,12 +512,6 @@ export default function Header() {
                   >
                     Eko tašky
                   </Link>
-                  <Link
-                    href="/eko-sortiment/tasky"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
-                  >
-                    Eko misky
-                  </Link>
                 </div>
               </div>
             </div>
@@ -521,9 +519,8 @@ export default function Header() {
         </div>
       </header>
 
-      {/* --- MOBILNÉ BOČNÉ MENU (Presunuté von z hlavičky!) --- */}
+      {/* --- MOBILNÉ BOČNÉ MENU --- */}
       {isMobileMenuOpen && (
-        // z-[100] zaručí, že to bude úplne navrchu nad všetkým
         <div className="fixed inset-0 z-[100] flex md:hidden">
           <div
             className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
@@ -557,7 +554,6 @@ export default function Header() {
             </div>
 
             <div className="flex-1 overflow-y-auto py-4 px-6 flex flex-col font-semibold text-[#3D4035]">
-              {/* Čaje */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
@@ -603,7 +599,6 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Zdravé potraviny */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
@@ -649,7 +644,6 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Sušené ovocie */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
@@ -695,7 +689,6 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Doplnkový sortiment */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
@@ -737,7 +730,6 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Zvýhodnené balíčky */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
@@ -779,7 +771,6 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Eko sortiment */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
@@ -819,7 +810,6 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Sociálne siete pre mobil (v spodnej časti menu) */}
               <div className="flex items-center justify-center space-x-6 mt-6">
                 <a
                   href="https://www.facebook.com"
@@ -902,7 +892,6 @@ export default function Header() {
         </div>
       )}
 
-      {/* Prihlasovacie okno tiež vytiahnuté von z hlavičky */}
       <LoginModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
     </>
   );
