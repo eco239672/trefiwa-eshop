@@ -38,7 +38,7 @@ export default function Home() {
         {/* HERO SEKCIA - responzívny text a padding */}
         <section className="px-4 sm:px-6 py-12 md:py-20 text-center max-w-4xl mx-auto mt-4">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 md:mb-6 text-[#2C2E26]">
-            Z prírody priamo k vám ...
+            Z prírody k nám ...
           </h2>
           <p className="text-base md:text-lg lg:text-xl text-[#6B6E56] leading-relaxed px-2">
             Objavte našu ponuku prémiových sypaných čajov, zdravých potravín a

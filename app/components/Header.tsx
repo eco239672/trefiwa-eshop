@@ -376,13 +376,19 @@ export default function Header() {
                     href="/caje/cinske-caje"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
-                    Čínske čaje
+                    Čínske čaje a zmesi
                   </Link>
                   <Link
                     href="/caje/anglicke-caje"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
-                    Anglické čaje
+                    Anglické čaje a zmesi
+                  </Link>
+                  <Link
+                    href="/caje/anglicke-caje"
+                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                  >
+                    Relaxačné zmesi
                   </Link>
                   <Link
                     href="/caje/liecivky"
