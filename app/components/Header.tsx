@@ -581,13 +581,13 @@ export default function Header() {
                       href="/caje/cinske-caje"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Čínske čaje
+                      Čínske čaje a zmesi
                     </Link>
                     <Link
                       href="/caje/anglicke-caje"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Anglické čaje
+                      Anglické čaje a zmesi
                     </Link>
                     <Link
                       href="/caje/liecivky"
