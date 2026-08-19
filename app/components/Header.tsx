@@ -593,6 +593,12 @@ export default function Header() {
                       href="/caje/liecivky"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
+                      Relaxačné zmesi
+                    </Link>
+                    <Link
+                      href="/caje/liecivky"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       Liečivky
                     </Link>
                   </div>
