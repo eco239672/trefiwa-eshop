@@ -19,16 +19,24 @@ type ProductProps = {
   variants: Variant[];
 };
 
-export default function VariantSelector({ product }: { product: ProductProps }) {
+export default function VariantSelector({
+  product,
+}: {
+  product: ProductProps;
+}) {
   const { addToCart } = useCart();
 
   // Ako predvolený vyberieme hneď prvý variant v zozname (napr. 50g)
   const [selectedVariant, setSelectedVariant] = useState<Variant>(
-    product.variants[0] || { id: "", weight: "", price: 0, stock: 0 }
+    product.variants[0] || { id: "", weight: "", price: 0, stock: 0 },
   );
 
   if (!product.variants || product.variants.length === 0) {
-    return <p className="text-red-500 font-medium">Tento produkt zatiaľ nemá nastavené gramáže.</p>;
+    return (
+      <p className="text-red-500 font-medium">
+        Tento produkt zatiaľ nemá nastavené gramáže.
+      </p>
+    );
   }
 
   const isAvailable = selectedVariant.stock > 0;
@@ -78,12 +86,16 @@ export default function VariantSelector({ product }: { product: ProductProps }) 
         {isAvailable ? (
           <>
             <span className="h-3 w-3 rounded-full bg-green-500"></span>
-            <span className="text-sm font-semibold text-green-700">Dostupný</span>
+            <span className="text-sm font-semibold text-green-700">
+              Dostupný
+            </span>
           </>
         ) : (
           <>
             <span className="h-3 w-3 rounded-full bg-red-500"></span>
-            <span className="text-sm font-semibold text-red-600">Vypredané pre toto balenie</span>
+            <span className="text-sm font-semibold text-red-600">
+              Vypredané pre toto balenie
+            </span>
           </>
         )}
       </div>
@@ -92,14 +104,13 @@ export default function VariantSelector({ product }: { product: ProductProps }) 
       <button
         disabled={!isAvailable}
         onClick={() => {
-          // Do košíka pošleme produkt AJ s informáciou o konkrétnom balení
+          // Do košíka pošleme len tie dáta, ktoré pozná
           addToCart({
-            id: `${product.id}-${selectedVariant.id}`, // Unikátne ID pre košík (aby nemiešalo 50g a 100g)
-            productId: product.id,
-            name: `${product.name} (${selectedVariant.weight})`, // Napr. "Earl Grey (100g)"
+            id: `${product.id}-${selectedVariant.id}`, // Unikátne ID pre košík
+            name: `${product.name} (${selectedVariant.weight})`, // Tu je už pridaná aj gramáž
             price: selectedVariant.price,
-            imageUrl: product.imageUrl,
-            weight: selectedVariant.weight,
+            imageUrl: product.imageUrl || undefined,
+            quantity: 1,
           });
         }}
         className={`w-full py-4 rounded-md font-bold text-lg tracking-wide transition-all shadow-md active:scale-[0.98] mb-8 ${
@@ -108,7 +119,9 @@ export default function VariantSelector({ product }: { product: ProductProps }) 
             : "bg-gray-300 text-gray-500 cursor-not-allowed"
         }`}
       >
-        {isAvailable ? `Vložiť do košíka (${selectedVariant.weight})` : "Momentálne nedostupné"}
+        {isAvailable
+          ? `Vložiť do košíka (${selectedVariant.weight})`
+          : "Momentálne nedostupné"}
       </button>
     </div>
   );
