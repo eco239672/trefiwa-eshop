@@ -637,7 +637,7 @@ export default function Header() {
                 {openMobileCategories["potraviny"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
-                      href="/zdrave-potraviny/kakao"
+                      href="/zdrave-potraviny/Kakao"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Kakao

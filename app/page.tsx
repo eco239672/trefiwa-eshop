@@ -41,8 +41,8 @@ export default function Home() {
             Z prírody k nám ...
           </h2>
           <p className="text-base md:text-lg lg:text-xl text-[#6B6E56] leading-relaxed px-2">
-            Objavte našu ponuku prémiových sypaných čajov, zdravých potravín a
-            sušeného ovocia.
+            Objavte našu ponuku prémiových sypaných čajov, čajových zmesí,
+            zdravých potravín a ekológie...
           </p>
         </section>
 
