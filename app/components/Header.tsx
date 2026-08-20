@@ -560,6 +560,7 @@ export default function Header() {
             </div>
 
             <div className="flex-1 overflow-y-auto py-4 px-6 flex flex-col font-semibold text-[#3D4035]">
+              {/* --- Čaje --- */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
@@ -581,6 +582,7 @@ export default function Header() {
                     />
                   </svg>
                 </div>
+                {/* --- čaje --- */}
                 {openMobileCategories["caje"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
@@ -610,7 +612,7 @@ export default function Header() {
                   </div>
                 )}
               </div>
-
+              {/* --- Zdravé potraviny --- */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
@@ -635,6 +637,12 @@ export default function Header() {
                 {openMobileCategories["potraviny"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
+                      href="/zdrave-potraviny/kakao"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Kakao
+                    </Link>
+                    <Link
                       href="/zdrave-potraviny/orechy-a-semienka"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -655,7 +663,7 @@ export default function Header() {
                   </div>
                 )}
               </div>
-
+              {/* --- Sušené ovocie --- */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
@@ -700,7 +708,7 @@ export default function Header() {
                   </div>
                 )}
               </div>
-
+              {/* --- Doplnkový sortiment --- */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
@@ -741,7 +749,7 @@ export default function Header() {
                   </div>
                 )}
               </div>
-
+              {/* --- Zvýhodnené balíčky --- */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
@@ -782,7 +790,7 @@ export default function Header() {
                   </div>
                 )}
               </div>
-
+              {/* --- Eko --- */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
