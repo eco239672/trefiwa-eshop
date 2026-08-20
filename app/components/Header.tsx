@@ -385,7 +385,7 @@ export default function Header() {
                     Anglické čaje a zmesi
                   </Link>
                   <Link
-                    href="/caje/anglicke-caje"
+                    href="/caje/relaxacne-zmesi"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
                     Relaxačné zmesi
@@ -596,7 +596,7 @@ export default function Header() {
                       Anglické čaje a zmesi
                     </Link>
                     <Link
-                      href="/caje/liecivky"
+                      href="/caje/relaxacne-zmesi"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Relaxačné zmesi
