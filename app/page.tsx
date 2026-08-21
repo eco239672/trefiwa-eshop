@@ -19,10 +19,10 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 1. Vytvoríme "referenciu" na náš posuvník
+  // REFERENCIA NA POSUVNÍK PRE AUTOMATICKÝ POHYB
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Načítanie produktov z databázy
+  // Načítanie produktov
   useEffect(() => {
     getAllProducts()
       .then((data: any) => {
@@ -35,28 +35,22 @@ export default function Home() {
       });
   }, []);
 
-  // 2. Automatické posúvanie (Auto-scroll)
+  // AUTOMATICKÉ POSÚVANIE
   useEffect(() => {
-    // Spustí sa len ak sú načítané produkty
     if (products.length === 0) return;
 
-    // Nastavíme interval na 3000 milisekúnd (3 sekundy)
     const interval = setInterval(() => {
       if (carouselRef.current) {
         const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
 
-        // Ak sme došli na úplný koniec posuvníka...
         if (scrollLeft + clientWidth >= scrollWidth - 10) {
-          // ...vrátime sa hladko na začiatok
           carouselRef.current.scrollTo({ left: 0, behavior: "smooth" });
         } else {
-          // ...inak posunieme doprava o zhruba šírku jednej kartičky (300px)
           carouselRef.current.scrollBy({ left: 300, behavior: "smooth" });
         }
       }
-    }, 1500);
+    }, 3000); // 3000 = 3 sekundy. Pre rýchlejší posun daj napr. 2000
 
-    // Dôležité: vyčistíme interval, ak užívateľ odíde zo stránky
     return () => clearInterval(interval);
   }, [products]);
 
@@ -75,10 +69,12 @@ export default function Home() {
         </section>
 
         {/* SEKCIA NOVINKY */}
-        <section className="px-4 md:px-8 lg:px-12 pb-24 w-full">
-          <h3 className="text-xl md:text-2xl font-semibold mb-6 md:mb-8 text-[#2C2E26] border-b border-[#E8E6DF] pb-4">
-            Naše novinky
-          </h3>
+        <section className="pb-24 w-full">
+          <div className="px-4 md:px-8 lg:px-12">
+            <h3 className="text-xl md:text-2xl font-semibold mb-6 md:mb-8 text-[#2C2E26] border-b border-[#E8E6DF] pb-4">
+              Naše novinky
+            </h3>
+          </div>
 
           {isLoading ? (
             <p className="text-center text-[#A3A697] py-10">
@@ -89,10 +85,10 @@ export default function Home() {
               Zatiaľ tu nie sú žiadne produkty. Pridaj nejaké cez Prisma Studio!
             </p>
           ) : (
-            /* 3. Priradíme 'ref' nášmu posuvníku */
+            /* CAROUSEL (POSUVNÍK) PRODUKTOV - Pridané ref={carouselRef} */
             <div
               ref={carouselRef}
-              className="flex overflow-x-auto gap-4 sm:gap-6 pb-8 snap-x snap-mandatory no-scrollbar w-full scroll-smooth"
+              className="flex overflow-x-auto gap-4 sm:gap-6 pb-8 px-4 md:px-8 lg:px-12 snap-x snap-mandatory no-scrollbar w-full scroll-smooth"
             >
               {products.map((product) => (
                 <div
@@ -148,6 +144,9 @@ export default function Home() {
                   </Link>
                 </div>
               ))}
+
+              {/* Vzduchová medzera na konci posuvníka */}
+              <div className="flex-none w-[1px] md:w-4"></div>
             </div>
           )}
         </section>
