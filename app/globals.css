@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer utilities {
+  /* Skryje scrollbar pre Chrome, Safari a Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Skryje scrollbar pre IE, Edge a Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+@layer utilities {
+  /* Skryje scrollbar pre Chrome, Safari a Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Skryje scrollbar pre Edge a Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
