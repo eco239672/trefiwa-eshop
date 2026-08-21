@@ -413,6 +413,12 @@ export default function Header() {
                     Orechy a semienka
                   </Link>
                   <Link
+                    href="/zdrave-potraviny/kakao"
+                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                  >
+                    Kakao
+                  </Link>
+                  <Link
                     href="/zdrave-potraviny/sladidla"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
@@ -637,7 +643,7 @@ export default function Header() {
                 {openMobileCategories["potraviny"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
-                      href="/zdrave-potraviny/Kakao"
+                      href="/zdrave-potraviny/kakao"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Kakao

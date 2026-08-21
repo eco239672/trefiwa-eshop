@@ -19,7 +19,7 @@ type Product = {
   }[];
 };
 
-export default function AnglickeCajePage() {
+export default function KakapPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sortOption, setSortOption] = useState("najpredavanejsie");
