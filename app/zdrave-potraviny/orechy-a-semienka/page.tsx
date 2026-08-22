@@ -19,30 +19,29 @@ type Product = {
   }[];
 };
 
-export default function KakapPage() {
+export default function OrechyPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sortOption, setSortOption] = useState("najpredavanejsie");
 
   useEffect(() => {
-    getProductsBySubCategory("Kakao")
+    // TUTO musí byť presný názov podkategórie z tvojej Prisma databázy
+    getProductsBySubCategory("Orechy a semienka")
       .then((data: any) => {
         setProducts(data);
         setIsLoading(false);
       })
       .catch((err: any) => {
-        console.error("Chyba pri načítaní Kakao:", err);
+        console.error("Chyba pri načítaní produktov:", err);
         setIsLoading(false);
       });
   }, []);
 
-  // Pomocná funkcia na získanie čísla z textu (napr. "od 3.50 €" -> 3.50)
   const getPriceValue = (priceStr: string) => {
     const match = priceStr.match(/[\d.]+/);
     return match ? parseFloat(match[0]) : 0;
   };
 
-  // Zoradenie produktov podľa vybranej možnosti
   const sortedProducts = [...products].sort((a, b) => {
     switch (sortOption) {
       case "najlacnejsie":
@@ -54,21 +53,21 @@ export default function KakapPage() {
       case "najnovsie":
         return b.id.localeCompare(a.id);
       default:
-        return 0; // "najpredavanejsie"
+        return 0;
     }
   });
 
   return (
     <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col">
-      {/* HLAVNÝ OBSAH */}
       <div className="flex-grow max-w-7xl mx-auto w-full px-6 py-16">
+        
+        {/* OPRAVENÉ NADPISY A TEXTY */}
         <section className="text-center max-w-4xl mx-auto mb-12">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Zdravé potraviny
+            Orechy a semienka
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Sladké a svieže zmesi plné skutočného ovocia. Skvelé pre deti a na
-            osvieženie bez kofeínu.
+            Praktické a dizajnové dózy pre správne uskladnenie vašich obľúbených čajov, aby si dlhodobo zachovali svoju čerstvosť a dokonalú arómu.
           </p>
         </section>
 
@@ -78,30 +77,18 @@ export default function KakapPage() {
           </p>
         ) : products.length === 0 ? (
           <p className="text-center text-[#A3A697] py-10">
-            V kategórii Anglické čaje zatiaľ nie sú žiadne produkty.
+            V kategórii Dózy na čaj zatiaľ nie sú žiadne produkty.
           </p>
         ) : (
           <>
-            {/* Zoraďovací panel */}
             <div className="flex justify-between items-center mb-8 border-b border-[#E8E6DF] pb-4">
               <span className="text-[#A3A697] text-sm hidden sm:block">
                 Zobrazených {products.length} produktov
               </span>
 
               <div className="flex items-center gap-2 text-sm text-[#6B6E56] ml-auto">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-4 h-4 text-[#8A9A5B]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-[#8A9A5B]">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25" />
                 </svg>
                 <span>Radiť podľa:</span>
                 <select
@@ -118,19 +105,15 @@ export default function KakapPage() {
               </div>
             </div>
 
-            {/* Mriežka produktov */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {sortedProducts.map((product) => {
-                const isAvailable =
-                  (product.stock !== undefined ? product.stock : 1) > 0;
+                const isAvailable = (product.stock !== undefined ? product.stock : 1) > 0;
 
                 let maxDiscount = 0;
                 if (product.variants) {
                   product.variants.forEach((v) => {
                     if (v.oldPrice && v.oldPrice > v.price) {
-                      const discount = Math.round(
-                        ((v.oldPrice - v.price) / v.oldPrice) * 100,
-                      );
+                      const discount = Math.round(((v.oldPrice - v.price) / v.oldPrice) * 100);
                       if (discount > maxDiscount) maxDiscount = discount;
                     }
                   });
@@ -152,9 +135,7 @@ export default function KakapPage() {
                       {product.imageUrl ? (
                         <div
                           className="w-full h-full bg-cover bg-center"
-                          style={{
-                            backgroundImage: `url(${product.imageUrl})`,
-                          }}
+                          style={{ backgroundImage: `url(${product.imageUrl})` }}
                         ></div>
                       ) : (
                         <span className="text-xs">Bez obrázka</span>
@@ -171,10 +152,7 @@ export default function KakapPage() {
                     {product.variants && product.variants.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mb-3">
                         {product.variants.map((v) => (
-                          <span
-                            key={v.id}
-                            className="text-[10px] bg-[#F2F1EC] text-[#6B6E56] px-2 py-0.5 rounded-full font-medium border border-[#E8E6DF]"
-                          >
+                          <span key={v.id} className="text-[10px] bg-[#F2F1EC] text-[#6B6E56] px-2 py-0.5 rounded-full font-medium border border-[#E8E6DF]">
                             {v.weight}
                           </span>
                         ))}

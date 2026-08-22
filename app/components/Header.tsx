@@ -419,13 +419,13 @@ export default function Header() {
                     Kakao
                   </Link>
                   <Link
-                    href="/zdrave-potraviny/sladidla"
+                    href="/zdrave-potraviny/med a sladidla"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
                     Med a sladidlá
                   </Link>
                   <Link
-                    href="/zdrave-potraviny/kase"
+                    href="/zdrave-potraviny/ranajkove-kase"
                     className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
                   >
                     Raňajkové kaše
@@ -469,13 +469,13 @@ export default function Header() {
               <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                 <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                   <Link
-                    href="/doplnkovy-sortiment/sitka"
+                    href="/doplnkovy-sortiment/sitka-a-filtre"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
                     Sitká a filtre
                   </Link>
                   <Link
-                    href="/doplnkovy-sortiment/dozy"
+                    href="/doplnkovy-sortiment/dozy-na-caj"
                     className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
                   >
                     Dózy na čaj
@@ -661,7 +661,7 @@ export default function Header() {
                       Med a sladidlá
                     </Link>
                     <Link
-                      href="/zdrave-potraviny/kase"
+                      href="/zdrave-potraviny/ranajkove-kase"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Raňajkové kaše
@@ -741,13 +741,13 @@ export default function Header() {
                 {openMobileCategories["doplnky"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
-                      href="/doplnkovy-sortiment/sitka"
+                      href="/doplnkovy-sortiment/sitka-a-filtre"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Sitká a filtre
                     </Link>
                     <Link
-                      href="/doplnkovy-sortiment/dozy"
+                      href="/doplnkovy-sortiment/dozy-na-caj"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Dózy na čaj

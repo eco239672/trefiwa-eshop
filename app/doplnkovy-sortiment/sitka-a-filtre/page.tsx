@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { getProductsBySubCategory } from "../actions";
-import { useCart } from "../context/CartContext";
+import { getProductsBySubCategory } from "../../actions";
+import { useCart } from "../../context/CartContext";
 
 type Product = {
   id: string;
@@ -13,7 +13,7 @@ type Product = {
   imageUrl?: string;
 };
 
-export default function DoplnkovySortimentCategory() {
+export default function SitkaFiltrePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -23,7 +23,7 @@ export default function DoplnkovySortimentCategory() {
   useEffect(() => {
     // ⚠️ Over si, či to máš v Prisma Studio s mäkčeňmi alebo bez.
     // Ak to máš v DB uložené ako "Doplnkový sortiment", prepíš to tu!
-    getProductsBySubCategory("Doplnkovy sortiment")
+    getProductsBySubCategory("Sitká a Filtre")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);
@@ -49,7 +49,7 @@ export default function DoplnkovySortimentCategory() {
     <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col pb-20">
       <section className="px-6 py-16 text-center max-w-4xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-          Doplnkový sortiment
+          Sitká a Filtre
         </h2>
         <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
           Všetko potrebné pre dokonalú prípravu vášho obľúbeného čaju.
