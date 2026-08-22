@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from "react";
 import { getAllProducts } from "./actions";
 import { useCart } from "./context/CartContext";
 
-// Upravený typ podľa databázy
 type Product = {
   id: string;
   name: string;
@@ -19,10 +18,8 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // REFERENCIA NA POSUVNÍK PRE AUTOMATICKÝ POHYB
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Načítanie produktov
   useEffect(() => {
     getAllProducts()
       .then((data: any) => {
@@ -35,7 +32,6 @@ export default function Home() {
       });
   }, []);
 
-  // AUTOMATICKÉ POSÚVANIE
   useEffect(() => {
     if (products.length === 0) return;
 
@@ -49,7 +45,7 @@ export default function Home() {
           carouselRef.current.scrollBy({ left: 300, behavior: "smooth" });
         }
       }
-    }, 3000); // 3000 = 3 sekundy. Pre rýchlejší posun daj napr. 2000
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [products]);
@@ -57,9 +53,9 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col overflow-hidden">
       <div className="flex-grow">
-        {/* HERO SEKCIA */}
-        <section className="px-4 sm:px-6 py-12 md:py-20 text-center max-w-4xl mx-auto mt-4">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 md:mb-6 text-[#2C2E26]">
+        {/* HERO SEKCIA - Zmenšený padding z py-12/20 na py-6/10 a zrušený mt-4 */}
+        <section className="px-4 sm:px-6 py-6 md:py-10 text-center max-w-4xl mx-auto">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-3 md:mb-4 text-[#2C2E26]">
             Z prírody k nám ...
           </h2>
           <p className="text-base md:text-lg lg:text-xl text-[#6B6E56] leading-relaxed px-2">
@@ -68,27 +64,28 @@ export default function Home() {
           </p>
         </section>
 
-        {/* SEKCIA NOVINKY */}
-        <section className="pb-24 w-full">
+        {/* SEKCIA NOVINKY - Zmenšený spodný padding z pb-24 na pb-12 */}
+        <section className="pb-12 w-full">
+          {/* Zmenšený margin pod nadpisom z mb-6/8 na mb-4/5 */}
           <div className="px-4 md:px-8 lg:px-12">
-            <h3 className="text-xl md:text-2xl font-semibold mb-6 md:mb-8 text-[#2C2E26] border-b border-[#E8E6DF] pb-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-4 md:mb-5 text-[#2C2E26] border-b border-[#E8E6DF] pb-3">
               Naše novinky
             </h3>
           </div>
 
           {isLoading ? (
-            <p className="text-center text-[#A3A697] py-10">
+            <p className="text-center text-[#A3A697] py-6">
               Načítavam produkty z databázy...
             </p>
           ) : products.length === 0 ? (
-            <p className="text-center text-[#A3A697] py-10">
+            <p className="text-center text-[#A3A697] py-6">
               Zatiaľ tu nie sú žiadne produkty. Pridaj nejaké cez Prisma Studio!
             </p>
           ) : (
-            /* CAROUSEL (POSUVNÍK) PRODUKTOV - Pridané ref={carouselRef} */
+            /* CAROUSEL - Zmenšený spodný padding z pb-8 na pb-4 */
             <div
               ref={carouselRef}
-              className="flex overflow-x-auto gap-4 sm:gap-6 pb-8 px-4 md:px-8 lg:px-12 snap-x snap-mandatory no-scrollbar w-full scroll-smooth"
+              className="flex overflow-x-auto gap-4 sm:gap-6 pb-4 px-4 md:px-8 lg:px-12 snap-x snap-mandatory no-scrollbar w-full scroll-smooth"
             >
               {products.map((product) => (
                 <div
@@ -145,7 +142,6 @@ export default function Home() {
                 </div>
               ))}
 
-              {/* Vzduchová medzera na konci posuvníka */}
               <div className="flex-none w-[1px] md:w-4"></div>
             </div>
           )}

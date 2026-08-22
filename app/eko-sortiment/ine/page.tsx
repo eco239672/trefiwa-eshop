@@ -17,7 +17,7 @@ export default function HealthyFoodsCategory() {
 
   useEffect(() => {
     // Ťaháme IBA produkty z kategórie "Zdravé potraviny"
-    getProductsBySubCategory("Zdravé potraviny")
+    getProductsBySubCategory("Eko sortiment")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);
@@ -34,10 +34,12 @@ export default function HealthyFoodsCategory() {
 
   return (
     <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col">
+
+
       <div className="flex-grow">
         <section className="px-6 py-16 text-center max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Zdravé potraviny
+            Eko sortiment...
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
             Využite pre svoje to to najlepšie, z toho čo príroda ponúka.
@@ -46,21 +48,13 @@ export default function HealthyFoodsCategory() {
 
         <section className="px-6 pb-20 max-w-7xl mx-auto">
           {isLoading ? (
-            <p className="text-center text-[#A3A697] py-10">
-              Načítavam potraviny z databázy...
-            </p>
+            <p className="text-center text-[#A3A697] py-10">Načítavam potraviny z databázy...</p>
           ) : products.length === 0 ? (
-            <p className="text-center text-[#A3A697] py-10">
-              V kategórii Zdravé potraviny zatiaľ nie sú žiadne produkty.
-            </p>
+             <p className="text-center text-[#A3A697] py-10">V kategórii Zdravé potraviny zatiaľ nie sú žiadne produkty.</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {products.map((product) => (
-                <Link
-                  href={`/produkt/${product.id}`}
-                  key={product.id}
-                  className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group"
-                >
+                <Link href={`/produkt/${product.id}`} key={product.id} className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group">
                   <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] group-hover:bg-[#E8E6DF] transition-colors">
                     Obrázok produktu
                   </div>
@@ -71,12 +65,10 @@ export default function HealthyFoodsCategory() {
                     {product.name}
                   </h4>
                   <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#F9F8F6]">
-                    <span className="font-bold text-xl text-[#2C2E26]">
-                      {product.price}
-                    </span>
-                    <button
+                    <span className="font-bold text-xl text-[#2C2E26]">{product.price}</span>
+                    <button 
                       onClick={(e) => {
-                        e.preventDefault();
+                        e.preventDefault(); 
                         addToCart(product);
                       }}
                       className="bg-[#F9F8F6] border border-[#D5D3C9] px-3 py-1.5 rounded text-sm font-medium hover:bg-[#5C6B46] hover:text-white hover:border-[#5C6B46] transition-all active:scale-95"
@@ -94,72 +86,41 @@ export default function HealthyFoodsCategory() {
         <section className="bg-white py-20 border-t border-b border-[#E8E6DF]">
           <div className="max-w-5xl mx-auto px-6">
             <div className="text-center mb-16">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#8A9A5B] block mb-2">
-                Pre vaše zdravie
-              </span>
-              <h3 className="text-3xl md:text-4xl font-bold text-[#2C2E26]">
-                Zistite viac o našich potravinách
-              </h3>
+              <span className="text-xs font-bold uppercase tracking-widest text-[#8A9A5B] block mb-2">Pre vaše zdravie</span>
+              <h3 className="text-3xl md:text-4xl font-bold text-[#2C2E26]">Zistite viac o našich potravinách</h3>
             </div>
             <div className="space-y-12 text-[#6B6E56] leading-relaxed text-base md:text-lg">
-              <div
-                id="sekcia-1"
-                className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32"
-              >
+              <div id="sekcia-1" className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32">
                 <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
-                    1
-                  </span>
+                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">1</span>
                   Podsekcia 1
                 </h4>
-                <p>
-                  Miesto pre váš text k prvej podsekcii zdravých potravín...
-                </p>
+                <p>Miesto pre váš text k prvej podsekcii zdravých potravín...</p>
               </div>
-              <div
-                id="sekcia-2"
-                className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32"
-              >
+              <div id="sekcia-2" className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32">
                 <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
-                    2
-                  </span>
+                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">2</span>
                   Podsekcia 2
                 </h4>
                 <p>Miesto pre váš text k druhej podsekcii...</p>
               </div>
-              <div
-                id="sekcia-3"
-                className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32"
-              >
+              <div id="sekcia-3" className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32">
                 <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
-                    3
-                  </span>
+                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">3</span>
                   Podsekcia 3
                 </h4>
                 <p>Miesto pre váš text k tretej podsekcii...</p>
               </div>
-              <div
-                id="sekcia-4"
-                className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32"
-              >
+              <div id="sekcia-4" className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32">
                 <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
-                    4
-                  </span>
+                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">4</span>
                   Podsekcia 4
                 </h4>
                 <p>Miesto pre váš text k štvrtej podsekcii...</p>
               </div>
-              <div
-                id="sekcia-5"
-                className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32"
-              >
+              <div id="sekcia-5" className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32">
                 <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
-                    5
-                  </span>
+                  <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">5</span>
                   Podsekcia 5
                 </h4>
                 <p>Miesto pre váš text k piatej podsekcii...</p>
