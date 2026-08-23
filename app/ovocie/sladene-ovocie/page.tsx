@@ -10,20 +10,20 @@ type Product = {
   category: string;
 };
 
-export default function SladeneOvociePage() {
+export default function OvociePage() {
   const [cart, setCart] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Ťaháme IBA produkty z kategórie "Sušené ovocie"
+    // Ťaháme IBA produkty z kategórie "Sladene ovocie"
     getProductsBySubCategory("Sladené ovocie")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error("Chyba pri načítaní sušeného ovocia:", err);
+        console.error("Chyba pri načítaní sladeneho ovocia:", err);
         setIsLoading(false);
       });
   }, []);

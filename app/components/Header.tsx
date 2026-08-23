@@ -436,27 +436,21 @@ export default function Header() {
 
             <div className="relative group py-4">
               <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
-                Sušené ovocie
+                Ovocie
               </span>
               <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                 <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                   <Link
-                    href="/susene-ovocie/banan-a-jablko"
+                    href="/susene-ovocie/susene-ovocie"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
-                    Banan a jablko
+                    Sušené ovocie
                   </Link>
                   <Link
-                    href="/susene-ovocie/citron"
+                    href="/susene-ovocie/sladene-ovocie"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
-                    Citron
-                  </Link>
-                  <Link
-                    href="/susene-ovocie/ceresna"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
-                  >
-                    Čerešňa
+                    Sladené ovocie
                   </Link>
                 </div>
               </div>
@@ -675,7 +669,7 @@ export default function Header() {
                   className="flex justify-between items-center cursor-pointer"
                   onClick={() => toggleMobileCategory("ovocie")}
                 >
-                  <span className="hover:text-[#5C6B46]">Sušené ovocie</span>
+                  <span className="hover:text-[#5C6B46]">Ovocie</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -704,12 +698,6 @@ export default function Header() {
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Sladené ovocie
-                    </Link>
-                    <Link
-                      href="/susene-ovocie/ceresna"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Čerešňa
                     </Link>
                   </div>
                 )}
