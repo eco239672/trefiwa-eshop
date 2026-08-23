@@ -67,8 +67,7 @@ export default function AnglickeCajePage() {
             Anglické čaje a čajové zmesi
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Sladké a svieže zmesi plné skutočného ovocia. Skvelé pre deti a na
-            osvieženie bez kofeínu.
+            Stará osvedčená klasika a svieže zmesi plné skutočného ovocia.
           </p>
         </section>
 

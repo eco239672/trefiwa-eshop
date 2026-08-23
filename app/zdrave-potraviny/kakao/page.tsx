@@ -19,7 +19,7 @@ type Product = {
   }[];
 };
 
-export default function KakapPage() {
+export default function KakaoPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sortOption, setSortOption] = useState("najpredavanejsie");
