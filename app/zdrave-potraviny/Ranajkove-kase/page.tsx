@@ -25,13 +25,13 @@ export default function KasePage() {
   const [sortOption, setSortOption] = useState("najpredavanejsie");
 
   useEffect(() => {
-    getProductsBySubCategory("Ranajkové kaše")
+    getProductsBySubCategory("Raňajkové kaše")
       .then((data: any) => {
         setProducts(data);
         setIsLoading(false);
       })
       .catch((err: any) => {
-        console.error("Chyba pri načítaní Kakao:", err);
+        console.error("Chyba pri načítaní ranajkove kase:", err);
         setIsLoading(false);
       });
   }, []);
@@ -64,7 +64,7 @@ export default function KasePage() {
       <div className="flex-grow max-w-7xl mx-auto w-full px-6 py-16">
         <section className="text-center max-w-4xl mx-auto mb-12">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Ranajkové kaše
+            Raňajkové kaše
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
             Sladké a svieže zmesi plné skutočného ovocia. Skvelé pre deti a na
