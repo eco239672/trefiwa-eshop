@@ -419,7 +419,7 @@ export default function Header() {
                     Kakao
                   </Link>
                   <Link
-                    href="/zdrave-potraviny/med a sladidla"
+                    href="/zdrave-potraviny/med-a-sladidla"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
                     Med a sladidlá
@@ -655,7 +655,7 @@ export default function Header() {
                       Orechy a semienka
                     </Link>
                     <Link
-                      href="/zdrave-potraviny/sladidla"
+                      href="/zdrave-potraviny/med-a-sladidla"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Med a sladidlá
@@ -694,16 +694,16 @@ export default function Header() {
                 {openMobileCategories["ovocie"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
-                      href="/susene-ovocie/banan-a-jablko"
+                      href="/susene-ovocie/susene-ovocie"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Banan a jablko
+                      Sušené ovocie
                     </Link>
                     <Link
-                      href="/susene-ovocie/citron"
+                      href="/susene-ovocie/sladene-ovocie"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Citron
+                      Sladené ovocie
                     </Link>
                     <Link
                       href="/susene-ovocie/ceresna"
