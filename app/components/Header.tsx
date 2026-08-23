@@ -485,16 +485,16 @@ export default function Header() {
               <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                 <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                   <Link
-                    href="/zvyhodnene-balicky/darcekove"
+                    href="/zvyhodnene-balickz/darcekove-sady"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
                     Darčekové sady
                   </Link>
                   <Link
-                    href="/zvyhodnene-balicky/degustacne"
+                    href="/degustacne-sady/darcekove"
                     className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
                   >
-                    Degustačné balíčky
+                    Degustačné sady
                   </Link>
                 </div>
               </div>

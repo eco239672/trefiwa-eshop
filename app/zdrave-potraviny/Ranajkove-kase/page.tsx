@@ -31,7 +31,7 @@ export default function KasePage() {
         setIsLoading(false);
       })
       .catch((err: any) => {
-        console.error("Chyba pri načítaní ranajkove kase:", err);
+        console.error("Chyba pri načítaní raňajkových kaší:", err);
         setIsLoading(false);
       });
   }, []);
@@ -62,13 +62,14 @@ export default function KasePage() {
     <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col">
       {/* HLAVNÝ OBSAH */}
       <div className="flex-grow max-w-7xl mx-auto w-full px-6 py-16">
+        {/* OPRAVENÝ NADPIS A POPIS */}
         <section className="text-center max-w-4xl mx-auto mb-12">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
             Raňajkové kaše
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Sladké a svieže zmesi plné skutočného ovocia. Skvelé pre deti a na
-            osvieženie bez kofeínu.
+            Vyvážené a chutné raňajkové kaše pre dokonalý štart do vášho dňa.
+            Rýchla príprava, zdravé zloženie a energia na celé predpoludnie.
           </p>
         </section>
 
@@ -77,8 +78,9 @@ export default function KasePage() {
             Načítavam produkty...
           </p>
         ) : products.length === 0 ? (
+          /* OPRAVENÝ TEXT PRI PRÁZDNEJ KATEGÓRII */
           <p className="text-center text-[#A3A697] py-10">
-            V kategórii Anglické čaje zatiaľ nie sú žiadne produkty.
+            V kategórii Raňajkové kaše zatiaľ nie sú žiadne produkty.
           </p>
         ) : (
           <>
