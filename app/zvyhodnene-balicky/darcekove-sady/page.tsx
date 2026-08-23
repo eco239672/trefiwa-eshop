@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { getProductsBySubCategory } from "../actions";
+import { getProductsBySubCategory } from "../../actions";
 
 type Product = {
   id: string;
