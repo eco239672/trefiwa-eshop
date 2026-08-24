@@ -16,7 +16,7 @@ export default function HealthyFoodsCategory() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Ťaháme IBA produkty z kategórie "Zdravé potraviny"
+    // Ťaháme IBA produkty z kategórie "Eko-sortiment"
     getProductsBySubCategory("Eko sortiment")
       .then((data) => {
         setProducts(data);

@@ -507,16 +507,16 @@ export default function Header() {
               <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                 <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                   <Link
-                    href="/eko-sortiment/slamky"
+                    href="/eko-sortiment/jednorazovy eko riad"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
-                    Znovupoužiteľné slamky
+                    Jednorazový eko-riad
                   </Link>
                   <Link
-                    href="/eko-sortiment/tasky"
+                    href="/eko-sortiment/ostatne"
                     className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
                   >
-                    Eko tašky
+                    Ostatné
                   </Link>
                 </div>
               </div>
@@ -809,13 +809,13 @@ export default function Header() {
                 {openMobileCategories["eko"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
-                      href="/eko-sortiment/jednorazovy-eko-riad "
+                      href="/eko-sortiment/jednorazovy-eko-riad"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Jednorázový eko-riad
                     </Link>
                     <Link
-                      href="/eko-sortiment/jednorazovy-eko-riad"
+                      href="/eko-sortiment/ostatne"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Iné...
