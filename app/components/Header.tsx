@@ -770,13 +770,13 @@ export default function Header() {
                 {openMobileCategories["balicky"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
-                      href="/zvyhodnene-balicky/darcekove"
+                      href="/zvyhodnene-balicky/darcekove-sady"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Darčekové sady
                     </Link>
                     <Link
-                      href="/zvyhodnene-balicky/degustacne"
+                      href="/zvyhodnene-balicky/degustacne-sady"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Degustačné sady
