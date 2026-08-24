@@ -10,13 +10,13 @@ type Product = {
   category: string;
 };
 
-export default function HealthyFoodsCategory() {
+export default function EkoSortimentCategory() {
   const [cart, setCart] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Ťaháme IBA produkty z kategórie "Zdravé potraviny"
+    // Ťaháme IBA produkty z kategórie "Eko-sortiment"
     getProductsBySubCategory("Eko sortiment")
       .then((data) => {
         setProducts(data);
@@ -37,7 +37,7 @@ export default function HealthyFoodsCategory() {
       <div className="flex-grow">
         <section className="px-6 py-16 text-center max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Eko sortiment...
+            Jednorazový eko riad
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
             Využite pre svoje to to najlepšie, z toho čo príroda ponúka.

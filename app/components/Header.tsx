@@ -809,16 +809,16 @@ export default function Header() {
                 {openMobileCategories["eko"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
-                      href="/eko-sortiment/slamky"
+                      href="/eko-sortiment/jednorazovy-eko-riad "
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Znovupoužiteľné slamky
+                      Jednorázový eko-riad
                     </Link>
                     <Link
-                      href="/eko-sortiment/tasky"
+                      href="/eko-sortiment/jednorazovy-eko-riad"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Eko tašky
+                      Iné...
                     </Link>
                   </div>
                 )}
