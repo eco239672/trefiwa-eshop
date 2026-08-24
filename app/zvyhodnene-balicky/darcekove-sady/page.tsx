@@ -19,7 +19,7 @@ type Product = {
   }[];
 };
 
-export default function DarcekoveSadyPage() {
+export default function ZvyhodneneBalickyPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sortOption, setSortOption] = useState("najpredavanejsie");

@@ -10,7 +10,7 @@ type Product = {
   category: string;
 };
 
-export default function sladeneOvociePage() {
+export default function OvociePage() {
   const [cart, setCart] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);

@@ -485,13 +485,13 @@ export default function Header() {
               <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                 <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                   <Link
-                    href="/zvyhodnene-balickz/darcekove-sady"
+                    href="/zvyhodnene-balicky/darcekove-sady"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
                     Darčekové sady
                   </Link>
                   <Link
-                    href="/degustacne-sady/darcekove"
+                    href="/zvyhodnene-balicky/degustacne-sady"
                     className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
                   >
                     Degustačné sady
@@ -779,7 +779,7 @@ export default function Header() {
                       href="/zvyhodnene-balicky/degustacne"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Degustačné balíčky
+                      Degustačné sady
                     </Link>
                   </div>
                 )}
