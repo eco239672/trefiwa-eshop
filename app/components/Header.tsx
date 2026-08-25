@@ -416,7 +416,7 @@ export default function Header() {
                     href="/zdrave-potraviny/kakao"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
-                    Kakao
+                    Kakao + energia
                   </Link>
                   <Link
                     href="/zdrave-potraviny/med-a-sladidla"

@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    font-family: "Bradley Hand ITC", "Bradley Hand", cursive;
+  }
+}
+
 @layer utilities {
   /* Skryje scrollbar pre Chrome, Safari a Opera */
   .no-scrollbar::-webkit-scrollbar {
@@ -11,18 +18,4 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-}
-@layer utilities {
-  /* Skryje scrollbar pre Chrome, Safari a Opera */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  /* Skryje scrollbar pre Edge a Firefox */
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-}
-body {
-  font-family: "Bradley Hand ITC", "Bradley Hand", cursive;
 }
