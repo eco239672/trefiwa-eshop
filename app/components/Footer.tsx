@@ -63,47 +63,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Kategórie */}
-        <div>
-          <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-sm">
-            Kategórie
-          </h4>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <Link
-                href="/caje/cinske-caje"
-                className="hover:text-white transition-all duration-300 hover:translate-x-1 inline-block"
-              >
-                Sypané čaje
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/zdrave-potraviny"
-                className="hover:text-white transition-all duration-300 hover:translate-x-1 inline-block"
-              >
-                Zdravé potraviny
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/susene-ovocie"
-                className="hover:text-white transition-all duration-300 hover:translate-x-1 inline-block"
-              >
-                Sušené ovocie
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/doplnkovy-sortiment"
-                className="hover:text-white transition-all duration-300 hover:translate-x-1 inline-block"
-              >
-                Doplnkový sortiment
-              </Link>
-            </li>
-          </ul>
-        </div>
-
         {/* Odber noviniek */}
         <div>
           <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-sm">
