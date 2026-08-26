@@ -60,14 +60,14 @@ export default function OrechyPage() {
   return (
     <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col">
       <div className="flex-grow max-w-7xl mx-auto w-full px-6 py-16">
-        
         {/* OPRAVENÉ NADPISY A TEXTY */}
         <section className="text-center max-w-4xl mx-auto mb-12">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Orechy a semienka
+            Orechy, mandle a semienka
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Praktické a dizajnové dózy pre správne uskladnenie vašich obľúbených čajov, aby si dlhodobo zachovali svoju čerstvosť a dokonalú arómu.
+            Chrumkavá dávka zdravia z prírody dodá vášmu telu porciu zdravých
+            tukov,proteínov a minerálov na celý deň.
           </p>
         </section>
 
@@ -87,8 +87,19 @@ export default function OrechyPage() {
               </span>
 
               <div className="flex items-center gap-2 text-sm text-[#6B6E56] ml-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-[#8A9A5B]">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-4 h-4 text-[#8A9A5B]"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25"
+                  />
                 </svg>
                 <span>Radiť podľa:</span>
                 <select
@@ -107,13 +118,16 @@ export default function OrechyPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {sortedProducts.map((product) => {
-                const isAvailable = (product.stock !== undefined ? product.stock : 1) > 0;
+                const isAvailable =
+                  (product.stock !== undefined ? product.stock : 1) > 0;
 
                 let maxDiscount = 0;
                 if (product.variants) {
                   product.variants.forEach((v) => {
                     if (v.oldPrice && v.oldPrice > v.price) {
-                      const discount = Math.round(((v.oldPrice - v.price) / v.oldPrice) * 100);
+                      const discount = Math.round(
+                        ((v.oldPrice - v.price) / v.oldPrice) * 100,
+                      );
                       if (discount > maxDiscount) maxDiscount = discount;
                     }
                   });
@@ -135,7 +149,9 @@ export default function OrechyPage() {
                       {product.imageUrl ? (
                         <div
                           className="w-full h-full bg-cover bg-center"
-                          style={{ backgroundImage: `url(${product.imageUrl})` }}
+                          style={{
+                            backgroundImage: `url(${product.imageUrl})`,
+                          }}
                         ></div>
                       ) : (
                         <span className="text-xs">Bez obrázka</span>
@@ -152,7 +168,10 @@ export default function OrechyPage() {
                     {product.variants && product.variants.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mb-3">
                         {product.variants.map((v) => (
-                          <span key={v.id} className="text-[10px] bg-[#F2F1EC] text-[#6B6E56] px-2 py-0.5 rounded-full font-medium border border-[#E8E6DF]">
+                          <span
+                            key={v.id}
+                            className="text-[10px] bg-[#F2F1EC] text-[#6B6E56] px-2 py-0.5 rounded-full font-medium border border-[#E8E6DF]"
+                          >
                             {v.weight}
                           </span>
                         ))}

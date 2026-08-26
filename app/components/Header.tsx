@@ -410,13 +410,13 @@ export default function Header() {
                     href="/zdrave-potraviny/orechy-a-semienka"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
-                    Orechy a semienka
+                    Orechy, mandle a semienka
                   </Link>
                   <Link
                     href="/zdrave-potraviny/kakao"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
-                    Kakao + energia
+                    Kakao
                   </Link>
                   <Link
                     href="/zdrave-potraviny/med-a-sladidla"
