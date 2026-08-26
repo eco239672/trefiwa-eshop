@@ -52,7 +52,8 @@ export default function SalkyaPohareNaCajPage() {
           Šálky a poháre na čaj
         </h2>
         <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-          Všetko potrebné pre dokonalú prípravu vášho obľúbeného čaju.
+          Význam šálky nie je v tom ako vyzerá a z čoho je vyrobená, ale v tom
+          čo v sebe ukrýva. Dúšok sily, pokoja, zdravia.
         </p>
       </section>
 

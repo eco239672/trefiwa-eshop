@@ -52,7 +52,8 @@ export default function CajnikyPage() {
           Čajníky
         </h2>
         <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-          Všetko potrebné pre dokonalú prípravu vášho obľúbeného čaju.
+          Čajník je tichým srdcom kuchyne, ktorý premieňa vodu na teplé hrejivé
+          objatie a dúšok relaxu.
         </p>
       </section>
 

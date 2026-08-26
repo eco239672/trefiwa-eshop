@@ -52,7 +52,8 @@ export default function SitkaaFiltrePage() {
           Sitká a Filtre
         </h2>
         <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-          Všetko potrebné pre dokonalú prípravu vášho obľúbeného čaju.
+          Kovová sieťka plná dier, čo s vodou tvorí tichý mier, lístky chytí do
+          dlane, v šálke iba chuť a vôňa ostane.
         </p>
       </section>
 

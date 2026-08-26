@@ -52,7 +52,8 @@ export default function CajoveLyzickyPage() {
           Čajové lyžičky
         </h2>
         <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-          Všetko potrebné pre dokonalú prípravu vášho obľúbeného čaju.
+          Malá strieborná tanečnica ladne víriaca nápoj v šálke prinášajúcej
+          relax a pokoj. Tichý cinkot a tanec v šálke spríjemňuje chvíle relaxu.
         </p>
       </section>
 
