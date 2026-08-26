@@ -13,7 +13,7 @@ type Product = {
   imageUrl?: string;
 };
 
-export default function SitkaFiltrePage() {
+export default function SitkaaFiltrePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
