@@ -463,16 +463,28 @@ export default function Header() {
               <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                 <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
                   <Link
+                    href="/doplnkovy-sortiment/dozy-na-caj"
+                    className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
+                  >
+                    Čajníky
+                  </Link>
+                  <Link
                     href="/doplnkovy-sortiment/sitka-a-filtre"
                     className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
                     Sitká a filtre
                   </Link>
                   <Link
-                    href="/doplnkovy-sortiment/dozy-na-caj"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
+                    href="/doplnkovy-sortiment/sitka-a-filtre"
+                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                   >
-                    Dózy na čaj
+                    Šálky a poháre na čaj
+                  </Link>
+                  <Link
+                    href="/doplnkovy-sortiment/sitka-a-filtre"
+                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                  >
+                    Čajové lyžičky
                   </Link>
                 </div>
               </div>
@@ -729,6 +741,12 @@ export default function Header() {
                 {openMobileCategories["doplnky"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
+                      href="/doplnkovy-sortiment/dozy-na-caj"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Čajníky
+                    </Link>
+                    <Link
                       href="/doplnkovy-sortiment/sitka-a-filtre"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -738,7 +756,13 @@ export default function Header() {
                       href="/doplnkovy-sortiment/dozy-na-caj"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Dózy na čaj
+                      Šálky a poháre na čaj
+                    </Link>
+                    <Link
+                      href="/doplnkovy-sortiment/sitka-a-filtre"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Čajové lyžičky
                     </Link>
                   </div>
                 )}
