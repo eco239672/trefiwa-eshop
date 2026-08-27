@@ -23,7 +23,7 @@ export default function SitkaaFiltrePage() {
   useEffect(() => {
     // ⚠️ Over si, či to máš v Prisma Studio s mäkčeňmi alebo bez.
     // Ak to máš v DB uložené ako "Doplnkový sortiment", prepíš to tu!
-    getProductsBySubCategory("Sitká a Filtre")
+    getProductsBySubCategory("Sitká a filtre")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);
