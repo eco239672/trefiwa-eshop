@@ -23,7 +23,7 @@ export default function CajnikyPage() {
   useEffect(() => {
     // ⚠️ Over si, či to máš v Prisma Studio s mäkčeňmi alebo bez.
     // Ak to máš v DB uložené ako "Doplnkový sortiment", prepíš to tu!
-    getProductsBySubCategory("Čajniky")
+    getProductsBySubCategory("Čajníky")
       .then((data) => {
         setProducts(data);
         setIsLoading(false);
