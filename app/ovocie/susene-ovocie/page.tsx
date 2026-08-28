@@ -33,7 +33,7 @@ export default function OvociePage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col">
+    <main className="min-h-screen bg-[#FAF4E8] text-[#3D4035] flex flex-col">
       <div className="flex-grow">
         <section className="px-6 py-16 text-center max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">

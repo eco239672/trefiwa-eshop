@@ -58,7 +58,7 @@ export default function CajoveLyzickyPage() {
   });
 
   return (
-    <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col">
+    <main className="min-h-screen bg-[#FAF4E8] text-[#3D4035] flex flex-col">
       <div className="flex-grow max-w-7xl mx-auto w-full px-6 py-16">
         {/* NADPIS A POPIS */}
         <section className="text-center max-w-4xl mx-auto mb-12">

@@ -891,7 +891,7 @@ export default function Header() {
                       handleLogout();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="w-full bg-[#D84949] text-white py-3 rounded-lg text-center hover:bg-red-700 transition-colors"
+                    className="w-full bg-[#E6DCC8] text-white py-3 rounded-lg text-center hover:bg-red-700 transition-colors"
                   >
                     Odhlásiť sa
                   </button>

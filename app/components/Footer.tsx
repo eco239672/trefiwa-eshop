@@ -2,15 +2,13 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    // Zmenšený padding (pt-16 -> pt-8, pb-8 -> pb-4)
-    <footer className="bg-[#2C2E26] text-[#D5D3C9] pt-10 pb-6 mt-auto w-full">
-      {/* Zmenšená medzera medzi stĺpcami (gap-12 -> gap-6) */}
+    // PRIDANÉ: rounded-t-[40px] pre krásne zaoblené horné rohy tmavej (zelenej) časti
+    <footer className="bg-[#2C2E26] text-[#D5D3C9] pt-10 pb-6 mt-auto w-full rounded-t-[40px]">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* Značka a Popis */}
         <div>
           <Link
             href="/"
-            // Zmenšený margin dole (mb-6 -> mb-4)
             className="text-3xl font-bold tracking-widest text-[#8A9A5B] hover:text-[#A3A697] transition-colors duration-300 block mb-4"
           >
             TREFIWA
@@ -26,7 +24,6 @@ export default function Footer() {
           <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-sm">
             Informácie
           </h4>
-          {/* Zhustené riadky (space-y-3 -> space-y-2) */}
           <ul className="space-y-2 text-sm">
             <li>
               <Link
@@ -75,7 +72,6 @@ export default function Footer() {
             <input
               type="email"
               placeholder="Váš e-mail"
-              // Trosku nižšie input pole (py-3 -> py-2.5)
               className="bg-[#3D4035] border border-[#5C6B46] text-white px-4 py-2.5 rounded-lg focus:outline-none focus:border-[#8A9A5B] focus:ring-1 focus:ring-[#8A9A5B] transition-all duration-300 text-sm placeholder-[#8A9A5B]"
             />
             <button
@@ -89,7 +85,6 @@ export default function Footer() {
       </div>
 
       {/* Spodný riadok (Copyright) */}
-      {/* Menšie odsadenie od zhora (mt-16 -> mt-10, pt-8 -> pt-6) */}
       <div className="max-w-7xl mx-auto px-6 mt-10 pt-6 border-t border-[#3D4035] flex flex-col md:flex-row justify-center items-center text-xs text-[#A3A697]">
         <p>&copy; 2026 TREFIWA. Všetky práva vyhradené.</p>
       </div>

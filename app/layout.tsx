@@ -25,9 +25,7 @@ export default function RootLayout({
           <div className="flex flex-col min-h-screen">
             <Header />
             <CartSidebar /> {/* Náš nový vysúvací košík */}
-            <div className="flex-grow">
-              {children}
-            </div>
+            <div className="flex-grow bg-[#FAF4E8]">{children}</div>
             <Footer />
           </div>
         </CartProvider>
