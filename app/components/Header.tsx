@@ -100,7 +100,6 @@ export default function Header() {
             isScrolled ? "bg-white/80 backdrop-blur-md" : "bg-[#F9F8F6]"
           }`}
         >
-          {/* ZMENA: Odstránené obmedzenie šírky */}
           <div className="hidden lg:flex space-x-4 items-center w-full justify-end">
             <div className="flex items-center">
               <span>
@@ -125,7 +124,6 @@ export default function Header() {
             isScrolled ? "bg-white/80 backdrop-blur-md" : "bg-white"
           }`}
         >
-          {/* ZMENA: Odstránené obmedzenie šírky, pridaný w-full a väčší padding px-12 */}
           <div className="px-4 md:px-8 lg:px-12 py-4 grid grid-cols-3 items-center w-full relative">
             {/* ĽAVÁ STRANA (Hamburger ikona + LOGO) */}
             <div className="flex items-center justify-start gap-4">
@@ -287,7 +285,6 @@ export default function Header() {
                   </svg>
                   {cart.length > 0 && (
                     <span className="absolute -top-1.5 -right-2 bg-[#D84949] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-sm">
-                      {/* OPRAVA: Number(item.quantity) || 1, aby to nevyhadzovalo NaN chyby */}
                       {cart.reduce(
                         (total, item) => total + (Number(item.quantity) || 1),
                         0,
@@ -300,14 +297,13 @@ export default function Header() {
                 </span>
               </div>
 
-              {/* SOCIÁLNE SIETE (FB, IG) - Úplne vpravo */}
+              {/* SOCIÁLNE SIETE (FB, IG) */}
               <div className="hidden sm:flex items-center space-x-2 border-l border-[#E8E6DF] pl-3 md:pl-4">
                 <a
                   href="https://www.facebook.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#3D4035] hover:text-[#5C6B46] transition-colors p-1"
-                  aria-label="Facebook"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -328,7 +324,6 @@ export default function Header() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#3D4035] hover:text-[#5C6B46] transition-colors p-1"
-                  aria-label="Instagram"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -359,181 +354,178 @@ export default function Header() {
         </div>
 
         {/* --- 3. SPODNÉ ZELENÉ MENU PRE PC --- */}
-        <div
-          className={`hidden md:block w-full text-white transition-all duration-300 ${
-            isScrolled ? "bg-[#5C6B46]/85 backdrop-blur-md" : "bg-[#5C6B46]"
-          }`}
-        >
-          {/* Menu zostáva vycentrované na stred s určitou šírkou, ak by si ho chcel roztiahnuť tiež, zmeň max-w-[1500px] na w-full */}
-          <nav className="max-w-[1500px] mx-auto px-4 md:px-8 lg:px-12 flex flex-wrap gap-x-8 text-sm font-semibold uppercase tracking-widest items-center justify-center">
-            <div className="relative group py-4">
-              <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
-                Čaje
-              </span>
-              <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
-                  <Link
-                    href="/caje/cinske-caje"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
-                  >
-                    Čínske čaje a zmesi
-                  </Link>
-                  <Link
-                    href="/caje/anglicke-caje"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
-                  >
-                    Anglické čaje a zmesi
-                  </Link>
-                  <Link
-                    href="/caje/relaxacne-zmesi"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
-                  >
-                    Relaxačné zmesi
-                  </Link>
-                  <Link
-                    href="/caje/liecivky"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
-                  >
-                    Liečivky
-                  </Link>
+        <div className="w-full bg-white pb-4 px-4 md:px-6 lg:px-8">
+          <div
+            className={`hidden md:block w-full max-w-[1500px] mx-auto rounded-2xl text-white transition-all duration-300 ${
+              isScrolled
+                ? "bg-[#5C6B46]/85 backdrop-blur-md shadow-lg"
+                : "bg-[#5C6B46]"
+            }`}
+          >
+            <nav className="px-4 md:px-8 lg:px-12 flex flex-wrap gap-x-8 text-sm font-semibold uppercase tracking-widest items-center justify-center">
+              {/* Čaje */}
+              <div className="relative group py-4">
+                <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
+                  Čaje
+                </span>
+                <div className="absolute left-0 top-full pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                  <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg rounded-tr-lg flex flex-col border border-[#E8E6DF] font-medium tracking-wide">
+                    <Link
+                      href="/caje/cinske-caje"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                    >
+                      Čínske čaje a zmesi
+                    </Link>
+                    <Link
+                      href="/caje/anglicke-caje"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                    >
+                      Anglické čaje a zmesi
+                    </Link>
+                    <Link
+                      href="/caje/relaxacne-zmesi"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                    >
+                      Relaxačné zmesi
+                    </Link>
+                    <Link
+                      href="/caje/liecivky"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors rounded-b-lg"
+                    >
+                      Liečivky
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="relative group py-4">
-              <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
-                Zdravé potraviny
-              </span>
-              <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
-                  <Link
-                    href="/zdrave-potraviny/orechy-a-semienka"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
-                  >
-                    Orechy, mandle a semienka
-                  </Link>
-                  <Link
-                    href="/zdrave-potraviny/kakao"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
-                  >
-                    Kakao
-                  </Link>
-                  <Link
-                    href="/zdrave-potraviny/med-a-sladidla"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
-                  >
-                    Med a sladidlá
-                  </Link>
-                  <Link
-                    href="/zdrave-potraviny/ranajkove-kase"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
-                  >
-                    Raňajkové kaše
-                  </Link>
+              {/* Zdravé potraviny */}
+              <div className="relative group py-4">
+                <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
+                  Zdravé potraviny
+                </span>
+                <div className="absolute left-0 top-full pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                  <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg rounded-tr-lg flex flex-col border border-[#E8E6DF] font-medium tracking-wide">
+                    <Link
+                      href="/zdrave-potraviny/orechy-a-semienka"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                    >
+                      Orechy a semienka
+                    </Link>
+                    <Link
+                      href="/zdrave-potraviny/kakao"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                    >
+                      Kakao
+                    </Link>
+                    <Link
+                      href="/zdrave-potraviny/med-a-sladidla"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                    >
+                      Med a sladidlá
+                    </Link>
+                    <Link
+                      href="/zdrave-potraviny/ranajkove-kase"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors rounded-b-lg"
+                    >
+                      Raňajkové kaše
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="relative group py-4">
-              <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
-                Ovocie
-              </span>
-              <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
-                  <Link
-                    href="/ovocie/susene-ovocie"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
-                  >
-                    Sušené ovocie
-                  </Link>
-                  <Link
-                    href="/ovocie/sladene-ovocie"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
-                  >
-                    Sladené ovocie
-                  </Link>
+              {/* Ovocie */}
+              <div className="relative group py-4">
+                <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
+                  Ovocie
+                </span>
+                <div className="absolute left-0 top-full pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                  <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg rounded-tr-lg flex flex-col border border-[#E8E6DF] font-medium tracking-wide">
+                    <Link
+                      href="/ovocie/susene-ovocie"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                    >
+                      Sušené ovocie
+                    </Link>
+                    <Link
+                      href="/ovocie/sladene-ovocie"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors rounded-b-lg"
+                    >
+                      Sladené ovocie
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="relative group py-4">
-              <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
-                Doplnkový sortiment
-              </span>
-              <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
-                  <Link
-                    href="/doplnkovy-sortiment/cajniky"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
-                  >
-                    Čajníky
-                  </Link>
-                  <Link
-                    href="/doplnkovy-sortiment/sitka-a-filtre"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
-                  >
-                    Sitká a filtre
-                  </Link>
-                  <Link
-                    href="/doplnkovy-sortiment/salky-a-pohare-na-caj"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
-                  >
-                    Šálky a poháre na čaj
-                  </Link>
-                  <Link
-                    href="/doplnkovy-sortiment/cajove-lyzicky"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
-                  >
-                    Čajové lyžičky
-                  </Link>
+              {/* Doplnkový sortiment */}
+              <div className="relative group py-4">
+                <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
+                  Doplnkový sortiment
+                </span>
+                <div className="absolute left-0 top-full pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                  <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg rounded-tr-lg flex flex-col border border-[#E8E6DF] font-medium tracking-wide">
+                    <Link
+                      href="/doplnkovy-sortiment/sitka-a-filtre"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                    >
+                      Sitká a filtre
+                    </Link>
+                    <Link
+                      href="/doplnkovy-sortiment/dozy-na-caj"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors rounded-b-lg"
+                    >
+                      Dózy na čaj
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="relative group py-4">
-              <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
-                Zvýhodnené balíčky
-              </span>
-              <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
-                  <Link
-                    href="/zvyhodnene-balicky/darcekove-sady"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
-                  >
-                    Darčekové sady
-                  </Link>
-                  <Link
-                    href="/zvyhodnene-balicky/degustacne-sady"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
-                  >
-                    Degustačné sady
-                  </Link>
+              {/* Zvýhodnené balíčky */}
+              <div className="relative group py-4">
+                <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
+                  Zvýhodnené balíčky
+                </span>
+                <div className="absolute left-0 top-full pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                  <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg rounded-tr-lg flex flex-col border border-[#E8E6DF] font-medium tracking-wide">
+                    <Link
+                      href="/zvyhodnene-balicky/darcekove"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                    >
+                      Darčekové sady
+                    </Link>
+                    <Link
+                      href="/zvyhodnene-balicky/degustacne"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors rounded-b-lg"
+                    >
+                      Degustačné balíčky
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="relative group py-4">
-              <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
-                Eko sortiment
-              </span>
-              <div className="absolute left-0 top-full w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg flex flex-col border border-[#E8E6DF] border-t-0 font-medium tracking-wide">
-                  <Link
-                    href="/eko-sortiment/jednorazovy-eko-riad"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
-                  >
-                    Jednorazový eko-riad
-                  </Link>
-                  <Link
-                    href="/eko-sortiment/ostatne"
-                    className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors"
-                  >
-                    Ostatné
-                  </Link>
+              {/* Eko sortiment */}
+              <div className="relative group py-4">
+                <span className="hover:text-[#D5D3C9] flex items-center gap-1.5 cursor-pointer transition-colors">
+                  Eko sortiment
+                </span>
+                <div className="absolute left-0 top-full pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                  <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg rounded-tr-lg flex flex-col border border-[#E8E6DF] font-medium tracking-wide">
+                    <Link
+                      href="/eko-sortiment/jednorazovy-eko-riad"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                    >
+                      Jednorazový eko-riad
+                    </Link>
+                    <Link
+                      href="/eko-sortiment/ostatne"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors rounded-b-lg"
+                    >
+                      Ostatné
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          </nav>
+            </nav>
+          </div>
         </div>
       </header>
 
@@ -594,7 +586,6 @@ export default function Header() {
                     />
                   </svg>
                 </div>
-                {/* --- čaje --- */}
                 {openMobileCategories["caje"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
@@ -624,6 +615,7 @@ export default function Header() {
                   </div>
                 )}
               </div>
+
               {/* --- Zdravé potraviny --- */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
@@ -675,7 +667,8 @@ export default function Header() {
                   </div>
                 )}
               </div>
-              {/* --- Sušené ovocie --- */}
+
+              {/* --- Ovocie --- */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
@@ -714,6 +707,7 @@ export default function Header() {
                   </div>
                 )}
               </div>
+
               {/* --- Doplnkový sortiment --- */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
@@ -741,32 +735,21 @@ export default function Header() {
                 {openMobileCategories["doplnky"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
-                      href="/doplnkovy-sortiment/cajniky"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Čajníky
-                    </Link>
-                    <Link
                       href="/doplnkovy-sortiment/sitka-a-filtre"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Sitká a filtre
                     </Link>
                     <Link
-                      href="/doplnkovy-sortiment/salky-a-pohare-na-caj"
+                      href="/doplnkovy-sortiment/dozy-na-caj"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Šálky a poháre na čaj
-                    </Link>
-                    <Link
-                      href="/doplnkovy-sortiment/cajove-lyzicky"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Čajové lyžičky
+                      Dózy na čaj
                     </Link>
                   </div>
                 )}
               </div>
+
               {/* --- Zvýhodnené balíčky --- */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
@@ -794,21 +777,22 @@ export default function Header() {
                 {openMobileCategories["balicky"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
-                      href="/zvyhodnene-balicky/darcekove-sady"
+                      href="/zvyhodnene-balicky/darcekove"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Darčekové sady
                     </Link>
                     <Link
-                      href="/zvyhodnene-balicky/degustacne-sady"
+                      href="/zvyhodnene-balicky/degustacne"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Degustačné sady
+                      Degustačné balíčky
                     </Link>
                   </div>
                 )}
               </div>
-              {/* --- Eko --- */}
+
+              {/* --- Eko sortiment --- */}
               <div className="border-b border-[#E8E6DF] py-4">
                 <div
                   className="flex justify-between items-center cursor-pointer"
@@ -836,13 +820,13 @@ export default function Header() {
                       href="/eko-sortiment/jednorazovy-eko-riad"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Jednorázový eko-riad
+                      Znovupoužiteľné slamky
                     </Link>
                     <Link
                       href="/eko-sortiment/ostatne"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Iné...
+                      Eko tašky
                     </Link>
                   </div>
                 )}
@@ -854,7 +838,6 @@ export default function Header() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#5C6B46] hover:text-[#3D4035] transition-colors p-2"
-                  aria-label="Facebook"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -875,7 +858,6 @@ export default function Header() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#5C6B46] hover:text-[#3D4035] transition-colors p-2"
-                  aria-label="Instagram"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
