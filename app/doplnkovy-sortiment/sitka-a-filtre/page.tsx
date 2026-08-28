@@ -63,7 +63,7 @@ export default function SitkaaFiltrePage() {
         {/* NADPIS A POPIS */}
         <section className="text-center max-w-4xl mx-auto mb-12">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Sitká a Filtre
+            Sitká a filtre
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
             Kovová sieťka plná dier, čo s vodou tvorí tichý mier, lístky chytí
@@ -147,10 +147,11 @@ export default function SitkaaFiltrePage() {
                       </div>
                     )}
 
-                    <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden group-hover:opacity-90 transition-opacity">
+                    {/* VYLEPŠENÝ OBRÁZOK: h-56 a bg-contain bg-no-repeat */}
+                    <div className="w-full h-56 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden group-hover:opacity-90 transition-opacity">
                       {product.imageUrl ? (
                         <div
-                          className="w-full h-full bg-cover bg-center"
+                          className="w-full h-full bg-contain bg-no-repeat bg-center"
                           style={{
                             backgroundImage: `url(${product.imageUrl})`,
                           }}
