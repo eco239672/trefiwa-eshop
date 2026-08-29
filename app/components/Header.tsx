@@ -479,7 +479,7 @@ export default function Header() {
                       href="/doplnkovy-sortiment/salky-a-pohare-na-caj"
                       className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                     >
-                      Šálky a poháre na čaj
+                      Šálky na čaj
                     </Link>
                     <Link
                       href="/doplnkovy-sortiment/cajove-lyzicky"

@@ -63,7 +63,7 @@ export default function SalkyaPohareNaCajPage() {
         {/* NADPIS A POPIS */}
         <section className="text-center max-w-4xl mx-auto mb-12">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Šálky a poháre na čaj
+            Šálky na čaj
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
             Význam šálky nie je v tom ako vyzerá a z čoho je vyrobená, ale v tom
@@ -219,11 +219,9 @@ export default function SalkyaPohareNaCajPage() {
       <section className="bg-white py-20 border-t border-b border-[#E8E6DF]">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#8A9A5B] block mb-2">
-              Krása v každom dúšku
-            </span>
             <h3 className="text-3xl md:text-4xl font-bold text-[#2C2E26]">
-              Zistite viac o šálkach a pohároch
+              Šálky a poháre na čaj nie sú len obyčajné nádoby, majú svoj príbeh
+              zhmotnený líniami hliny a svetla.
             </h3>
           </div>
           <div className="space-y-12 text-[#6B6E56] leading-relaxed text-base md:text-lg">
