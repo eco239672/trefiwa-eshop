@@ -266,34 +266,6 @@ export default function CajnikyPage() {
               </h4>
               <p>Miesto pre váš text k tretej podsekcii...</p>
             </div>
-
-            {/* 4. KARTIČKA */}
-            <div
-              id="sekcia-4"
-              className="p-8 bg-white shadow-lg shadow-black/10 hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl border border-[#E8E6DF] scroll-mt-32"
-            >
-              <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
-                  4
-                </span>
-                Správna starostlivosť a čistenie
-              </h4>
-              <p>Miesto pre váš text k štvrtej podsekcii...</p>
-            </div>
-
-            {/* 5. KARTIČKA */}
-            <div
-              id="sekcia-5"
-              className="p-8 bg-white shadow-lg shadow-black/10 hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl border border-[#E8E6DF] scroll-mt-32"
-            >
-              <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
-                  5
-                </span>
-                Ako vybrať správnu veľkosť do šálky
-              </h4>
-              <p>Miesto pre váš text k piatej podsekcii...</p>
-            </div>
           </div>
         </div>
       </section>
