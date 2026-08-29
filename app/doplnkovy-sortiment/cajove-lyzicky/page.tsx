@@ -118,7 +118,7 @@ export default function CajoveLyzickyPage() {
               </div>
             </div>
 
-            {/* Mriežka produktov so zľavami a neorezanými obrázkami */}
+            {/* Mriežka produktov */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {sortedProducts.map((product) => {
                 const isAvailable =
@@ -140,7 +140,7 @@ export default function CajoveLyzickyPage() {
                   <Link
                     href={`/produkt/${product.id}`}
                     key={product.id}
-                    className="bg-white rounded-lg p-5 shadow-xl hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group relative"
+                    className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group relative"
                   >
                     {maxDiscount > 0 && (
                       <div className="absolute top-8 left-8 bg-[#D84949] text-white px-2 py-1 rounded text-xs font-bold tracking-wider shadow-md z-10">
@@ -148,17 +148,19 @@ export default function CajoveLyzickyPage() {
                       </div>
                     )}
 
-                    {/* VYLEPŠENÝ OBRÁZOK: h-56 a bg-contain bg-no-repeat */}
-                    <div className="w-full h-56 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden group-hover:opacity-90 transition-opacity">
+                    {/* VYLEPŠENÝ OBRÁZOK S VÝRAZNÝM 3D TIEŇOM */}
+                    <div className="w-full h-56 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden shadow-md group-hover:shadow-xl border border-[#E8E6DF] transition-all duration-300">
                       {product.imageUrl ? (
                         <div
-                          className="w-full h-full bg-contain bg-no-repeat bg-center"
+                          className="w-full h-full bg-contain bg-no-repeat bg-center drop-shadow-xl group-hover:drop-shadow-2xl group-hover:scale-110 transition-all duration-500"
                           style={{
                             backgroundImage: `url(${product.imageUrl})`,
                           }}
                         ></div>
                       ) : (
-                        <span className="text-xs">Bez obrázka</span>
+                        <span className="text-xs font-semibold tracking-widest uppercase">
+                          Bez obrázka
+                        </span>
                       )}
                     </div>
 
@@ -204,7 +206,8 @@ export default function CajoveLyzickyPage() {
                       <span className="font-bold text-xl text-[#2C2E26]">
                         {product.price}
                       </span>
-                      <span className="bg-[#F9F8F6] border border-[#D5D3C9] px-4 py-1.5 rounded text-sm font-medium group-hover:bg-[#5C6B46] group-hover:text-white group-hover:border-[#5C6B46] transition-all">
+                      {/* BIELE TLAČIDLO VYBRAŤ */}
+                      <span className="bg-white border border-[#D5D3C9] px-4 py-1.5 rounded text-sm font-medium group-hover:bg-[#5C6B46] group-hover:text-white group-hover:border-[#5C6B46] transition-all">
                         Vybrať
                       </span>
                     </div>
@@ -216,8 +219,8 @@ export default function CajoveLyzickyPage() {
         )}
       </div>
 
-      {/* SEO 5 PODSEKCIÍ ČAJOVÝCH LYŽIČIEK */}
-      <section className="bg-white py-20 border-t border-b border-[#E8E6DF]">
+      {/* SEO 3 PODSEKCIE ČAJOVÝCH LYŽIČIEK */}
+      <section className="bg-[#FAF4E8] py-20 border-t border-[#E8E6DF]">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-16">
             <span className="text-xs font-bold uppercase tracking-widest text-[#8A9A5B] block mb-2">
@@ -227,10 +230,11 @@ export default function CajoveLyzickyPage() {
               Zistite viac o čajových lyžičkách
             </h3>
           </div>
-          <div className="space-y-12 text-[#6B6E56] leading-relaxed text-base md:text-lg">
+          <div className="space-y-6 text-[#6B6E56] leading-relaxed text-base md:text-lg">
+            {/* KARTIČKA 1 */}
             <div
               id="sekcia-1"
-              className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32"
+              className="p-8 bg-white shadow-lg shadow-black/10 hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl border border-[#E8E6DF] scroll-mt-32"
             >
               <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
                 <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
@@ -240,9 +244,11 @@ export default function CajoveLyzickyPage() {
               </h4>
               <p>Miesto pre váš text k prvej podsekcii...</p>
             </div>
+
+            {/* KARTIČKA 2 */}
             <div
               id="sekcia-2"
-              className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32"
+              className="p-8 bg-white shadow-lg shadow-black/10 hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl border border-[#E8E6DF] scroll-mt-32"
             >
               <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
                 <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
@@ -252,9 +258,11 @@ export default function CajoveLyzickyPage() {
               </h4>
               <p>Miesto pre váš text k druhej podsekcii...</p>
             </div>
+
+            {/* KARTIČKA 3 */}
             <div
               id="sekcia-3"
-              className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32"
+              className="p-8 bg-white shadow-lg shadow-black/10 hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl border border-[#E8E6DF] scroll-mt-32"
             >
               <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
                 <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
@@ -263,30 +271,6 @@ export default function CajoveLyzickyPage() {
                 Dlhé verzus klasické lyžičky
               </h4>
               <p>Miesto pre váš text k tretej podsekcii...</p>
-            </div>
-            <div
-              id="sekcia-4"
-              className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32"
-            >
-              <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
-                  4
-                </span>
-                Správna starostlivosť o povrch
-              </h4>
-              <p>Miesto pre váš text k štvrtej podsekcii...</p>
-            </div>
-            <div
-              id="sekcia-5"
-              className="p-6 bg-[#F9F8F6] rounded-xl border border-[#E8E6DF] scroll-mt-32"
-            >
-              <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
-                  5
-                </span>
-                Krásny doplnok k darčekovému baleniu
-              </h4>
-              <p>Miesto pre váš text k piatej podsekcii...</p>
             </div>
           </div>
         </div>
