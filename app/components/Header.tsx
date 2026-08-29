@@ -464,16 +464,28 @@ export default function Header() {
                 <div className="absolute left-0 top-full pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                   <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg rounded-tr-lg flex flex-col border border-[#E8E6DF] font-medium tracking-wide">
                     <Link
+                      href="/doplnkovy-sortiment/cajniky"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                    >
+                      Čajníky
+                    </Link>
+                    <Link
                       href="/doplnkovy-sortiment/sitka-a-filtre"
                       className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                     >
                       Sitká a filtre
                     </Link>
                     <Link
-                      href="/doplnkovy-sortiment/dozy-na-caj"
+                      href="/doplnkovy-sortiment/salky-a-pohare-na-caj"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
+                    >
+                      Šálky a poháre na čaj
+                    </Link>
+                    <Link
+                      href="/doplnkovy-sortiment/cajove-lyzicky"
                       className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors rounded-b-lg"
                     >
-                      Dózy na čaj
+                      Čajové lyžičky
                     </Link>
                   </div>
                 </div>
@@ -487,16 +499,16 @@ export default function Header() {
                 <div className="absolute left-0 top-full pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                   <div className="bg-white text-[#3D4035] shadow-xl rounded-b-lg rounded-tr-lg flex flex-col border border-[#E8E6DF] font-medium tracking-wide">
                     <Link
-                      href="/zvyhodnene-balicky/darcekove"
+                      href="/zvyhodnene-balicky/darcekove-sady"
                       className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                     >
                       Darčekové sady
                     </Link>
                     <Link
-                      href="/zvyhodnene-balicky/degustacne"
+                      href="/zvyhodnene-balicky/degustacne-sady"
                       className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors rounded-b-lg"
                     >
-                      Degustačné balíčky
+                      Degustačné sady
                     </Link>
                   </div>
                 </div>
@@ -735,16 +747,28 @@ export default function Header() {
                 {openMobileCategories["doplnky"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
+                      href="/doplnkovy-sortiment/cajniky"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Čajníky
+                    </Link>
+                    <Link
                       href="/doplnkovy-sortiment/sitka-a-filtre"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Sitká a filtre
                     </Link>
                     <Link
-                      href="/doplnkovy-sortiment/dozy-na-caj"
+                      href="/doplnkovy-sortiment/salky-a-pohare-na-caj"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Dózy na čaj
+                      Šálky a poháre na čaj
+                    </Link>
+                    <Link
+                      href="/doplnkovy-sortiment/cajove-lyzicky"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Čajové lyžičky
                     </Link>
                   </div>
                 )}
@@ -777,16 +801,16 @@ export default function Header() {
                 {openMobileCategories["balicky"] && (
                   <div className="flex flex-col gap-3 mt-4 pl-4 text-sm font-medium text-[#6B6E56]">
                     <Link
-                      href="/zvyhodnene-balicky/darcekove"
+                      href="/zvyhodnene-balicky/darcekove-sady"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Darčekové sady
                     </Link>
                     <Link
-                      href="/zvyhodnene-balicky/degustacne"
+                      href="/zvyhodnene-balicky/degustacne-sady"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Degustačné balíčky
+                      Degustačné sady
                     </Link>
                   </div>
                 )}
@@ -820,13 +844,13 @@ export default function Header() {
                       href="/eko-sortiment/jednorazovy-eko-riad"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Znovupoužiteľné slamky
+                      Jednorazový eko-riad
                     </Link>
                     <Link
                       href="/eko-sortiment/ostatne"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Eko tašky
+                      Ostatné
                     </Link>
                   </div>
                 )}
@@ -891,7 +915,7 @@ export default function Header() {
                       handleLogout();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="w-full bg-[#E6DCC8] text-white py-3 rounded-lg text-center hover:bg-red-700 transition-colors"
+                    className="w-full bg-[#D84949] text-white py-3 rounded-lg text-center hover:bg-red-700 transition-colors"
                   >
                     Odhlásiť sa
                   </button>

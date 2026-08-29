@@ -140,7 +140,7 @@ export default function LiecivkyPage() {
                   <Link
                     href={`/produkt/${product.id}`}
                     key={product.id}
-                    className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group relative"
+                    className="bg-white rounded-lg p-5 shadow-xl hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group relative"
                   >
                     {/* Zľavový štítok na obrázku (ak je nejaký variant v zľave) */}
                     {maxDiscount > 0 && (

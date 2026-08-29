@@ -139,7 +139,7 @@ export default function CajnikyPage() {
                   <Link
                     href={`/produkt/${product.id}`}
                     key={product.id}
-                    className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group relative"
+                    className="bg-white rounded-lg p-5 shadow-xl hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group relative"
                   >
                     {maxDiscount > 0 && (
                       <div className="absolute top-8 left-8 bg-[#D84949] text-white px-2 py-1 rounded text-xs font-bold tracking-wider shadow-md z-10">

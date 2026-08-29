@@ -59,7 +59,7 @@ export default function ZvyhodneneBalickyPage() {
   });
 
   return (
-    <main className="min-h-screen bg-[#F9F8F6] text-[#3D4035] flex flex-col">
+    <main className="min-h-screen bg-[#FAF4E8] text-[#3D4035] flex flex-col">
       {/* HLAVNÝ OBSAH */}
       <div className="flex-grow max-w-7xl mx-auto w-full px-6 py-16">
         {/* NADPIS A POPIS KATEGÓRIE */}
@@ -142,7 +142,7 @@ export default function ZvyhodneneBalickyPage() {
                   <Link
                     href={`/produkt/${product.id}`}
                     key={product.id}
-                    className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group relative"
+                    className="bg-white rounded-lg p-5 shadow-xl hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group relative"
                   >
                     {maxDiscount > 0 && (
                       <div className="absolute top-8 left-8 bg-[#D84949] text-white px-2 py-1 rounded text-xs font-bold tracking-wider shadow-md z-10">
