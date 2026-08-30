@@ -66,8 +66,9 @@ export default function CinskeCajePage() {
             Čínske čaje a čajové zmesi
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Objavte tajomstvo a tradíciu pravých čínskych čajov, pestovaných v
-            tých najlepších podmienkach.
+            Tekuté dedičstvo starovekých cisárov a zenových majstrov. Pravé
+            čínske čaje prinášajú do vašej šálky tisícročnú tradíciu, dokonalú
+            harmóniu a tichý pokoj zahmlených horských vrcholkov.“
           </p>
         </section>
 

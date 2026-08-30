@@ -67,7 +67,9 @@ export default function AnglickeCajePage() {
             Anglické čaje a čajové zmesi
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Stará osvedčená klasika a svieže zmesi plné skutočného ovocia.
+            Kvapka britskej aristokracie a nadčasová elegancia v každej šálke.
+            Anglické čaje menia obyčajné chvíle na vznešený rituál a prinášajú
+            do vášho dňa atmosféru pravej londýnskej noblesy.“
           </p>
         </section>
 

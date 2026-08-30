@@ -392,7 +392,7 @@ export default function Header() {
                       href="/caje/liecivky"
                       className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors rounded-b-lg"
                     >
-                      Liečivky
+                      Liečivky a zmesi
                     </Link>
                   </div>
                 </div>
@@ -622,7 +622,7 @@ export default function Header() {
                       href="/caje/liecivky"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Liečivky
+                      Liečivky a zmesi
                     </Link>
                   </div>
                 )}

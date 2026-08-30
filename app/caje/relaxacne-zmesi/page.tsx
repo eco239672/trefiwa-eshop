@@ -67,8 +67,11 @@ export default function LiecivkyPage() {
             Relaxačné zmesi
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Starostlivo namiešané lúčne bylinky pre vaše celkové uvoľnenie,
-            dobrý spánok a pohodu.
+            Je to tichá uspávanka, ktorú pre vás zložila sama príroda. Kvety a
+            byliny, ktoré vo vode odovzdávajú svoj vnútorný mier, vytvárajú
+            dokonalú alchýmiu pokoja. Táto zmes je voňavým mostom medzi
+            vyčerpávajúcim dňom a pokojným spánkom. Tekutá harmónia, ktorá
+            ukolíše vaše zmysly a s ľahkosťou vás odprevadí do ríše snov.“
           </p>
         </section>
 

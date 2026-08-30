@@ -64,7 +64,7 @@ export default function LiecivkyPage() {
       <div className="flex-grow max-w-7xl mx-auto w-full px-6 py-16">
         <section className="text-center max-w-4xl mx-auto mb-12">
           <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#2C2E26]">
-            Liečivky
+            Liečivky a zmesi liečivých bylín
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
             Liečivé bylinky - lekáreň ktorú nám darovala príroda, či už na ranný
