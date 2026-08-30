@@ -73,8 +73,12 @@ export default function JednorazovyEkoRiadPage() {
             Jednorazový eko riad
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Využite pre svoje podujatia to najlepšie z toho, čo príroda ponúka.
-            Ekologické, šetrné a dizajnovo čisté riešenie.
+            Pre chvíle plné radosti bez najmenšieho pocitu viny. Či už chystáte
+            letný piknik v tráve, večernú grilovačku alebo rodinnú oslavu, tento
+            riad vám dovolí sústrediť sa len na to podstatné – na ľudí okolo
+            vás. Žiadne dlhé umývanie, žiadny zbytočný plast. Iba čistá,
+            ekologická radosť z prítomného okamihu a hrejivý pocit, že spoločne
+            chránime náš svet.“
           </p>
         </section>
 

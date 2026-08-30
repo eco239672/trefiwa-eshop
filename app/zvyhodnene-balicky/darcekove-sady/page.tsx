@@ -68,8 +68,9 @@ export default function ZvyhodneneBalickyPage() {
             Darčekové sady
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Prekvapte svojich blízkych a darujte im to najlepšie, čo príroda
-            ponúka. Naše darčekové sady sú ideálnym prekvapením.
+            Darovať radosť nebolo nikdy prirodzenejšie. Naše darčekové sady sú
+            starostlivo vybrané poklady zeme, zabalené s láskou a pripravené
+            vyčariť úsmev tým, na ktorých vám najviac záleží.“
           </p>
         </section>
 

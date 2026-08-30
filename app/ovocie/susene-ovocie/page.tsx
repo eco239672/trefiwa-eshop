@@ -71,7 +71,12 @@ export default function OvociePage() {
             Sušené ovocie
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Plná chuť slnka v každom jednom kúsku.
+            Keď potrebujete dodať telu silu, príroda má ten najlepší recept.
+            Ovocie jemne zbavené vody, no o to bohatšie na chuť, farbu a živiny.
+            Je to poctivá sladkosť, rýchla energia pripravená na cesty do hôr,
+            náročné dni, alebo len tak, pre chvíle tichého maškrtenia. Pravý,
+            nespútaný kúsok prírody, ktorý vám pripomenie, že to najchutnejšie
+            nepotrebuje žiadne vylepšenia.
           </p>
         </section>
 

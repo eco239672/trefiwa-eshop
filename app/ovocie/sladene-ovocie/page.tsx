@@ -71,7 +71,11 @@ export default function OvociePage() {
             Sladené ovocie
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Plná chuť slnka v každom jednom kúsku.
+            Keď si telo i myseľ pýtajú sladkú odmenu, toto je tá najkrajšia
+            odpoveď. Zabudnite na ťažké a umelé cukrovinky. Plné a mäsité kúsky
+            ovocia, jemne doladené k sladkej dokonalosti, sú presne tým malým
+            luxusom, ktorý vám okamžite vyčarí úsmev na perách a dodá hravú
+            energiu do ďalších krokov.“
           </p>
         </section>
 

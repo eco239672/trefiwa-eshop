@@ -67,7 +67,10 @@ export default function KakaoPage() {
             Kakao
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Tekuté šťastie, osvieženie bez kofeínu.
+            Tekuté zlato starých civilizácií, ktoré pohladí na duši. Každá šálka
+            je hrejivým objatím, v ktorom sa spája zamatová jemnosť s tajomnou
+            hĺbkou tropického pralesa. Zastavte čas a vychutnajte si svoj moment
+            čokoládového blaha.
           </p>
         </section>
 
@@ -77,7 +80,7 @@ export default function KakaoPage() {
           </p>
         ) : products.length === 0 ? (
           <p className="text-center text-[#A3A697] py-10">
-            V kategórii Anglické čaje zatiaľ nie sú žiadne produkty.
+            V kategórii Kakao zatiaľ nie sú žiadne produkty.
           </p>
         ) : (
           <>
@@ -139,7 +142,7 @@ export default function KakaoPage() {
                   <Link
                     href={`/produkt/${product.id}`}
                     key={product.id}
-                    className="bg-white rounded-lg p-5 shadow-xl hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group relative"
+                    className="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow border border-[#E8E6DF] flex flex-col cursor-pointer group relative"
                   >
                     {maxDiscount > 0 && (
                       <div className="absolute top-8 left-8 bg-[#D84949] text-white px-2 py-1 rounded text-xs font-bold tracking-wider shadow-md z-10">
@@ -147,16 +150,19 @@ export default function KakaoPage() {
                       </div>
                     )}
 
-                    <div className="w-full h-48 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden group-hover:opacity-90 transition-opacity">
+                    {/* VYLEPŠENÝ OBRÁZOK S VÝRAZNÝM 3D TIEŇOM */}
+                    <div className="w-full h-56 bg-[#EFEFEA] rounded-md mb-4 flex items-center justify-center text-[#A3A697] overflow-hidden shadow-md group-hover:shadow-xl border border-[#E8E6DF] transition-all duration-300">
                       {product.imageUrl ? (
                         <div
-                          className="w-full h-full bg-cover bg-center"
+                          className="w-full h-full bg-contain bg-no-repeat bg-center drop-shadow-xl group-hover:drop-shadow-2xl group-hover:scale-110 transition-all duration-500"
                           style={{
                             backgroundImage: `url(${product.imageUrl})`,
                           }}
                         ></div>
                       ) : (
-                        <span className="text-xs">Bez obrázka</span>
+                        <span className="text-xs font-semibold tracking-widest uppercase">
+                          Bez obrázka
+                        </span>
                       )}
                     </div>
 
@@ -198,12 +204,12 @@ export default function KakaoPage() {
                       )}
                     </div>
 
-                    <div className="flex justify-between items-center pt-4 border-t border-[#F9F8F6]">
+                    <div className="flex justify-between items-center pt-4 border-t border-[#E8E6DF]">
                       <span className="font-bold text-xl text-[#2C2E26]">
                         {product.price}
                       </span>
-
-                      <span className="bg-[#F9F8F6] border border-[#D5D3C9] px-4 py-1.5 rounded text-sm font-medium group-hover:bg-[#5C6B46] group-hover:text-white group-hover:border-[#5C6B46] transition-all">
+                      {/* BIELE TLAČIDLO VYBRAŤ */}
+                      <span className="bg-white border border-[#D5D3C9] px-4 py-1.5 rounded text-sm font-medium group-hover:bg-[#5C6B46] group-hover:text-white group-hover:border-[#5C6B46] transition-all">
                         Vybrať
                       </span>
                     </div>
@@ -214,6 +220,91 @@ export default function KakaoPage() {
           </>
         )}
       </div>
+
+      {/* SEO 5 PODSEKCIÍ - KAKAO */}
+      <section className="bg-[#FAF4E8] py-20 border-t border-[#E8E6DF]">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#8A9A5B] block mb-2">
+              Pre milovníkov čokolády
+            </span>
+            <h3 className="text-3xl md:text-4xl font-bold text-[#2C2E26]">
+              Zistite viac o našom kakau
+            </h3>
+          </div>
+          <div className="space-y-6 text-[#6B6E56] leading-relaxed text-base md:text-lg">
+            {/* KARTIČKA 1 */}
+            <div
+              id="sekcia-1"
+              className="p-8 bg-white shadow-lg shadow-black/10 hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl border border-[#E8E6DF] scroll-mt-32"
+            >
+              <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
+                <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
+                  1
+                </span>
+                Prečo si vybrať naše kakao?
+              </h4>
+              <p>Miesto pre váš text k prvej podsekcii o kakau...</p>
+            </div>
+
+            {/* KARTIČKA 2 */}
+            <div
+              id="sekcia-2"
+              className="p-8 bg-white shadow-lg shadow-black/10 hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl border border-[#E8E6DF] scroll-mt-32"
+            >
+              <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
+                <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
+                  2
+                </span>
+                Odkiaľ pochádza?
+              </h4>
+              <p>Miesto pre váš text k druhej podsekcii...</p>
+            </div>
+
+            {/* KARTIČKA 3 */}
+            <div
+              id="sekcia-3"
+              className="p-8 bg-white shadow-lg shadow-black/10 hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl border border-[#E8E6DF] scroll-mt-32"
+            >
+              <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
+                <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
+                  3
+                </span>
+                Spôsoby prípravy
+              </h4>
+              <p>Miesto pre váš text k tretej podsekcii...</p>
+            </div>
+
+            {/* KARTIČKA 4 */}
+            <div
+              id="sekcia-4"
+              className="p-8 bg-white shadow-lg shadow-black/10 hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl border border-[#E8E6DF] scroll-mt-32"
+            >
+              <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
+                <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
+                  4
+                </span>
+                Zdravotné benefity
+              </h4>
+              <p>Miesto pre váš text k štvrtej podsekcii...</p>
+            </div>
+
+            {/* KARTIČKA 5 */}
+            <div
+              id="sekcia-5"
+              className="p-8 bg-white shadow-lg shadow-black/10 hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl border border-[#E8E6DF] scroll-mt-32"
+            >
+              <h4 className="text-xl font-semibold text-[#3D4035] mb-3 flex items-center gap-3">
+                <span className="w-8 h-8 rounded-full bg-[#5C6B46] text-white text-sm flex items-center justify-center font-bold">
+                  5
+                </span>
+                Pre koho je vhodné?
+              </h4>
+              <p>Miesto pre váš text k piatej podsekcii...</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

@@ -66,7 +66,11 @@ export default function HealthyFoodsCategory() {
             Degustačné sady
           </h2>
           <p className="text-lg md:text-xl text-[#6B6E56] leading-relaxed">
-            Využite pre svoje telo to najlepšie z toho, čo príroda ponúka.
+            Prebuďte v sebe zvedavého cestovateľa. Každá degustačná sada je ako
+            otvorená kniha plná lahodných príbehov, z ktorých každý chutí celkom
+            inak. Od jemných a sladkých tónov až po hlboké, zemité esencie. Je
+            to vaša osobná symfónia vôní a textúr, poskladaná tak, aby ste mohli
+            ochutnať celý svet v jednej jedinej krabičke.
           </p>
         </section>
 
