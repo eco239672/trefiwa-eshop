@@ -5,12 +5,17 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { CartProvider } from "./context/CartContext";
 import CartSidebar from "./components/CartSidebar";
+import { siteConfig } from "../lib/site";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TREFIWA",
-  description: "E-shop pre zdravé potraviny a čaje",
+  metadataBase: new URL(siteConfig.url),
+  title: { default: siteConfig.name, template: `%s | ${siteConfig.name}` },
+  description: siteConfig.description,
+  alternates: { canonical: "/" },
+  openGraph: { type: "website", locale: "sk_SK", siteName: siteConfig.name, title: siteConfig.name, description: siteConfig.description, url: siteConfig.url },
+  twitter: { card: "summary", title: siteConfig.name, description: siteConfig.description },
 };
 
 export default function RootLayout({
@@ -21,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="sk">
       <body className={inter.className}>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [{ "@type": "Organization", name: siteConfig.name, url: siteConfig.url }, { "@type": "WebSite", name: siteConfig.name, url: siteConfig.url, inLanguage: "sk-SK" }] }).replace(/</g, "\\u003c") }} />
         <CartProvider>
           <div className="flex flex-col min-h-screen">
             <Header />

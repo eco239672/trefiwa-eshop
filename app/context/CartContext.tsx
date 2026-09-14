@@ -7,15 +7,11 @@ import {
   useEffect,
   ReactNode,
 } from "react";
+import { validateCartVariantIds } from "../actions";
+import { keepExistingCartVariants, sanitizePersistedCart, type CartLine } from "../../lib/cart/validation";
 
 // Definícia toho, čo obsahuje jeden produkt v košíku
-type CartItem = {
-  id: string;
-  name: string;
-  price: number | string;
-  quantity: number;
-  imageUrl?: string;
-};
+export type CartItem = CartLine;
 
 // Definícia funkcií pre kontext
 type CartContextType = {
@@ -25,9 +21,11 @@ type CartContextType = {
   closeCart: () => void;
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: string) => void;
+  clearCart: () => void;
   updateQuantity: (id: string, delta: number) => void;
   setQuantity: (id: string, quantity: number) => void;
   cartTotal: number;
+  cartNotice: string;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -36,18 +34,42 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [cartNotice, setCartNotice] = useState("");
 
   // 1. Pri načítaní stiahneme košík z Local Storage
   useEffect(() => {
-    const savedCart = localStorage.getItem("trefiwa_cart");
-    if (savedCart) {
+    let cancelled = false;
+    const restoreCart = async () => {
+      const savedCart = localStorage.getItem("trefiwa_cart");
+      if (!savedCart) {
+        setIsLoaded(true);
+        return;
+      }
       try {
-        setCart(JSON.parse(savedCart));
+        const parsed = sanitizePersistedCart(JSON.parse(savedCart));
+        if (parsed.removedCount) setCartNotice("Produkt v košíku už nie je dostupný a bol odstránený.");
+        setCart(parsed.items);
+        setIsLoaded(true);
+
+        if (!parsed.items.length) return;
+        const validation = await validateCartVariantIds(parsed.items.map((item) => item.variantId));
+        if (cancelled || !validation.ok) return;
+        const sanitized = keepExistingCartVariants(parsed.items, validation.variantIds);
+        if (sanitized.removedCount) {
+          setCart(sanitized.items);
+          setCartNotice("Produkt v košíku už nie je dostupný a bol odstránený.");
+        }
       } catch (e) {
         console.error("Nepodarilo sa načítať košík", e);
+        if (!cancelled) {
+          setCart([]);
+          setCartNotice("Košík sa nepodarilo obnoviť a bol vyprázdnený.");
+          setIsLoaded(true);
+        }
       }
-    }
-    setIsLoaded(true);
+    };
+    void restoreCart();
+    return () => { cancelled = true; };
   }, []);
 
   // 2. Pri akejkoľvek zmene uložíme košík
@@ -61,6 +83,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const closeCart = () => setIsCartOpen(false);
 
   const addToCart = (item: CartItem) => {
+    if (!item.variantId) {
+      setCartNotice("Tento produkt nemá platné balenie a nedá sa pridať do košíka.");
+      return;
+    }
     setCart((prev) => {
       const existing = prev.find((i) => i.id === item.id);
       if (existing) {
@@ -83,6 +109,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const removeFromCart = (id: string) => {
     setCart((prev) => prev.filter((i) => i.id !== id));
   };
+
+  const clearCart = () => setCart([]);
 
   const updateQuantity = (id: string, delta: number) => {
     setCart((prev) =>
@@ -131,9 +159,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
         closeCart,
         addToCart,
         removeFromCart,
+        clearCart,
         updateQuantity,
         setQuantity,
         cartTotal,
+        cartNotice,
       }}
     >
       {isLoaded ? children : <div className="hidden">{children}</div>}

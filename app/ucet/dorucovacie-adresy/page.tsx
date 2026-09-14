@@ -34,7 +34,7 @@ export default function DorucovacieAdresyPage() {
   };
 
   useEffect(() => {
-    fetchAddresses();
+    queueMicrotask(() => { void fetchAddresses(); });
   }, []);
 
   // Otvorenie modalu pre Pridanie / Úpravu

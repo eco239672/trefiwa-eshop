@@ -87,17 +87,94 @@ model ProductVariant {
 }
 
 model Order {
-  id         String   @id @default(uuid())
-  userId     String?  // Voliteľné, aby si umožnil nákup aj "guest" užívateľom
-  user       User?    @relation(fields: [userId], references: [id])
-  totalPrice Decimal  @db.Decimal(10, 2)
-  status     String   @default("PENDING") // PENDING, PAID, SHIPPED, COMPLETED
-  createdAt  DateTime @default(now())
+  id                 String      @id @default(uuid())
+  /// Public, non-sequential identifier safe for customer-facing URLs.
+  orderNumber        String      @unique @default(cuid())
+  userId             String?     // Voliteľné pre guest checkout
+  user               User?       @relation(fields: [userId], references: [id])
+  /// Retained for backwards compatibility with existing production orders.
+  totalPrice         Decimal     @db.Decimal(10, 2)
+  subtotal           Decimal     @default(0) @db.Decimal(12, 2)
+  discount           Decimal     @default(0) @db.Decimal(12, 2)
+  shippingPrice      Decimal     @default(0) @db.Decimal(12, 2)
+  total              Decimal     @default(0) @db.Decimal(12, 2)
+  currency           String      @default("EUR") @db.VarChar(3)
+  status             String      @default("PENDING")
+  paymentStatus      String      @default("PENDING")
+  paymentMethod      String      @default("BANK_TRANSFER")
+  paymentProvider    String?
+  externalPaymentId  String?
+  guestAccessToken   String?     @unique
+  idempotencyKey     String      @unique
+  requestFingerprint String
+  discountCode       String?
+  customerEmail      String?
+  customerPhone      String?
+  customerFirstName  String?
+  customerLastName   String?
+  shippingCountry    String?
+  shippingStreet     String?
+  shippingCity       String?
+  shippingZip        String?
+  shippingMethod     String?
+  shippingMethodName String?
+  pickupPointId      String?
+  pickupPointData    Json?
+  pickupPointCarrier String?
+  pickupPointName    String?
+  pickupPointAddress String?
+  items              OrderItem[]
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  paidAt             DateTime?
+  cancelledAt        DateTime?
+}
+
+model OrderItem {
+  id            String   @id @default(cuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  /// Product/variant IDs are snapshots without FKs so historical orders survive catalogue deletion.
+  productId     String
+  variantId     String
+  productName   String
+  variantWeight String
+  sku           String?
+  quantity      Int
+  unitPrice     Decimal  @db.Decimal(12, 2)
+  totalPrice    Decimal  @db.Decimal(12, 2)
+
+  @@index([orderId])
+  @@index([productId])
+  @@index([variantId])
 }
 
 model DiscountCode {
-  id            String   @id @default(uuid())
-  code          String   @unique
-  discountValue Decimal  @db.Decimal(10, 2)
-  isActive      Boolean  @default(true)
+  id                 String   @id @default(uuid())
+  code               String   @unique
+  /// Amount in EUR for FIXED_AMOUNT or percent value (e.g. 10.00 = 10%) for PERCENTAGE.
+  discountValue      Decimal  @db.Decimal(10, 2)
+  type               String   @default("FIXED_AMOUNT")
+  isActive           Boolean  @default(true)
+  validFrom          DateTime?
+  validUntil         DateTime?
+  minimumOrderAmount Decimal? @db.Decimal(12, 2)
+  usageLimit         Int?
+  usageCount         Int      @default(0)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+/// Fixed-window counters shared by all Vercel instances. The subject is a one-way
+/// SHA-256 hash, never raw IP, e-mail, session, or password data.
+model RateLimitWindow {
+  key         String   @id
+  scope       String
+  subjectHash String
+  windowStart DateTime
+  count       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([scope, subjectHash, windowStart])
 }

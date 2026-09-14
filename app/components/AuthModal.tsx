@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { registerUser, loginUser } from "../authActions";
+import { useDialogFocus } from "./useDialogFocus";
 
 type AuthModalProps = {
   isOpen: boolean;
@@ -16,8 +17,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  if (!isOpen) return null;
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   // Funkcia pre úplné vyčistenie modalu pri zatvorení
   const handleClose = () => {
@@ -26,6 +26,9 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
     setView("login");
     onClose();
   };
+  useDialogFocus(isOpen, dialogRef, handleClose);
+
+  if (!isOpen) return null;
 
 async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -61,16 +64,14 @@ async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       }
       setIsLoading(false);
     } else if (view === "forgotPassword") {
-      // ZABUDNUTÉ HESLO (Zatiaľ simulácia)
-      setTimeout(() => {
-        setSuccess("Ak účet s týmto e-mailom existuje, poslali sme naň inštrukcie k obnove hesla.");
-        setIsLoading(false);
-      }, 1500);
+      // No reset provider or e-mail delivery is configured yet; never pretend a link was sent.
+      setError("Obnova hesla zatiaľ nie je dostupná. Kontaktujte zákaznícku podporu.");
+      setIsLoading(false);
     }
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="presentation">
       {/* Tmavé pozadie s rozmazaním (backdrop-blur) */}
       <div 
         className="absolute inset-0 bg-[#2C2E26]/60 backdrop-blur-sm transition-opacity"
@@ -78,12 +79,14 @@ async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       ></div>
 
       {/* Samotné vyskakovacie okno - viac zaoblené a elegantnejšie */}
-      <div className="bg-white w-full max-w-[440px] rounded-[24px] shadow-2xl relative z-10 animate-fade-in-up overflow-hidden border border-[#E8E6DF]">
+      <div ref={dialogRef} className="bg-white w-full max-w-[440px] rounded-[24px] shadow-2xl relative z-10 animate-fade-in-up overflow-hidden border border-[#E8E6DF]" role="dialog" aria-modal="true" aria-label="Prihlásenie alebo registrácia">
         
         {/* Krásne Tlačidlo na zatvorenie (X) */}
         <button 
+          type="button"
           onClick={handleClose}
           className="absolute top-5 right-5 text-[#A3A697] hover:text-[#3D4035] bg-[#F9F8F6] hover:bg-[#E8E6DF] p-2 rounded-full transition-all duration-300"
+          aria-label="Zavrieť prihlasovací formulár"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -102,7 +105,7 @@ async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
               </div>
               <h2 className="text-2xl font-bold text-[#2C2E26]">Zabudnuté heslo</h2>
               <p className="text-sm text-[#6B6E56] mt-2 leading-relaxed">
-                Zadajte svoj e-mail a my vám pošleme bezpečný odkaz na obnovenie hesla.
+                Obnova hesla zatiaľ nie je spustená. Bez nakonfigurovaného bezpečného e-mailového flow neodosielame žiadne odkazy.
               </p>
             </div>
           ) : (
@@ -190,9 +193,9 @@ async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
                   name="password"
                   type="password" 
                   required 
-                  minLength={6}
+                  minLength={12}
                   className="w-full bg-[#F9F8F6] border border-[#E8E6DF] px-4 py-3.5 rounded-xl focus:outline-none focus:border-[#8A9A5B] focus:ring-2 focus:ring-[#8A9A5B]/20 transition-all text-[#3D4035] placeholder-[#A3A697]"
-                  placeholder="Minimálne 6 znakov"
+                  placeholder="Minimálne 12 znakov"
                 />
               </div>
             )}
@@ -211,7 +214,7 @@ async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
                   <span>Spracovávam...</span>
                 </>
               ) : (
-                view === "login" ? "Prihlásiť sa" : view === "register" ? "Vytvoriť účet" : "Odoslať odkaz"
+                view === "login" ? "Prihlásiť sa" : view === "register" ? "Vytvoriť účet" : "Obnova zatiaľ nedostupná"
               )}
             </button>
           </form>

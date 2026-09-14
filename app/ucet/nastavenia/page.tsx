@@ -60,7 +60,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 name="newPassword"
                 type="password"
                 required
-                minLength={6} 
+                minLength={12}
                 className="w-full bg-[#F9F8F6] border border-[#E8E6DF] px-4 py-3 rounded-xl focus:outline-none focus:border-[#8A9A5B] transition-colors text-[#3D4035]"
               />
             </div>

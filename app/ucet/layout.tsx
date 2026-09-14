@@ -1,27 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { logoutUser } from "../authActions";
-import { getUserProfile } from "../userActions";
-import { useEffect, useState } from "react";
 
 export default function UcetLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [points, setPoints] = useState<number | null>(null);
-
-  // Po načítaní layoutu si stiahneme profil, aby sme zistili stav bodov
-  useEffect(() => {
-    getUserProfile().then((res) => {
-      if (res.success && res.user) {
-        setPoints(res.user.points);
-      }
-    });
-  }, []);
+  const router = useRouter();
 
   const handleLogout = async () => {
     await logoutUser();
-    window.location.href = "/";
+    router.push("/");
   };
 
   const isActive = (path: string) => pathname === path;
@@ -34,20 +23,10 @@ export default function UcetLayout({ children }: { children: React.ReactNode }) 
         <aside className="w-full md:w-1/4">
           <div className="bg-white rounded-2xl shadow-sm border border-[#E8E6DF] p-6 sticky top-32">
             
-            {/* Vylepšená hlavička s bodmi */}
-            <div className="flex justify-between items-center mb-6 border-b border-[#E8E6DF] pb-4">
+            <div className="mb-6 border-b border-[#E8E6DF] pb-4">
               <h2 className="text-xl font-bold text-[#2C2E26]">
                 Môj účet
               </h2>
-              {points !== null && (
-                <div 
-                  className="bg-[#F2F1EC] text-[#5C6B46] px-3 py-1.5 rounded-full text-sm font-bold flex items-center gap-1.5 border border-[#D5D3C9] shadow-sm cursor-help"
-                  title={`${points} vernostných bodov = zľava ${(points / 100).toFixed(2)} €`}
-                >
-                  <span>{points}</span>
-                  <span className="text-base leading-none">🍃</span>
-                </div>
-              )}
             </div>
             
             <nav className="flex flex-col space-y-2">

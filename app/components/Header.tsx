@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import SearchBar from "./SearchBar";
 import { useCart } from "../context/CartContext";
 import { useState, useEffect } from "react";
@@ -14,6 +16,7 @@ type User = {
 } | null;
 
 export default function Header() {
+  const router = useRouter();
   const { openCart, cart } = useCart();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [user, setUser] = useState<User>(null);
@@ -77,7 +80,7 @@ export default function Header() {
   const handleLogout = async () => {
     await logoutUser();
     setUser(null);
-    window.location.href = "/";
+    router.push("/");
   };
 
   const toggleMobileCategory = (category: string) => {
@@ -151,10 +154,13 @@ export default function Header() {
                 href="/"
                 className="flex items-center hover:opacity-80 transition-opacity duration-300"
               >
-                <img
+                <Image
                   src="/produkty/logo-01.png"
                   alt="TREFIWA Logo"
-                  className="h-14 md:h-16 lg:h-20 w-auto object-contain"
+                  width={160}
+                  height={80}
+                  priority
+                  className="h-14 w-auto object-contain md:h-16 lg:h-20"
                 />
               </Link>
             </div>

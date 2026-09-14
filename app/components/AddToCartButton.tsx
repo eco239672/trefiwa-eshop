@@ -1,7 +1,8 @@
 "use client";
 import { useCart } from "../context/CartContext";
+import type { CartItem } from "../context/CartContext";
 
-export default function AddToCartButton({ product, stock }: { product: any, stock: number }) {
+export default function AddToCartButton({ product, stock }: { product: CartItem; stock: number }) {
   const { addToCart } = useCart();
 
   return (

@@ -1,0 +1,3 @@
+# Local environment files must never be uploaded by a CLI deployment.
+# Vercel Environment Variables are the sole source of cloud configuration.
+.env*

@@ -1,19 +1,31 @@
-import Link from "next/link";
-import { PrismaClient } from "@prisma/client";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import BackButton from "./BackButton";
 import VariantSelector from "../../components/VariantSelector"; // <-- Náš nový komponent pre gramáže
+import { db } from "../../../lib/db";
+import { absoluteUrl, siteConfig } from "../../../lib/site";
 
-const prisma = new PrismaClient();
+type ProductParams = { params: Promise<{ id: string }> };
 
-export default async function ProductDetail({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export async function generateMetadata({ params }: ProductParams): Promise<Metadata> {
+  const { id } = await params;
+  const product = await db.product.findUnique({ where: { id }, include: { variants: { orderBy: { price: "asc" } } } });
+  if (!product) return { title: "Produkt nenájdený", robots: { index: false, follow: false } };
+  const imageUrl = product.imageUrl?.trim();
+  return {
+    title: product.name,
+    description: product.description?.slice(0, 155) || `${product.name} v e-shope ${siteConfig.name}.`,
+    alternates: { canonical: `/produkt/${product.id}` },
+    openGraph: { type: "website", title: product.name, description: product.description?.slice(0, 155), url: `/produkt/${product.id}`, images: imageUrl?.startsWith("/") ? [{ url: imageUrl, alt: product.name }] : undefined },
+  };
+}
+
+export default async function ProductDetail({ params }: ProductParams) {
   const { id } = await params;
 
   // 1. Ťaháme produkt AJ S JEHO VARIANTAMI A KATEGÓRIOU
-  const product = await prisma.product.findUnique({
+  const product = await db.product.findUnique({
     where: { id: id },
     include: {
       subCategory: true, // Načítame aj podkategóriu kvôli menu
@@ -23,21 +35,10 @@ export default async function ProductDetail({
     },
   });
 
-  if (!product) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#F9F8F6] text-[#3D4035]">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Produkt nebol nájdený</h1>
-          <Link href="/" className="inline-flex items-center text-sm font-medium text-[#8A9A5B] hover:text-[#5C6B46] mb-6 transition-colors">
-            &larr; Späť na ponuku
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  if (!product) notFound();
 
   // 2. Pripravíme čistý zoznam variantov (zbavíme sa Prisma Decimal formátu)
-  const cleanVariants = (product.variants || []).map((v: any) => ({
+  const cleanVariants = (product.variants || []).map((v) => ({
     id: v.id,
     weight: v.weight,
     price: Number(v.price),
@@ -45,8 +46,8 @@ export default async function ProductDetail({
     stock: Number(v.stock),
   }));
 
-  const imageUrl = product.imageUrl || null;
-  const categoryName = (product as any).subCategory?.name || (product as any).category || "Prémiové čaje";
+  const imageUrl = product.imageUrl?.trim() || null;
+  const categoryName = product.subCategory?.name || "Prémiové čaje";
 
   // 3. Pripravíme objekt pre VariantSelector
   const productData = {
@@ -63,9 +64,22 @@ export default async function ProductDetail({
     firstVariant && firstVariant.oldPrice
       ? Math.round(((firstVariant.oldPrice - firstVariant.price) / firstVariant.oldPrice) * 100)
       : 0;
+  const lowestVariant = cleanVariants[0];
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description || undefined,
+    url: absoluteUrl(`/produkt/${product.id}`),
+    image: imageUrl?.startsWith("/") ? [absoluteUrl(imageUrl)] : undefined,
+    offers: lowestVariant ? { "@type": "Offer", priceCurrency: "EUR", price: lowestVariant.price.toFixed(2), availability: cleanVariants.some((variant) => variant.stock > 0) ? "https://schema.org/InStock" : "https://schema.org/OutOfStock", url: absoluteUrl(`/produkt/${product.id}`) } : undefined,
+  };
+  const breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Úvod", item: absoluteUrl("/") }, { "@type": "ListItem", position: 2, name: categoryName }, { "@type": "ListItem", position: 3, name: product.name, item: absoluteUrl(`/produkt/${product.id}`) }] };
 
   return (
     <main className="bg-[#F9F8F6] text-[#3D4035] flex flex-col">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema).replace(/</g, "\\u003c") }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }} />
       {/* HLAVNÝ OBSAH */}
       <section className="flex-grow max-w-7xl mx-auto px-6 py-10 w-full">
         {/* Naimportované klientske tlačidlo Späť */}
@@ -76,11 +90,8 @@ export default async function ProductDetail({
           
           {/* Ľavá strana: Veľký Obrázok */}
           <div className="lg:w-3/5 bg-[#F2F1EC] min-h-[500px] flex items-center justify-center relative group">
-            {imageUrl ? (
-              <div 
-                className="w-[80%] h-[80%] m-auto bg-contain bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105" 
-                style={{ backgroundImage: `url(${imageUrl})` }}
-              ></div>
+            {imageUrl?.startsWith("/") ? (
+              <Image src={imageUrl} alt={product.name} fill priority sizes="(max-width: 1024px) 100vw, 60vw" className="object-contain p-10 transition-transform duration-300 group-hover:scale-105" />
             ) : (
               <div className="text-center text-[#A3A697]">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-24 h-24 mx-auto mb-4 opacity-50">

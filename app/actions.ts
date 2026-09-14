@@ -1,98 +1,50 @@
 "use server";
-import { PrismaClient } from "@prisma/client";
 
-// Inicializácia pripojenia k databáze
-const prisma = new PrismaClient();
+import { findCatalogProducts, getCatalogProducts } from "../lib/catalog";
+import { MAX_CART_LINES, VARIANT_ID_PATTERN } from "../lib/cart/validation";
+import { db } from "../lib/db";
+import { consumeRequestRateLimit } from "../lib/security/rate-limit";
 
-// Funkcia na úpravu dát do formátu pre náš frontend
-function formatProducts(data: any[]) {
-  return data.map((product) => {
-    const rawVariants = product.variants || [];
-    
-    // TOTO SME PRIDALI: Očistenie variantov od Prisma Decimal objektov
-    const cleanVariants = rawVariants.map((v: any) => ({
-      id: v.id,
-      productId: v.productId,
-      weight: v.weight,
-      price: Number(v.price), // Prevod na obyčajné číslo
-      oldPrice: v.oldPrice ? Number(v.oldPrice) : null,
-      stock: Number(v.stock),
-    }));
-
-    // Zistíme najnižšiu cenu z OČISTENÝCH variantov
-    let displayPrice = "Cena neurčená";
-    if (cleanVariants.length > 0) {
-      const prices = cleanVariants.map((v: any) => v.price);
-      const minPrice = Math.min(...prices);
-      displayPrice = `od ${minPrice.toFixed(2)} €`;
-    }
-
-    // Zistíme, či je aspoň jeden variant na sklade
-    const isAnyInStock = cleanVariants.some((v: any) => v.stock > 0);
-
-    return {
-      id: product.id,
-      name: product.name,
-      price: displayPrice,
-      category: product.subCategory?.name || "Nezaradené",
-      imageUrl: product.imageUrl || null,
-      stock: isAnyInStock ? 1 : 0,
-      variants: cleanVariants, // Posielame už iba čisté varianty!
-    };
-  });
+function toLegacyDisplay(products: Awaited<ReturnType<typeof getCatalogProducts>>) {
+  return products.map((product) => ({
+    id: product.id,
+    name: product.name,
+    price: product.priceFrom === null ? "Cena na vyžiadanie" : `od ${product.priceFrom.toFixed(2)} €`,
+    category: product.category,
+    imageUrl: product.imageUrl ?? undefined,
+    stock: product.inStock ? 1 : 0,
+    variants: product.variants,
+  }));
 }
 
-// Vytiahne úplne všetky produkty (na hlavnú stránku)
 export async function getAllProducts() {
-  const products = await prisma.product.findMany({
-    include: {
-      subCategory: {
-        include: { category: true},
-      },
-      variants: true, // Zahrnieme aj varianty, aby sme mohli zistiť cenu a skladovosť
-    },
-  });
-  return formatProducts(products);
+  return toLegacyDisplay(await getCatalogProducts());
 }
 
-// Vytiahne produkty iba z konkrétnej PODKATEGÓRIE (napr. "Čínske čaje", "Zelené čaje")
 export async function getProductsBySubCategory(subCategoryName: string) {
-  const products = await prisma.product.findMany({
-    where: {
-      subCategory: {
-        name: subCategoryName, // Tu už hľadáme v tabuľke SubCategory
-      },
-    },
-    include: {
-      subCategory: {
-        include: { category: true},
-      },
-      variants: true, // Zahrnieme aj varianty, aby sme mohli zistiť cenu a skladovosť
-    },
-  });
-  return formatProducts(products);
+  return toLegacyDisplay(await getCatalogProducts(subCategoryName));
 }
 
-// Vyhľadávanie produktov podľa názvu (Live Search)
 export async function searchProducts(query: string) {
-  if (!query) return []; // Ak je prázdny text, nevráti nič
-  
-  const products = await prisma.product.findMany({
-    where: {
-      name: {
-        contains: query, // Hľadá tento text v názve
-        mode: "insensitive", // Ignoruje veľké/malé písmená (čiže nájde aj "čaj", aj "ČAJ")
-      },
-    },
-    include: {
-      subCategory: {
-        include: {
-          category: true,
-        },
-      },
-    },
-    take: 5, // Vráti maximálne 5 výsledkov, nech to nepreplní vyskakovacie okno
+  const normalizedQuery = typeof query === "string" ? query.trim().slice(0, 100) : "";
+  if (!normalizedQuery) return [];
+  const rateLimit = await consumeRequestRateLimit("catalog_search", "anonymous-search", 30, 60);
+  if (!rateLimit.allowed) return [];
+  return toLegacyDisplay(await findCatalogProducts(normalizedQuery));
+}
+
+/** Returns only ProductVariant IDs that still exist; prices are never trusted from the cart. */
+export async function validateCartVariantIds(input: unknown): Promise<{ ok: boolean; variantIds: string[] }> {
+  if (!Array.isArray(input)) return { ok: false, variantIds: [] };
+  const variantIds = [...new Set(input.filter((value): value is string => typeof value === "string" && VARIANT_ID_PATTERN.test(value)))];
+  if (variantIds.length !== input.length || variantIds.length > MAX_CART_LINES) return { ok: false, variantIds: [] };
+
+  const rateLimit = await consumeRequestRateLimit("cart_validate", "anonymous-cart", 60, 60);
+  if (!rateLimit.allowed) return { ok: false, variantIds: [] };
+
+  const variants = await db.productVariant.findMany({
+    where: { id: { in: variantIds } },
+    select: { id: true },
   });
-  
-  return formatProducts(products);
+  return { ok: true, variantIds: variants.map((variant) => variant.id) };
 }

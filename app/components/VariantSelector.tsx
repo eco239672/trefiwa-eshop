@@ -106,7 +106,8 @@ export default function VariantSelector({
         onClick={() => {
           // Do košíka pošleme len tie dáta, ktoré pozná
           addToCart({
-            id: `${product.id}-${selectedVariant.id}`, // Unikátne ID pre košík
+            id: selectedVariant.id,
+            variantId: selectedVariant.id,
             name: `${product.name} (${selectedVariant.weight})`, // Tu je už pridaná aj gramáž
             price: selectedVariant.price,
             imageUrl: product.imageUrl || undefined,
