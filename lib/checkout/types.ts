@@ -13,6 +13,11 @@ export type CartLineInput = {
 /** The browser may submit only the provider point identifier. */
 export type PickupPointInput = {
   id: string;
+  name: string;
+  address: string;
+  city: string;
+  zip: string;
+  country: "SK";
 };
 
 export type CheckoutInput = {
@@ -40,5 +45,6 @@ export type CheckoutActionResult =
       orderNumber: string;
       status: string;
       paymentStatus: string;
+      paymentRedirectUrl?: string;
     }
   | { ok: false; error: string };

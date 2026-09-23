@@ -70,3 +70,31 @@ export async function findCatalogProducts(query: string) {
   });
   return products.map(serializeProduct);
 }
+
+/** Returns only existing requested products, in the caller's original order. */
+export async function getCatalogProductsByIds(ids: string[]) {
+  const uniqueIds = [...new Set(ids)].slice(0, 12);
+  if (!uniqueIds.length) return [];
+  const products = await db.product.findMany({ where: { id: { in: uniqueIds } }, include: productInclude });
+  const byId = new Map(products.map((product) => [product.id, serializeProduct(product)]));
+  return uniqueIds.flatMap((id) => {
+    const product = byId.get(id);
+    return product ? [product] : [];
+  });
+}
+
+/** Deterministic cross-sell: same subcategory, a purchasable variant, never self. */
+export async function getRelatedCatalogProducts(productId: string, subCategoryId: string | null, limit = 4) {
+  if (!subCategoryId || limit < 1) return [];
+  const products = await db.product.findMany({
+    where: {
+      id: { not: productId },
+      subCategoryId,
+      variants: { some: { stock: { gt: 0 } } },
+    },
+    include: productInclude,
+    orderBy: { name: "asc" },
+    take: Math.min(limit, 4),
+  });
+  return products.map(serializeProduct);
+}

@@ -58,7 +58,7 @@ export function ProductGrid({ products }: { products: CatalogProduct[] }) {
             <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[#8A9A5B]">{product.category}</p>
             <h2 className="mb-2 text-lg font-medium text-[#3D4035] transition-colors group-hover:text-[#5C6B46]">{product.name}</h2>
             {product.variants.length ? <div className="mb-3 flex flex-wrap gap-1.5">{product.variants.map((variant) => <span key={variant.id} className="rounded-full border border-[#E8E6DF] bg-[#F2F1EC] px-2 py-0.5 text-[10px] font-medium text-[#6B6E56]">{variant.weight}</span>)}</div> : null}
-            <p className={`mt-auto mb-3 text-[11px] font-semibold uppercase tracking-wider ${product.inStock ? "text-green-700" : "text-red-600"}`}>{product.inStock ? "Dostupný" : "Vypredané"}</p>
+            <p className={`mt-auto mb-3 text-[11px] font-semibold uppercase tracking-wider ${product.inStock ? "text-green-700" : "text-red-600"}`}>{product.inStock ? "Skladom" : "Momentálne nedostupné"}</p>
             <div className="flex items-center justify-between border-t border-[#F9F8F6] pt-4"><span className="text-xl font-bold text-[#2C2E26]">{product.priceFrom === null ? "Cena na vyžiadanie" : `od ${product.priceFrom.toFixed(2)} €`}</span><span className="rounded border border-[#D5D3C9] bg-[#F9F8F6] px-4 py-1.5 text-sm font-medium transition-all group-hover:border-[#5C6B46] group-hover:bg-[#5C6B46] group-hover:text-white">Vybrať</span></div>
           </Link>;
         })}

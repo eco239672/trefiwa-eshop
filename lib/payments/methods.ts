@@ -1,4 +1,5 @@
 import { PAYMENT_METHODS, type PaymentMethod } from "../checkout/types";
+import { getCardPaymentProvider } from "./provider";
 
 export type PaymentMethodDefinition = {
   id: PaymentMethod;
@@ -6,12 +7,10 @@ export type PaymentMethodDefinition = {
   available: boolean;
 };
 
-const methods: Record<PaymentMethod, PaymentMethodDefinition> = {
-  [PAYMENT_METHODS.BANK_TRANSFER]: { id: PAYMENT_METHODS.BANK_TRANSFER, provider: "BANK_TRANSFER", available: true },
-  // A provider is deliberately not selected until Stripe, GoPay, or Comgate is chosen.
-  [PAYMENT_METHODS.CARD]: { id: PAYMENT_METHODS.CARD, provider: null, available: false },
-};
-
 export function getPaymentMethod(method: PaymentMethod) {
-  return methods[method];
+  if (method === PAYMENT_METHODS.BANK_TRANSFER) {
+    return { id: PAYMENT_METHODS.BANK_TRANSFER, provider: "BANK_TRANSFER", available: true };
+  }
+  const provider = getCardPaymentProvider();
+  return { id: PAYMENT_METHODS.CARD, provider: provider?.id ?? null, available: provider !== null };
 }

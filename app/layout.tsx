@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import { CartProvider } from "./context/CartContext";
 import CartSidebar from "./components/CartSidebar";
 import { siteConfig } from "../lib/site";
+import { companyConfig } from "../lib/company/config";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="sk">
       <body className={inter.className}>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [{ "@type": "Organization", name: siteConfig.name, url: siteConfig.url }, { "@type": "WebSite", name: siteConfig.name, url: siteConfig.url, inLanguage: "sk-SK" }] }).replace(/</g, "\\u003c") }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [{ "@type": "Organization", name: siteConfig.name, legalName: companyConfig.legalName, url: siteConfig.url, email: companyConfig.email, telephone: companyConfig.phone, address: { "@type": "PostalAddress", streetAddress: companyConfig.address.street, postalCode: companyConfig.address.postalCode, addressLocality: companyConfig.address.city, addressCountry: "SK" }, taxID: companyConfig.vatId, identifier: [{ "@type": "PropertyValue", propertyID: "IČO", value: companyConfig.ico }, { "@type": "PropertyValue", propertyID: "DIČ", value: companyConfig.dic }] }, { "@type": "WebSite", name: siteConfig.name, url: siteConfig.url, inLanguage: "sk-SK" }] }).replace(/</g, "\\u003c") }} />
         <CartProvider>
           <div className="flex flex-col min-h-screen">
             <Header />

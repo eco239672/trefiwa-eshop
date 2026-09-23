@@ -33,9 +33,10 @@ export default function VariantSelector({
 
   if (!product.variants || product.variants.length === 0) {
     return (
-      <p className="text-red-500 font-medium">
-        Tento produkt zatiaľ nemá nastavené gramáže.
-      </p>
+      <section className="mb-8 rounded-xl border border-[#E8E6DF] bg-[#F9F8F6] p-5" aria-live="polite">
+        <h2 className="font-bold text-[#3D4035]">Momentálne nedostupné</h2>
+        <p className="mt-1 text-sm text-[#6B6E56]">Tento produkt momentálne nemá dostupné predajné balenie.</p>
+      </section>
     );
   }
 
@@ -87,7 +88,7 @@ export default function VariantSelector({
           <>
             <span className="h-3 w-3 rounded-full bg-green-500"></span>
             <span className="text-sm font-semibold text-green-700">
-              Dostupný
+              Skladom
             </span>
           </>
         ) : (

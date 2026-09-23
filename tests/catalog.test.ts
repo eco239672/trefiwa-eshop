@@ -15,4 +15,9 @@ describe("server catalog loading", () => {
     await expect(getCatalogProducts("Čaje")).resolves.toEqual([{ id: "product", name: "Čaj", description: null, imageUrl: "/produkty/caj.jpg", category: "Čaje", priceFrom: 4.5, inStock: true, variants: [{ id: "variant", weight: "100 g", price: 4.5, oldPrice: null, stock: 2 }] }]);
     expect(findMany).toHaveBeenCalledWith(expect.objectContaining({ where: { subCategory: { name: "Čaje" } } }));
   });
+
+  it("marks a product without a variant as unavailable and gives it no display price", async () => {
+    findMany.mockResolvedValue([{ id: "product-without-variant", name: "Čajník", description: null, imageUrl: null, subCategory: { name: "Doplnky", category: { name: "Doplnky" } }, variants: [] }]);
+    await expect(getCatalogProducts()).resolves.toEqual([{ id: "product-without-variant", name: "Čajník", description: null, imageUrl: null, category: "Doplnky", priceFrom: null, inStock: false, variants: [] }]);
+  });
 });

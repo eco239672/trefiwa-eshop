@@ -7,7 +7,9 @@ import SearchBar from "./SearchBar";
 import { useCart } from "../context/CartContext";
 import { useState, useEffect } from "react";
 import LoginModal from "./AuthModal";
+import { WishlistGuestMerge } from "./WishlistGuestMerge";
 import { getSession, logoutUser } from "../authActions";
+import { companyConfig } from "../../lib/company/config";
 
 type User = {
   id: string;
@@ -107,15 +109,15 @@ export default function Header() {
             <div className="flex items-center">
               <span>
                 Zákaznícka podpora:{" "}
-                <strong className="text-[#3D4035]">+421 905 572 393</strong>{" "}
+                <strong className="text-[#3D4035]">{companyConfig.phone}</strong>{" "}
                 (8:00 - 16:00)
               </span>
               <span className="mx-4">|</span>
               <a
-                href="mailto:info@trefiwa.sk"
+                href={`mailto:${companyConfig.email}`}
                 className="hover:text-[#5C6B46] transition-colors duration-300"
               >
-                info@trefiwa.sk
+                {companyConfig.email}
               </a>
             </div>
           </div>
@@ -943,6 +945,7 @@ export default function Header() {
       )}
 
       <LoginModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+      <WishlistGuestMerge authenticated={Boolean(user)} />
     </>
   );
 }

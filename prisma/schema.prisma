@@ -8,36 +8,40 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String
-  email         String    @unique
-  password      String?
-// Vernosty program
-  points        Int       @default(0) // Predvolene má nový zákazník 0 bodov
-  
+  id       String   @id @default(cuid())
+  name     String
+  email    String   @unique
+  password String?
+  // Vernosty program
+  points   Int      @default(0) // Predvolene má nový zákazník 0 bodov
+  role     UserRole @default(CUSTOMER)
+
   // Fakturačné údaje
-  company       String?
-  phone         String?
-  street        String?
-  city          String?
-  zip           String?
+  company String?
+  phone   String?
+  street  String?
+  city    String?
+  zip     String?
 
   // Prepojenie na doručovacie adresy (jeden používateľ môže mať viac adries)
-  addresses     Address[]
+  addresses Address[]
 
-  orders Order[]
+  orders           Order[]
+  wishlistItems    WishlistItem[]
+  reviews          Review[]
+  stockAdjustments StockAdjustment[]
 
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 // Nová tabuľka pre doručovacie adresy
 model Address {
-  id        String  @id @default(cuid())
-  userId    String
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  name      String  // Názov adresy (napr. "Domov" alebo "Jozef Mak")
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name      String // Názov adresy (napr. "Domov" alebo "Jozef Mak")
   street    String
   city      String
   zip       String
@@ -63,49 +67,59 @@ model SubCategory {
 
 // 3. PRODUKT (patrí do konkrétnej podkategórie)
 model Product {
-  id          String           @id @default(uuid())
-  name        String
-  description String?
-  imageUrl    String?
+  id            String       @id @default(uuid())
+  name          String
+  description   String?
+  imageUrl      String?
   // Tvoje existujúce prepojenie na kategórie/podkategórie nechaj tak...
   subCategoryId String?
-  subCategory   SubCategory?     @relation(fields: [subCategoryId], references: [id])
-  
+  subCategory   SubCategory? @relation(fields: [subCategoryId], references: [id])
+
   // NOVÉ: Prepojenie na varianty
-  variants    ProductVariant[]
+  variants      ProductVariant[]
+  wishlistItems WishlistItem[]
+  reviews       Review[]
 }
 
 model ProductVariant {
   id        String  @id @default(uuid())
   productId String
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  
-  weight    String  // napr. "50g", "100g", "500g", "1000g"
-  price     Decimal // Cena pre túto konkrétnu gramáž
-  oldPrice  Decimal? // Stará cena (ak je v zľave)
-  stock     Int     @default(1) // 1 = Dostupný, 0 = Vypredaný
+
+  weight           String // napr. "50g", "100g", "500g", "1000g"
+  price            Decimal // Cena pre túto konkrétnu gramáž
+  oldPrice         Decimal? // Stará cena (ak je v zľave)
+  stock            Int               @default(1) // 1 = Dostupný, 0 = Vypredaný
+  stockAdjustments StockAdjustment[]
 }
 
 model Order {
-  id                 String      @id @default(uuid())
+  id                 String          @id @default(uuid())
   /// Public, non-sequential identifier safe for customer-facing URLs.
-  orderNumber        String      @unique @default(cuid())
-  userId             String?     // Voliteľné pre guest checkout
-  user               User?       @relation(fields: [userId], references: [id])
+  orderNumber        String          @unique @default(cuid())
+  userId             String? // Voliteľné pre guest checkout
+  user               User?           @relation(fields: [userId], references: [id])
   /// Retained for backwards compatibility with existing production orders.
-  totalPrice         Decimal     @db.Decimal(10, 2)
-  subtotal           Decimal     @default(0) @db.Decimal(12, 2)
-  discount           Decimal     @default(0) @db.Decimal(12, 2)
-  shippingPrice      Decimal     @default(0) @db.Decimal(12, 2)
-  total              Decimal     @default(0) @db.Decimal(12, 2)
-  currency           String      @default("EUR") @db.VarChar(3)
-  status             String      @default("PENDING")
-  paymentStatus      String      @default("PENDING")
-  paymentMethod      String      @default("BANK_TRANSFER")
+  totalPrice         Decimal         @db.Decimal(10, 2)
+  subtotal           Decimal         @default(0) @db.Decimal(12, 2)
+  discount           Decimal         @default(0) @db.Decimal(12, 2)
+  shippingPrice      Decimal         @default(0) @db.Decimal(12, 2)
+  total              Decimal         @default(0) @db.Decimal(12, 2)
+  currency           String          @default("EUR") @db.VarChar(3)
+  status             String          @default("PENDING")
+  paymentStatus      String          @default("PENDING")
+  paymentMethod      String          @default("BANK_TRANSFER")
   paymentProvider    String?
-  externalPaymentId  String?
-  guestAccessToken   String?     @unique
-  idempotencyKey     String      @unique
+  /// Immutable provider environment snapshot (e.g. Comgate TEST/LIVE).
+  paymentEnvironment String?
+  externalPaymentId  String?         @unique
+  externalPaymentStatus String?
+  paymentFailureCode String?
+  paymentAttemptId   String?         @unique
+  paymentRedirectUrl String?
+  paymentCreatedAt   DateTime?
+  guestAccessToken   String?         @unique
+  idempotencyKey     String          @unique
   requestFingerprint String
   discountCode       String?
   customerEmail      String?
@@ -124,16 +138,91 @@ model Order {
   pickupPointName    String?
   pickupPointAddress String?
   items              OrderItem[]
-  createdAt          DateTime    @default(now())
-  updatedAt          DateTime    @updatedAt
+  emailDeliveries    EmailDelivery[]
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @default(now()) @updatedAt
   paidAt             DateTime?
   cancelledAt        DateTime?
+
+  @@index([userId, createdAt])
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum ReviewStatus {
+  PENDING
+  PUBLISHED
+  REJECTED
+}
+
+model WishlistItem {
+  userId    String
+  productId String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, productId])
+  @@index([productId])
+}
+
+model Review {
+  id               String       @id @default(cuid())
+  productId        String
+  userId           String
+  product          Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating           Int
+  content          String
+  status           ReviewStatus @default(PENDING)
+  verifiedPurchase Boolean      @default(false)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @default(now()) @updatedAt
+
+  @@unique([userId, productId])
+  @@index([productId, status, createdAt])
+}
+
+model StockAdjustment {
+  id            String         @id @default(cuid())
+  variantId     String
+  adminUserId   String
+  delta         Int
+  previousStock Int
+  newStock      Int
+  reason        String?
+  createdAt     DateTime       @default(now())
+  variant       ProductVariant @relation(fields: [variantId], references: [id], onDelete: Restrict)
+  adminUser     User           @relation(fields: [adminUserId], references: [id], onDelete: Restrict)
+
+  @@index([variantId, createdAt])
+  @@index([adminUserId, createdAt])
+}
+
+model EmailDelivery {
+  id                String   @id @default(cuid())
+  orderId           String
+  type              String
+  recipient         String
+  status            String   @default("PENDING")
+  providerMessageId String?
+  attempts          Int      @default(0)
+  lastError         String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @default(now()) @updatedAt
+  order             Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@unique([orderId, type])
+  @@index([status, updatedAt])
 }
 
 model OrderItem {
-  id            String   @id @default(cuid())
+  id            String  @id @default(cuid())
   orderId       String
-  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order         Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   /// Product/variant IDs are snapshots without FKs so historical orders survive catalogue deletion.
   productId     String
   variantId     String
@@ -141,8 +230,8 @@ model OrderItem {
   variantWeight String
   sku           String?
   quantity      Int
-  unitPrice     Decimal  @db.Decimal(12, 2)
-  totalPrice    Decimal  @db.Decimal(12, 2)
+  unitPrice     Decimal @db.Decimal(12, 2)
+  totalPrice    Decimal @db.Decimal(12, 2)
 
   @@index([orderId])
   @@index([productId])
@@ -150,19 +239,19 @@ model OrderItem {
 }
 
 model DiscountCode {
-  id                 String   @id @default(uuid())
-  code               String   @unique
+  id                 String    @id @default(uuid())
+  code               String    @unique
   /// Amount in EUR for FIXED_AMOUNT or percent value (e.g. 10.00 = 10%) for PERCENTAGE.
-  discountValue      Decimal  @db.Decimal(10, 2)
-  type               String   @default("FIXED_AMOUNT")
-  isActive           Boolean  @default(true)
+  discountValue      Decimal   @db.Decimal(10, 2)
+  type               String    @default("FIXED_AMOUNT")
+  isActive           Boolean   @default(true)
   validFrom          DateTime?
   validUntil         DateTime?
-  minimumOrderAmount Decimal? @db.Decimal(12, 2)
+  minimumOrderAmount Decimal?  @db.Decimal(12, 2)
   usageLimit         Int?
-  usageCount         Int      @default(0)
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  usageCount         Int       @default(0)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @default(now()) @updatedAt
 }
 
 /// Fixed-window counters shared by all Vercel instances. The subject is a one-way
@@ -174,7 +263,7 @@ model RateLimitWindow {
   windowStart DateTime
   count       Int      @default(0)
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @default(now()) @updatedAt
 
   @@index([scope, subjectHash, windowStart])
 }

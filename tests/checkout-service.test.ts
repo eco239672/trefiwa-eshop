@@ -15,11 +15,15 @@ const state = vi.hoisted(() => ({
   },
 }));
 
-const packeta = vi.hoisted(() => ({
-  validate: vi.fn(async (id: string) => ({ carrier: "Packeta" as const, id, name: "Packeta point", address: "Hlavná 1, 811 01 Bratislava", data: { country: "SK" as const, group: null } })),
-}));
-
 const variantId = "11111111-1111-4111-8111-111111111111";
+const packetaPickupPoint = {
+  id: "123",
+  name: "Z-BOX Bratislava",
+  address: "Hlavná 1, 811 01, Bratislava",
+  city: "Bratislava",
+  zip: "811 01",
+  country: "SK" as const,
+};
 
 function findOrder(idempotencyKey: string) {
   return state.orders.find((order) => order.idempotencyKey === idempotencyKey) ?? null;
@@ -79,10 +83,6 @@ const db = vi.hoisted(() => ({
 
 vi.mock("../lib/db", () => ({ db }));
 vi.mock("../app/authActions", () => ({ getSession: vi.fn(async () => state.session) }));
-vi.mock("../lib/packeta/server", () => ({
-  PacketaValidationError: class PacketaValidationError extends Error {},
-  validatePacketaPickupPoint: packeta.validate,
-}));
 
 const { CheckoutError, createCheckoutOrder } = await import("../lib/checkout/service");
 
@@ -109,7 +109,6 @@ beforeEach(() => {
   state.session = null;
   state.coupon = null;
   vi.clearAllMocks();
-  packeta.validate.mockResolvedValue({ carrier: "Packeta", id: "123", name: "Packeta point", address: "Hlavná 1, 811 01 Bratislava", data: { country: "SK", group: null } });
 });
 
 describe("createCheckoutOrder", () => {
@@ -143,6 +142,11 @@ describe("createCheckoutOrder", () => {
 
   it("rejects a product ID sent in place of a variant ID", async () => {
     await expect(createCheckoutOrder(input({ items: [{ variantId: "product-id", quantity: 1 }] }))).rejects.toThrow("už nie je dostupný");
+    expect(state.orders).toHaveLength(0);
+  });
+
+  it.each(["'<script>'", "../variant", "x".repeat(129)])("rejects malformed variant ID %s before an order is written", async (invalidVariantId) => {
+    await expect(createCheckoutOrder(input({ items: [{ variantId: invalidVariantId, quantity: 1 }] }))).rejects.toThrow("neplatný variant");
     expect(state.orders).toHaveLength(0);
   });
 
@@ -186,30 +190,51 @@ describe("createCheckoutOrder", () => {
     expect(state.orders[0]).toMatchObject({ discount: new Prisma.Decimal("2.1"), total: new Prisma.Decimal("23.8") });
   });
 
-  it("rejects pickup shipping without a provider-verified pickup point", async () => {
-    await expect(createCheckoutOrder(input({ shippingMethod: "sk_packeta" }))).rejects.toThrow("Výdajné miesto");
+  it("rejects Packeta shipping without a structured Widget pickup snapshot", async () => {
+    await expect(createCheckoutOrder(input({ shippingMethod: "sk_packeta" }))).rejects.toThrow("Vyberte platné slovenské");
   });
 
-  it("stores only the provider-verified Packeta snapshot", async () => {
-    await createCheckoutOrder(input({ shippingMethod: "sk_packeta", pickupPoint: { id: "123" } }));
-    expect(packeta.validate).toHaveBeenCalledWith("123");
+  it("stores the structurally validated official Widget snapshot without a Packeta server API call", async () => {
+    await createCheckoutOrder(input({ shippingMethod: "sk_packeta", pickupPoint: packetaPickupPoint }));
     expect(state.orders[0]).toMatchObject({
       pickupPointId: "123",
       pickupPointCarrier: "Packeta",
-      pickupPointName: "Packeta point",
-      pickupPointAddress: "Hlavná 1, 811 01 Bratislava",
+      pickupPointName: "Z-BOX Bratislava",
+      pickupPointAddress: "Hlavná 1, 811 01, Bratislava",
+      pickupPointData: {
+        provider: "PACKETA",
+        source: "OFFICIAL_WIDGET_CLIENT_SNAPSHOT",
+        country: "SK",
+        city: "Bratislava",
+        zip: "811 01",
+      },
     });
+  });
+
+  it.each([
+    ["empty ID", { ...packetaPickupPoint, id: "" }],
+    ["oversized ID", { ...packetaPickupPoint, id: "x".repeat(101) }],
+    ["script-like name", { ...packetaPickupPoint, name: "<script>alert(1)</script>" }],
+    ["foreign country", { ...packetaPickupPoint, country: "CZ" }],
+    ["missing address", { ...packetaPickupPoint, address: "" }],
+  ])("rejects malformed Packeta Widget snapshot: %s", async (_label, pickupPoint) => {
+    await expect(createCheckoutOrder(input({ shippingMethod: "sk_packeta", pickupPoint: pickupPoint as unknown as CheckoutInput["pickupPoint"] }))).rejects.toThrow("Vyberte platné slovenské");
+    expect(state.orders).toHaveLength(0);
+  });
+
+  it("rejects a stale Packeta snapshot when a non-Packeta delivery method is selected", async () => {
+    await expect(createCheckoutOrder(input({ pickupPoint: packetaPickupPoint }))).rejects.toThrow("nepatrí k zvolenému spôsobu dopravy");
+    expect(state.orders).toHaveLength(0);
   });
 
   it("keeps coupon pricing and idempotency intact for bank transfer through Packeta", async () => {
     state.coupon = { id: "coupon", discountValue: new Prisma.Decimal("10"), isActive: true, type: "PERCENTAGE", validFrom: null, validUntil: null, minimumOrderAmount: null, usageLimit: 1, usageCount: 0 };
-    const packetaInput = input({ shippingMethod: "sk_packeta", pickupPoint: { id: "123" }, couponCode: "SAVE10" });
+    const packetaInput = input({ shippingMethod: "sk_packeta", pickupPoint: packetaPickupPoint, couponCode: "SAVE10" });
     const first = await createCheckoutOrder(packetaInput);
     const second = await createCheckoutOrder(packetaInput);
     expect(second).toEqual(first);
     expect(state.orders).toHaveLength(1);
     expect(state.orders[0]).toMatchObject({ shippingPrice: new Prisma.Decimal("3.9"), discount: new Prisma.Decimal("2.1"), total: new Prisma.Decimal("22.8") });
-    expect(packeta.validate).toHaveBeenCalledTimes(1);
   });
 
   it("applies free shipping on the server from the pre-discount subtotal", async () => {

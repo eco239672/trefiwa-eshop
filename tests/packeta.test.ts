@@ -1,74 +1,77 @@
-import { describe, expect, it, vi } from "vitest";
-import { PacketaValidationError, validatePacketaPickupPoint } from "../lib/packeta/server";
-import { selectionForDelivery, selectionFromPacketaWidget } from "../lib/packeta/selection";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import {
+  normalizePacketaPickupSnapshot,
+  PACKETA_WIDGET_LOAD_ERROR,
+  selectionAfterWidgetCallback,
+  selectionForDelivery,
+  selectionFromPacketaWidget,
+} from "../lib/packeta/selection";
 import { PACKETA_WIDGET_OPTIONS, PACKETA_WIDGET_SCRIPT_URL, isPacketaWidgetConfigured } from "../lib/packeta/config";
 
-function response(payload: unknown, ok = true) {
-  return { ok, json: async () => payload } as unknown as Response;
-}
-
-const validPayload = {
-  isValid: true,
-  point: {
-    id: "123",
-    name: "Z-BOX Bratislava",
-    group: "zbox",
-    address: { street: "Hlavná 1", zip: "811 01", city: "Bratislava", country: "SK" },
-  },
+const selection = {
+  id: "123",
+  name: "Z-BOX Bratislava",
+  address: "Hlavná 1, 811 01, Bratislava",
+  city: "Bratislava",
+  zip: "811 01",
+  country: "SK" as const,
 };
 
-describe("Packeta server validation", () => {
-  it("accepts a valid Slovak provider point and derives its snapshot", async () => {
-    const fetchImpl = vi.fn(async () => response(validPayload));
-    await expect(validatePacketaPickupPoint("123", { apiKey: "widget-key", fetchImpl })).resolves.toEqual({
-      carrier: "Packeta", id: "123", name: "Z-BOX Bratislava", address: "Hlavná 1, 811 01, Bratislava", data: { country: "SK", group: "zbox" },
-    });
+afterEach(() => vi.unstubAllEnvs());
+
+describe("Packeta Widget v6 selection", () => {
+  it("uses the official Widget v6 library with Slovak Packeta-only options", () => {
+    expect(PACKETA_WIDGET_SCRIPT_URL).toBe("https://widget.packeta.com/v6/www/js/library.js");
+    expect(PACKETA_WIDGET_OPTIONS).toEqual({ country: "sk", language: "sk", vendors: "packeta" });
+  });
+
+  it("derives a required snapshot from a valid Slovak Widget response", () => {
+    expect(selectionFromPacketaWidget({
+      id: 123,
+      name: "Z-BOX Bratislava",
+      street: "Hlavná 1",
+      zip: "811 01",
+      city: "Bratislava",
+      country: "sk",
+    })).toEqual(selection);
   });
 
   it.each([
-    ["fake point", { isValid: false, point: null }],
-    ["non-SK point", { ...validPayload, point: { ...validPayload.point, address: { ...validPayload.point.address, country: "CZ" } } }],
-    ["different provider ID", { ...validPayload, point: { ...validPayload.point, id: "999" } }],
-  ])("rejects %s", async (_label, payload) => {
-    await expect(validatePacketaPickupPoint("123", { apiKey: "widget-key", fetchImpl: async () => response(payload) })).rejects.toBeInstanceOf(PacketaValidationError);
+    ["foreign country", { id: 123, name: "Foreign point", street: "Street 1", zip: "100 00", city: "Praha", country: "CZ" }],
+    ["empty ID", { id: "", name: "Z-BOX", street: "Hlavná 1", zip: "811 01", city: "Bratislava", country: "SK" }],
+    ["script-like name", { id: "123", name: "<script>", street: "Hlavná 1", zip: "811 01", city: "Bratislava", country: "SK" }],
+    ["missing address", { id: "123", name: "Z-BOX", zip: "811 01", city: "Bratislava", country: "SK" }],
+  ])("rejects invalid Widget response: %s", (_label, point) => {
+    expect(selectionFromPacketaWidget(point)).toBeNull();
   });
 
-  it("rejects a malformed point ID before contacting Packeta", async () => {
-    const fetchImpl = vi.fn();
-    await expect(validatePacketaPickupPoint("<script>", { apiKey: "widget-key", fetchImpl })).rejects.toBeInstanceOf(PacketaValidationError);
-    expect(fetchImpl).not.toHaveBeenCalled();
+  it.each([
+    ["empty ID", { ...selection, id: "" }],
+    ["oversized name", { ...selection, name: "x".repeat(161) }],
+    ["script payload", { ...selection, address: "<img src=x>" }],
+    ["unexpected property", { ...selection, providerUrl: "https://example.test" }],
+  ])("rejects malformed client snapshot: %s", (_label, snapshot) => {
+    expect(normalizePacketaPickupSnapshot(snapshot)).toBeNull();
   });
-});
 
-describe("Packeta selection lifecycle", () => {
-  const selection = { id: "123", name: "Z-BOX", address: "Bratislava" };
+  it("accepts only the compact selection shape needed for the order snapshot", () => {
+    expect(normalizePacketaPickupSnapshot(selection)).toEqual(selection);
+  });
 
-  it("resets selection after changing from pickup delivery", () => {
+  it("keeps the existing selection on Widget cancel or invalid callback", () => {
+    expect(selectionAfterWidgetCallback(selection, null)).toEqual({ selection, error: null });
+    expect(selectionAfterWidgetCallback(selection, { id: "bad/point" })).toEqual({ selection, error: "Vyberte platné výdajné miesto na Slovensku." });
+  });
+
+  it("resets selection after changing from Packeta to another delivery method", () => {
     expect(selectionForDelivery(false, selection)).toBeNull();
-  });
-
-  it("keeps no selection when the widget is cancelled", () => {
     expect(selectionForDelivery(true, null)).toBeNull();
+    expect(selectionForDelivery(true, selection)).toEqual(selection);
   });
 
-  it("derives the selected point name and address for checkout UI", () => {
-    expect(selectionFromPacketaWidget({ id: 123, name: "Z-BOX Bratislava", street: "Hlavná 1", zip: "811 01", city: "Bratislava", country: "sk" })).toEqual({ id: "123", name: "Z-BOX Bratislava", address: "Hlavná 1, 811 01, Bratislava" });
-  });
-
-  it("rejects a non-Slovak widget response before it changes selection", () => {
-    expect(selectionFromPacketaWidget({ id: 123, name: "Foreign point", country: "CZ" })).toBeNull();
-  });
-
-  it("uses the official Widget v6 library and Slovak-only options", () => {
-    expect(PACKETA_WIDGET_SCRIPT_URL).toBe("https://widget.packeta.com/v6/www/js/library.js");
-    expect(PACKETA_WIDGET_OPTIONS).toMatchObject({ country: "sk", language: "sk", vendors: [{ country: "sk", group: "" }, { country: "sk", group: "zbox" }] });
-  });
-
-  it("fails closed when the public widget key is missing", () => {
-    const original = process.env.NEXT_PUBLIC_PACKETA_WIDGET_API_KEY;
-    delete process.env.NEXT_PUBLIC_PACKETA_WIDGET_API_KEY;
+  it("fails closed without the public Widget key and exposes a normal load error message", () => {
+    vi.stubEnv("NEXT_PUBLIC_PACKETA_WIDGET_API_KEY", undefined);
     expect(isPacketaWidgetConfigured()).toBe(false);
-    if (original === undefined) delete process.env.NEXT_PUBLIC_PACKETA_WIDGET_API_KEY;
-    else process.env.NEXT_PUBLIC_PACKETA_WIDGET_API_KEY = original;
+    expect(PACKETA_WIDGET_LOAD_ERROR).toBe("Výber výdajného miesta sa nepodarilo načítať. Skúste to znova.");
   });
 });

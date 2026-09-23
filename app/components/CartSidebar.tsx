@@ -3,6 +3,7 @@ import { useCart } from "../context/CartContext";
 import Link from "next/link"; // Pridaný import pre Link
 import { useRef } from "react";
 import { useDialogFocus } from "./useDialogFocus";
+import { FreeShippingProgress } from "./FreeShippingProgress";
 
 export default function CartSidebar() {
   const {
@@ -170,6 +171,7 @@ export default function CartSidebar() {
         {/* Spodná časť (Checkout) */}
         {cart.length > 0 && (
           <div className="border-t border-[#E8E6DF] p-6 bg-[#F9F8F6]">
+            <FreeShippingProgress cartTotal={cartTotal} />
             <div className="flex justify-between items-center mb-4 text-lg font-bold text-[#2C2E26]">
               <span>Spolu:</span>
               <span>{cartTotal.toFixed(2)} €</span>

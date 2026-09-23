@@ -3,7 +3,7 @@
 import Script from "next/script";
 import { useId, useState } from "react";
 import { PACKETA_WIDGET_OPTIONS, PACKETA_WIDGET_SCRIPT_URL, isPacketaWidgetConfigured } from "../../lib/packeta/config";
-import { selectionFromPacketaWidget, type PacketaSelection, type PacketaWidgetPoint } from "../../lib/packeta/selection";
+import { PACKETA_WIDGET_LOAD_ERROR, selectionAfterWidgetCallback, type PacketaSelection, type PacketaWidgetPoint } from "../../lib/packeta/selection";
 
 declare global {
   interface Window {
@@ -33,34 +33,38 @@ export function PacketaPickupSelector({ value, onChange }: Props) {
   const configured = isPacketaWidgetConfigured() && Boolean(publicApiKey);
 
   const openWidget = () => {
-    if (!configured || !publicApiKey || !window.Packeta?.Widget) {
+    if (!configured || !publicApiKey) {
       setError("Výber výdajného miesta zatiaľ nie je nakonfigurovaný. Vyberte kuriéra na adresu.");
+      return;
+    }
+    if (!window.Packeta?.Widget) {
+      setError(PACKETA_WIDGET_LOAD_ERROR);
       return;
     }
     setError("");
     setIsOpening(true);
-    window.Packeta.Widget.pick(publicApiKey, (point) => {
+    try {
+      window.Packeta.Widget.pick(publicApiKey, (point) => {
+        setIsOpening(false);
+        const next = selectionAfterWidgetCallback(value, point);
+        if (next.selection !== value) onChange(next.selection);
+        if (next.error) setError(next.error);
+      }, PACKETA_WIDGET_OPTIONS);
+    } catch {
       setIsOpening(false);
-      if (!point) return;
-      const selection = selectionFromPacketaWidget(point);
-      if (!selection) {
-        onChange(null);
-        setError("Vyberte platné výdajné miesto na Slovensku.");
-        return;
-      }
-      onChange(selection);
-    }, PACKETA_WIDGET_OPTIONS);
+      setError(PACKETA_WIDGET_LOAD_ERROR);
+    }
   };
 
   return (
     <div className="mt-3 rounded-xl border border-[#E8E6DF] bg-[#F9F8F6] p-4">
-      {configured && <Script src={PACKETA_WIDGET_SCRIPT_URL} strategy="afterInteractive" onLoad={() => setScriptReady(true)} onError={() => setError("Widget Packeta sa nepodarilo načítať. Skúste to znova alebo vyberte kuriéra.")} />}
+      {configured && <Script src={PACKETA_WIDGET_SCRIPT_URL} strategy="afterInteractive" onLoad={() => setScriptReady(true)} onError={() => setError(PACKETA_WIDGET_LOAD_ERROR)} />}
       <p id={descriptionId} className="text-sm text-[#6B6E56]">Vyberte slovenské výdajné miesto alebo Z-BOX priamo v mape Packeta.</p>
       {value ? (
         <div className="mt-3 rounded-lg border border-[#D5D3C9] bg-white p-3 text-sm" aria-live="polite">
           <span className="block text-xs font-bold uppercase tracking-wide text-[#8A9A5B]">Vybrané miesto Packeta</span>
           <strong className="mt-1 block text-[#2C2E26]">{value.name}</strong>
-          <span className="mt-1 block text-[#6B6E56]">{value.address || "Adresa bude overená pri vytvorení objednávky."}</span>
+          <span className="mt-1 block text-[#6B6E56]">{value.address}</span>
         </div>
       ) : null}
       {error ? <p className="mt-3 text-sm text-red-700" role="alert">{error}</p> : null}

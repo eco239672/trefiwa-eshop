@@ -1,0 +1,7 @@
+import { db } from "../../../lib/db";
+import { InventoryAdjustmentForm } from "../InventoryAdjustmentForm";
+
+export default async function AdminInventoryPage() {
+  const variants = await db.productVariant.findMany({ include: { product: { select: { name: true } } }, orderBy: [{ product: { name: "asc" } }, { weight: "asc" }] });
+  return <section className="rounded-2xl border border-[#E8E6DF] bg-white p-6 shadow-sm"><h2 className="mb-2 text-xl font-bold text-[#2C2E26]">Sklad variantov</h2><p className="mb-6 text-sm text-[#6B6E56]">Zmeny skladu sa zapisujú do auditovateľného logu. Sklad nemožno znížiť pod nulu.</p><div className="overflow-x-auto"><table className="min-w-[850px] w-full text-left text-sm"><thead className="border-b bg-[#F9F8F6] text-[#6B6E56]"><tr><th className="p-3">Produkt</th><th className="p-3">Balenie</th><th className="p-3">Cena</th><th className="p-3">Sklad</th><th className="p-3">Úprava</th></tr></thead><tbody>{variants.map((variant) => <tr key={variant.id} className="border-b border-[#F2F1EC]"><td className="p-3 font-semibold">{variant.product.name}</td><td className="p-3">{variant.weight}</td><td className="p-3">{Number(variant.price).toFixed(2)} €</td><td className="p-3">{variant.stock}</td><td className="p-3"><InventoryAdjustmentForm variantId={variant.id} label={`${variant.product.name} ${variant.weight}`} /></td></tr>)}</tbody></table></div></section>;
+}

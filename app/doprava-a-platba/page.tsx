@@ -23,7 +23,7 @@ export default function DopravaAPlatbaPage() {
             <h2 className="text-2xl font-bold text-[#2C2E26] mb-4">Možnosti platby</h2>
             <ul className="list-disc pl-6 space-y-3 marker:text-[#8A9A5B]">
               <li><strong>Bankový prevod (zadarmo):</strong> Platobné pokyny a referencia objednávky sa zobrazia po vytvorení objednávky. Tovar odosielame po pripísaní platby.</li>
-              <li><strong>Platba kartou online:</strong> Dočasne nedostupná, kým nevyberieme a nepripojíme platobnú bránu.</li>
+              <li><strong>Platba kartou online cez Comgate:</strong> Dočasne nedostupná, kým nebude dokončená merchant konfigurácia a bezpečnostné overenie.</li>
             </ul>
           </section>
 

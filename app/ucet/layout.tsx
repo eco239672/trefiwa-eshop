@@ -36,6 +36,12 @@ export default function UcetLayout({ children }: { children: React.ReactNode }) 
               >
                 Objednávky
               </Link>
+              <Link
+                href="/ucet/oblubene"
+                className={`px-4 py-3 rounded-xl font-medium transition-colors ${isActive('/ucet/oblubene') ? 'bg-[#F2F1EC] text-[#5C6B46]' : 'text-[#6B6E56] hover:bg-[#F9F8F6] hover:text-[#5C6B46]'}`}
+              >
+                Obľúbené produkty
+              </Link>
               <Link 
                 href="/ucet/fakturacne-udaje" 
                 className={`px-4 py-3 rounded-xl font-medium transition-colors ${isActive('/ucet/fakturacne-udaje') ? 'bg-[#F2F1EC] text-[#5C6B46]' : 'text-[#6B6E56] hover:bg-[#F9F8F6] hover:text-[#5C6B46]'}`}

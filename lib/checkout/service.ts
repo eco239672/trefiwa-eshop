@@ -5,7 +5,7 @@ import { db } from "../db";
 import { calculateShippingCents, getDeliveryMethod } from "./config";
 import { calculateCouponDiscountCents, calculateOrderTotals, calculateSubtotalCents } from "./pricing";
 import { getPaymentMethod } from "../payments/methods";
-import { PacketaValidationError, type VerifiedPacketaPickupPoint, validatePacketaPickupPoint } from "../packeta/server";
+import { normalizePacketaPickupSnapshot, type PacketaSelection } from "../packeta/selection";
 import { PAYMENT_METHODS, type CheckoutInput } from "./types";
 import { MAX_CART_LINES, MAX_QUANTITY_PER_VARIANT, VARIANT_ID_PATTERN } from "../cart/validation";
 
@@ -22,7 +22,7 @@ type NormalizedCheckout = {
   idempotencyKey: string;
   shippingMethod: string;
   couponCode: string | null;
-  pickupPointId: string | null;
+  pickupPoint: PacketaSelection;
   customer: CheckoutInput["customer"];
   lines: { variantId: string; quantity: number }[];
 };
@@ -101,12 +101,12 @@ function normalizeInput(input: CheckoutInput): NormalizedCheckout {
   if (!delivery) {
     throw new CheckoutError("Zvolený spôsob dopravy nie je pre túto krajinu dostupný.");
   }
-  const pickupPointId = input.pickupPoint?.id?.trim() || null;
+  const pickupPoint = normalizePacketaPickupSnapshot(input.pickupPoint);
   if (delivery.requiresPickupPoint) {
-    if (customer.country !== "Slovensko" || delivery.id !== "sk_packeta" || !pickupPointId) {
-      throw new CheckoutError("Výdajné miesto Packeta musí byť platná slovenská pobočka.");
+    if (customer.country !== "Slovensko" || delivery.id !== "sk_packeta" || !pickupPoint) {
+      throw new CheckoutError("Vyberte platné slovenské výdajné miesto Packeta.");
     }
-  } else if (pickupPointId) {
+  } else if (input.pickupPoint !== undefined) {
     throw new CheckoutError("Výdajné miesto nepatrí k zvolenému spôsobu dopravy.");
   }
 
@@ -117,7 +117,7 @@ function normalizeInput(input: CheckoutInput): NormalizedCheckout {
     idempotencyKey,
     shippingMethod,
     couponCode,
-    pickupPointId,
+    pickupPoint,
     customer,
     lines: [...mergedLines.entries()].map(([variantId, quantity]) => ({ variantId, quantity })),
   };
@@ -164,16 +164,6 @@ export async function createCheckoutOrder(input: CheckoutInput): Promise<Checkou
   if (alreadyCreated) {
     assertExistingOrderMatches(alreadyCreated, requestFingerprint, userId);
     return resultFromOrder(alreadyCreated);
-  }
-
-  let verifiedPickupPoint: VerifiedPacketaPickupPoint | null = null;
-  if (normalized.pickupPointId) {
-    try {
-      verifiedPickupPoint = await validatePacketaPickupPoint(normalized.pickupPointId);
-    } catch (error) {
-      if (error instanceof PacketaValidationError) throw new CheckoutError(error.message);
-      throw error;
-    }
   }
 
   try {
@@ -261,8 +251,8 @@ export async function createCheckoutOrder(input: CheckoutInput): Promise<Checkou
           currency: "EUR",
           status: "AWAITING_PAYMENT",
           paymentStatus: "AWAITING_PAYMENT",
-          paymentMethod: PAYMENT_METHODS.BANK_TRANSFER,
-          paymentProvider: getPaymentMethod(PAYMENT_METHODS.BANK_TRANSFER).provider,
+          paymentMethod: input.paymentMethod,
+          paymentProvider: getPaymentMethod(input.paymentMethod).provider,
           idempotencyKey: normalized.idempotencyKey,
           requestFingerprint,
           discountCode: normalized.couponCode,
@@ -276,11 +266,19 @@ export async function createCheckoutOrder(input: CheckoutInput): Promise<Checkou
           shippingZip: normalized.customer.zip,
           shippingMethod: delivery.id,
           shippingMethodName: delivery.name,
-          pickupPointId: verifiedPickupPoint?.id ?? null,
-          pickupPointData: verifiedPickupPoint?.data ?? Prisma.JsonNull,
-          pickupPointCarrier: verifiedPickupPoint?.carrier ?? null,
-          pickupPointName: verifiedPickupPoint?.name ?? null,
-          pickupPointAddress: verifiedPickupPoint?.address ?? null,
+          // Widget-only snapshot: structurally validated, but never asserted to
+          // be independently verified against a Packeta server API.
+          pickupPointId: normalized.pickupPoint?.id ?? null,
+          pickupPointData: normalized.pickupPoint ? {
+            provider: "PACKETA",
+            source: "OFFICIAL_WIDGET_CLIENT_SNAPSHOT",
+            country: normalized.pickupPoint.country,
+            city: normalized.pickupPoint.city,
+            zip: normalized.pickupPoint.zip,
+          } : Prisma.JsonNull,
+          pickupPointCarrier: normalized.pickupPoint ? "Packeta" : null,
+          pickupPointName: normalized.pickupPoint?.name ?? null,
+          pickupPointAddress: normalized.pickupPoint?.address ?? null,
           guestAccessToken: userId ? null : randomBytes(32).toString("base64url"),
           items: {
             create: pricedLines.map(({ line, variant, unitPriceCents }) => ({

@@ -5,6 +5,12 @@ import BackButton from "./BackButton";
 import VariantSelector from "../../components/VariantSelector"; // <-- Náš nový komponent pre gramáže
 import { db } from "../../../lib/db";
 import { absoluteUrl, siteConfig } from "../../../lib/site";
+import { getSession } from "../../authActions";
+import { getRelatedCatalogProducts } from "../../../lib/catalog";
+import { ProductGrid } from "../../components/catalog/ProductGrid";
+import { WishlistButton } from "../../components/WishlistButton";
+import { RecentlyViewedProducts } from "../../components/RecentlyViewedProducts";
+import { ReviewForm } from "../../components/ReviewForm";
 
 type ProductParams = { params: Promise<{ id: string }> };
 
@@ -36,6 +42,18 @@ export default async function ProductDetail({ params }: ProductParams) {
   });
 
   if (!product) notFound();
+
+  const session = await getSession();
+  const [relatedProducts, reviews, wishlistItem] = await Promise.all([
+    getRelatedCatalogProducts(product.id, product.subCategoryId),
+    db.review.findMany({
+      where: { productId: product.id, status: "PUBLISHED" },
+      include: { user: { select: { name: true } } },
+      orderBy: { createdAt: "desc" },
+      take: 20,
+    }),
+    session ? db.wishlistItem.findUnique({ where: { userId_productId: { userId: session.id, productId: product.id } } }) : null,
+  ]);
 
   // 2. Pripravíme čistý zoznam variantov (zbavíme sa Prisma Decimal formátu)
   const cleanVariants = (product.variants || []).map((v) => ({
@@ -122,6 +140,7 @@ export default async function ProductDetail({ params }: ProductParams) {
 
               {/* === INTERAKTÍVNY VÝBER GRAMÁŽE, CENY A KOŠÍKA === */}
               <VariantSelector product={productData} />
+              <WishlistButton productId={product.id} authenticated={Boolean(session)} initialSaved={Boolean(wishlistItem)} />
 
               {/* Dôveryhodné Ikonky */}
               <div className="grid grid-cols-1 gap-4 border-t border-[#E8E6DF] pt-6">
@@ -158,6 +177,13 @@ export default async function ProductDetail({ params }: ProductParams) {
             <p className="whitespace-pre-wrap">{product.description}</p>
           </div>
         </div>
+        <section className="mt-12 rounded-2xl border border-[#E8E6DF] bg-white p-8 lg:p-12">
+          <h2 className="border-b border-[#E8E6DF] pb-4 text-2xl font-bold text-[#2C2E26]">Recenzie zákazníkov</h2>
+          {reviews.length ? <div className="divide-y divide-[#E8E6DF]">{reviews.map((review) => <article key={review.id} className="py-5"><div className="flex flex-wrap items-center gap-2"><strong>{review.user.name}</strong><span className="text-[#8A9A5B]">{review.rating}/5</span>{review.verifiedPurchase ? <span className="rounded-full bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Overený nákup</span> : null}</div><p className="mt-2 whitespace-pre-wrap text-[#6B6E56]">{review.content}</p><p className="mt-2 text-xs text-[#A3A697]">{review.createdAt.toLocaleDateString("sk-SK")}</p></article>)}</div> : <p className="mt-5 text-sm text-[#6B6E56]">Tento produkt zatiaľ nemá schválené recenzie.</p>}
+          <ReviewForm productId={product.id} authenticated={Boolean(session)} />
+        </section>
+        {relatedProducts.length ? <section className="mt-12"><h2 className="mb-5 border-b border-[#E8E6DF] pb-3 text-2xl font-bold text-[#2C2E26]">Súvisiace produkty</h2><ProductGrid products={relatedProducts} /></section> : null}
+        <RecentlyViewedProducts productId={product.id} />
       </section>
     </main>
   );
