@@ -72,6 +72,7 @@ export async function adjustStockAction(formData: FormData): Promise<AdminAction
     const result = await adjustVariantStock(variantId, Number(rawDelta), admin.id, formText(formData, "reason", 250));
     revalidatePath("/admin/inventory");
     revalidatePath(`/produkt/${result.productId}`);
+    revalidatePath("/", "layout");
     return { ok: true, message: `Sklad bol upravený. Aktuálny stav: ${result.stock}.` };
   } catch (error) {
     return adminFailure(error);
