@@ -83,22 +83,27 @@ export default function VariantSelector({
       </div>
 
       {/* 3. SKLADOVÁ DOSTUPNOSŤ */}
-      <div className="flex items-center gap-2 mb-8">
-        {isAvailable ? (
-          <>
-            <span className="h-3 w-3 rounded-full bg-green-500"></span>
-            <span className="text-sm font-semibold text-green-700">
-              Skladom
-            </span>
-          </>
-        ) : (
-          <>
-            <span className="h-3 w-3 rounded-full bg-red-500"></span>
-            <span className="text-sm font-semibold text-red-600">
-              Vypredané pre toto balenie
-            </span>
-          </>
-        )}
+      <div className="mb-8" aria-live="polite">
+        <p className="mb-1 text-sm font-semibold text-[#3D4035]">
+          Na sklade: {selectedVariant.stock} ks
+        </p>
+        <div className="flex items-center gap-2">
+          {isAvailable ? (
+            <>
+              <span className="h-3 w-3 rounded-full bg-green-500"></span>
+              <span className="text-sm font-semibold text-green-700">
+                Skladom
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="h-3 w-3 rounded-full bg-red-500"></span>
+              <span className="text-sm font-semibold text-red-600">
+                Vypredané pre toto balenie
+              </span>
+            </>
+          )}
+        </div>
       </div>
 
       {/* 4. TLAČIDLO VLOŽIŤ DO KOŠÍKA */}
