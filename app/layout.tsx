@@ -4,7 +4,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { CartProvider } from "./context/CartContext";
-import CartSidebar from "./components/CartSidebar";
+import DeferredCartSidebar from "./components/DeferredCartSidebar";
 import { siteConfig } from "../lib/site";
 import { companyConfig } from "../lib/company/config";
 
@@ -31,7 +31,7 @@ export default function RootLayout({
         <CartProvider>
           <div className="flex flex-col min-h-screen">
             <Header />
-            <CartSidebar /> {/* Náš nový vysúvací košík */}
+            <DeferredCartSidebar />
             <div className="flex-grow bg-[#FAF4E8]">{children}</div>
             <Footer />
           </div>

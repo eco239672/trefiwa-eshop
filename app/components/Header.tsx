@@ -2,14 +2,16 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import SearchBar from "./SearchBar";
 import { useCart } from "../context/CartContext";
 import { useState, useEffect } from "react";
-import LoginModal from "./AuthModal";
 import { WishlistGuestMerge } from "./WishlistGuestMerge";
 import { getSession, logoutUser } from "../authActions";
 import { companyConfig } from "../../lib/company/config";
+
+const LoginModal = dynamic(() => import("./AuthModal"), { ssr: false });
 
 type User = {
   id: string;
@@ -956,7 +958,7 @@ export default function Header() {
         </div>
       )}
 
-      <LoginModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+      {isAuthOpen ? <LoginModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} /> : null}
       <WishlistGuestMerge authenticated={Boolean(user)} />
     </>
   );
