@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { db } from "../../lib/db";
 import { AdminAuthorizationError, requireAdmin } from "../../lib/admin/access";
 import { adjustVariantStock, InventoryError } from "../../lib/inventory/service";
@@ -70,6 +70,7 @@ export async function adjustStockAction(formData: FormData): Promise<AdminAction
     const rawDelta = formText(formData, "delta", 12);
     if (!/^-?\d+$/.test(rawDelta)) return { ok: false, error: "Úprava skladu musí byť celé číslo." };
     const result = await adjustVariantStock(variantId, Number(rawDelta), admin.id, formText(formData, "reason", 250));
+    revalidateTag("catalog-products", "max");
     revalidatePath("/admin/inventory");
     revalidatePath(`/produkt/${result.productId}`);
     revalidatePath("/", "layout");
@@ -88,6 +89,7 @@ export async function moderateReviewAction(formData: FormData): Promise<AdminAct
     const review = await db.review.findUnique({ where: { id: reviewId }, select: { productId: true } });
     if (!review) return { ok: false, error: "Recenzia neexistuje." };
     await db.review.update({ where: { id: reviewId }, data: { status } });
+    revalidateTag(`product-reviews:${review.productId}`, "max");
     revalidatePath("/admin/reviews");
     revalidatePath(`/produkt/${review.productId}`);
     return { ok: true, message: "Recenzia bola moderovaná." };

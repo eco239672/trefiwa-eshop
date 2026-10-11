@@ -6,7 +6,7 @@ import VariantSelector from "../../components/VariantSelector"; // <-- Náš nov
 import { db } from "../../../lib/db";
 import { absoluteUrl, siteConfig } from "../../../lib/site";
 import { getSession } from "../../authActions";
-import { getRelatedCatalogProducts } from "../../../lib/catalog";
+import { getCatalogProductById, getPublishedProductReviews, getRelatedCatalogProducts } from "../../../lib/catalog";
 import { ProductGrid } from "../../components/catalog/ProductGrid";
 import { WishlistButton } from "../../components/WishlistButton";
 import { RecentlyViewedProducts } from "../../components/RecentlyViewedProducts";
@@ -16,7 +16,7 @@ type ProductParams = { params: Promise<{ id: string }> };
 
 export async function generateMetadata({ params }: ProductParams): Promise<Metadata> {
   const { id } = await params;
-  const product = await db.product.findUnique({ where: { id }, include: { variants: { orderBy: { price: "asc" } } } });
+  const product = await getCatalogProductById(id);
   if (!product) return { title: "Produkt nenájdený", robots: { index: false, follow: false } };
   const imageUrl = product.imageUrl?.trim();
   return {
@@ -30,42 +30,21 @@ export async function generateMetadata({ params }: ProductParams): Promise<Metad
 export default async function ProductDetail({ params }: ProductParams) {
   const { id } = await params;
 
-  // 1. Ťaháme produkt AJ S JEHO VARIANTAMI A KATEGÓRIOU
-  const product = await db.product.findUnique({
-    where: { id: id },
-    include: {
-      subCategory: true, // Načítame aj podkategóriu kvôli menu
-      variants: {
-        orderBy: { price: "asc" }, // Zoradí gramáže od najlacnejšej po najdrahšiu
-      },
-    },
-  });
+  const product = await getCatalogProductById(id);
 
   if (!product) notFound();
 
   const session = await getSession();
   const [relatedProducts, reviews, wishlistItem] = await Promise.all([
-    getRelatedCatalogProducts(product.id, product.subCategoryId),
-    db.review.findMany({
-      where: { productId: product.id, status: "PUBLISHED" },
-      include: { user: { select: { name: true } } },
-      orderBy: { createdAt: "desc" },
-      take: 20,
-    }),
+    getRelatedCatalogProducts(product.id, product.category),
+    getPublishedProductReviews(product.id),
     session ? db.wishlistItem.findUnique({ where: { userId_productId: { userId: session.id, productId: product.id } } }) : null,
   ]);
 
-  // 2. Pripravíme čistý zoznam variantov (zbavíme sa Prisma Decimal formátu)
-  const cleanVariants = (product.variants || []).map((v) => ({
-    id: v.id,
-    weight: v.weight,
-    price: Number(v.price),
-    oldPrice: v.oldPrice ? Number(v.oldPrice) : null,
-    stock: Number(v.stock),
-  }));
+  const cleanVariants = product.variants;
 
-  const imageUrl = product.imageUrl?.trim() || null;
-  const categoryName = product.subCategory?.name || "Prémiové čaje";
+  const imageUrl = product.imageUrl;
+  const categoryName = product.category;
 
   // 3. Pripravíme objekt pre VariantSelector
   const productData = {
@@ -179,7 +158,7 @@ export default async function ProductDetail({ params }: ProductParams) {
         </div>
         <section className="mt-12 rounded-2xl border border-[#E8E6DF] bg-white p-8 lg:p-12">
           <h2 className="border-b border-[#E8E6DF] pb-4 text-2xl font-bold text-[#2C2E26]">Recenzie zákazníkov</h2>
-          {reviews.length ? <div className="divide-y divide-[#E8E6DF]">{reviews.map((review) => <article key={review.id} className="py-5"><div className="flex flex-wrap items-center gap-2"><strong>{review.user.name}</strong><span className="text-[#8A9A5B]">{review.rating}/5</span>{review.verifiedPurchase ? <span className="rounded-full bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Overený nákup</span> : null}</div><p className="mt-2 whitespace-pre-wrap text-[#6B6E56]">{review.content}</p><p className="mt-2 text-xs text-[#A3A697]">{review.createdAt.toLocaleDateString("sk-SK")}</p></article>)}</div> : <p className="mt-5 text-sm text-[#6B6E56]">Tento produkt zatiaľ nemá schválené recenzie.</p>}
+          {reviews.length ? <div className="divide-y divide-[#E8E6DF]">{reviews.map((review) => <article key={review.id} className="py-5"><div className="flex flex-wrap items-center gap-2"><strong>{review.user.name}</strong><span className="text-[#8A9A5B]">{review.rating}/5</span>{review.verifiedPurchase ? <span className="rounded-full bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Overený nákup</span> : null}</div><p className="mt-2 whitespace-pre-wrap text-[#6B6E56]">{review.content}</p><p className="mt-2 text-xs text-[#A3A697]">{new Date(review.createdAt).toLocaleDateString("sk-SK")}</p></article>)}</div> : <p className="mt-5 text-sm text-[#6B6E56]">Tento produkt zatiaľ nemá schválené recenzie.</p>}
           <ReviewForm productId={product.id} authenticated={Boolean(session)} />
         </section>
         {relatedProducts.length ? <section className="mt-12"><h2 className="mb-5 border-b border-[#E8E6DF] pb-3 text-2xl font-bold text-[#2C2E26]">Súvisiace produkty</h2><ProductGrid products={relatedProducts} /></section> : null}

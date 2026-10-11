@@ -1,4 +1,5 @@
 import { db } from "./db";
+import { unstable_cache } from "next/cache";
 
 export type CatalogVariant = {
   id: string;
@@ -18,6 +19,17 @@ export type CatalogProduct = {
   inStock: boolean;
   variants: CatalogVariant[];
 };
+
+export type CatalogReview = {
+  id: string;
+  rating: number;
+  content: string;
+  verifiedPurchase: boolean;
+  createdAt: string;
+  user: { name: string };
+};
+
+const CATALOG_REVALIDATE_SECONDS = 60;
 
 function serializeProduct(product: {
   id: string;
@@ -52,12 +64,23 @@ const productInclude = {
   variants: { orderBy: { price: "asc" as const } },
 };
 
+const getCachedCatalogProducts = unstable_cache(
+  async () => {
+    const products = await db.product.findMany({ include: productInclude });
+    return products.map(serializeProduct);
+  },
+  ["catalog-products"],
+  { revalidate: CATALOG_REVALIDATE_SECONDS, tags: ["catalog-products"] },
+);
+
 export async function getCatalogProducts(subCategoryName?: string) {
-  const products = await db.product.findMany({
-    where: subCategoryName ? { subCategory: { name: subCategoryName } } : undefined,
-    include: productInclude,
-  });
-  return products.map(serializeProduct);
+  const products = await getCachedCatalogProducts();
+  return subCategoryName ? products.filter((product) => product.category === subCategoryName) : products;
+}
+
+export async function getCatalogProductById(id: string) {
+  const products = await getCachedCatalogProducts();
+  return products.find((product) => product.id === id) ?? null;
 }
 
 export async function findCatalogProducts(query: string) {
@@ -84,17 +107,34 @@ export async function getCatalogProductsByIds(ids: string[]) {
 }
 
 /** Deterministic cross-sell: same subcategory, a purchasable variant, never self. */
-export async function getRelatedCatalogProducts(productId: string, subCategoryId: string | null, limit = 4) {
-  if (!subCategoryId || limit < 1) return [];
-  const products = await db.product.findMany({
-    where: {
-      id: { not: productId },
-      subCategoryId,
-      variants: { some: { stock: { gt: 0 } } },
+export async function getRelatedCatalogProducts(productId: string, subCategoryName: string, limit = 4) {
+  if (!subCategoryName || limit < 1) return [];
+  const products = await getCachedCatalogProducts();
+  return products
+    .filter((product) => product.id !== productId && product.category === subCategoryName && product.inStock)
+    .sort((left, right) => left.name.localeCompare(right.name, "sk"))
+    .slice(0, Math.min(limit, 4));
+}
+
+export async function getPublishedProductReviews(productId: string): Promise<CatalogReview[]> {
+  return unstable_cache(
+    async () => {
+      const reviews = await db.review.findMany({
+        where: { productId, status: "PUBLISHED" },
+        include: { user: { select: { name: true } } },
+        orderBy: { createdAt: "desc" },
+        take: 20,
+      });
+      return reviews.map((review) => ({
+        id: review.id,
+        rating: review.rating,
+        content: review.content,
+        verifiedPurchase: review.verifiedPurchase,
+        createdAt: review.createdAt.toISOString(),
+        user: review.user,
+      }));
     },
-    include: productInclude,
-    orderBy: { name: "asc" },
-    take: Math.min(limit, 4),
-  });
-  return products.map(serializeProduct);
+    ["product-reviews", productId],
+    { revalidate: CATALOG_REVALIDATE_SECONDS, tags: [`product-reviews:${productId}`] },
+  )();
 }
