@@ -84,9 +84,6 @@ export default function VariantSelector({
 
       {/* 3. SKLADOVÁ DOSTUPNOSŤ */}
       <div className="mb-8" aria-live="polite">
-        <p className="mb-1 text-sm font-semibold text-[#3D4035]">
-          Na sklade: {selectedVariant.stock} ks
-        </p>
         <div className="flex items-center gap-2">
           {isAvailable ? (
             <>
