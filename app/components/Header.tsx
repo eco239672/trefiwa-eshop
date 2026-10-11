@@ -398,9 +398,15 @@ export default function Header() {
                     </Link>
                     <Link
                       href="/caje/liecivky"
-                      className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors rounded-b-lg"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] border-b border-[#E8E6DF] transition-colors"
                     >
                       Liečivky a zmesi
+                    </Link>
+                    <Link
+                      href="/caje/zimna-edicia"
+                      className="px-5 py-3 hover:bg-[#F2F1EC] transition-colors rounded-b-lg"
+                    >
+                      Zimná edícia
                     </Link>
                   </div>
                 </div>
@@ -631,6 +637,12 @@ export default function Header() {
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Liečivky a zmesi
+                    </Link>
+                    <Link
+                      href="/caje/zimna-edicia"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Zimná edícia
                     </Link>
                   </div>
                 )}
