@@ -2,10 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
 import type { CatalogProduct } from "../../../lib/catalog";
-
-type SortOption = "featured" | "newest" | "lowest" | "highest" | "name";
 
 function maxDiscount(product: CatalogProduct) {
   return product.variants.reduce((maximum, variant) => {
@@ -14,40 +11,13 @@ function maxDiscount(product: CatalogProduct) {
   }, 0);
 }
 
-function sortedProducts(products: CatalogProduct[], sort: SortOption) {
-  return [...products].sort((left, right) => {
-    if (sort === "lowest") return (left.priceFrom ?? Infinity) - (right.priceFrom ?? Infinity);
-    if (sort === "highest") return (right.priceFrom ?? -Infinity) - (left.priceFrom ?? -Infinity);
-    if (sort === "name") return left.name.localeCompare(right.name, "sk");
-    // The current schema has no publish date. Preserve the DB order until that
-    // field exists instead of falsely presenting UUID order as newest.
-    return 0;
-  });
-}
-
 export function ProductGrid({ products }: { products: CatalogProduct[] }) {
-  const [sort, setSort] = useState<SortOption>("featured");
-  const visibleProducts = useMemo(() => sortedProducts(products, sort), [products, sort]);
-
   if (!products.length) return <p className="py-10 text-center text-[#A3A697]">V tejto kategórii zatiaľ nie sú žiadne produkty.</p>;
 
   return (
     <>
-      <div className="mb-8 flex items-center justify-between border-b border-[#E8E6DF] pb-4">
-        <span className="hidden text-sm text-[#A3A697] sm:block">Zobrazených {products.length} produktov</span>
-        <label className="ml-auto flex items-center gap-2 text-sm text-[#6B6E56]">
-          <span>Radiť podľa:</span>
-          <select value={sort} onChange={(event) => setSort(event.target.value as SortOption)} className="cursor-pointer bg-transparent font-bold text-[#8A9A5B] focus:outline-none">
-            <option value="featured">Odporúčané</option>
-            <option value="newest" disabled>Najnovšie (pripravujeme)</option>
-            <option value="lowest">Najlacnejšie</option>
-            <option value="highest">Najdrahšie</option>
-            <option value="name">Abecedne (A–Z)</option>
-          </select>
-        </label>
-      </div>
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {visibleProducts.map((product) => {
+        {products.map((product) => {
           const discount = maxDiscount(product);
           const localImage = product.imageUrl?.startsWith("/") ? product.imageUrl : null;
           const isSinglePieceProduct = product.variants.length === 1 && /^1\s*ks$/i.test(product.variants[0].weight.trim());
